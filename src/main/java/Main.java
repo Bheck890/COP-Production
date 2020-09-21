@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 /**
  * Main starting Java commands for the Production GUI.
  * @author Brandon Heck
- * @Date 9/17/20
+ * @Date 9/21/20
 */
 public class Main extends Application {
 
