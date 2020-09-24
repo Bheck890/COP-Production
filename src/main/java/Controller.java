@@ -21,7 +21,7 @@ import javafx.scene.control.TextField;
 */
 public class Controller {
   //Choice Box Array
-  String[] itemTypes = {"Audio", "Visual", "AudioMobile", "VisualMobile"};
+  //String[] itemTypes = {"Audio", "Visual", "AudioMobile", "VisualMobile"};
 
   //GUI Object Initialization
   //Product Line
@@ -50,8 +50,8 @@ public class Controller {
    * Starting Commands that adds items to the Choice and Combo box.
    */
   public void initialize() {
-    for (String item: itemTypes) {
-      cboxItemType.getItems().add(item);
+    for (ItemType item: ItemType.values()) {
+      cboxItemType.getItems().add(item.name());
     }
 
     for (int i = 1; i <= 10; i++) {
@@ -69,8 +69,8 @@ public class Controller {
   @FXML
   void addProduct(ActionEvent event) {
     System.out.println("Product has been Added");
-    createDb(0);
-    createDb(1);
+    createDb(0); //Adds Values to the Database
+    createDb(1); //Displays all Stored Products from the Database
   }
 
   @FXML
@@ -123,8 +123,9 @@ public class Controller {
       if (procedure == 1) {
         System.out.println("Called for Table Product Output:");
         //SQL Command Using PreparedStatement
-        String sql = "SELECT * FROM Product";
+        ///*
 
+        String sql = "SELECT * FROM Product";
         rs = stmt.executeQuery(sql);
         while (rs.next()) {
           System.out.println(rs.getString(2)
@@ -132,19 +133,32 @@ public class Controller {
               + ", " + rs.getString(4));
         }
         rs.close();
+
+        // */
+
+        /*
+        String sql = "SELECT * FROM ?;";
+        preparedStatement = conn.prepareStatement(sql);
+
+        preparedStatement.setString(1, "Product");
+
+        rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+          System.out.println(rs.getString(2)
+              + ", " + rs.getString(3)
+              + ", " + rs.getString(4));
+        }
+        rs.close();
+        preparedStatement.close();
+         */
+
       }
 
       //4: Clean-up Database Connection
       stmt.close();
       conn.close();
-    } catch (ClassNotFoundException e) {
+    } catch (ClassNotFoundException | SQLException e) {
       e.printStackTrace();
-
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    finally {
-
     }
   }
 }
