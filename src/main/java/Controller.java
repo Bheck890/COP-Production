@@ -36,7 +36,7 @@ public class Controller {
   @FXML
   private TextField txtManufactureName;
   @FXML
-  private ChoiceBox<String> cboxItemType;
+  private ChoiceBox<ItemType> cboxItemType;
   @FXML
   private Button btnProduct;
   @FXML
@@ -56,13 +56,13 @@ public class Controller {
    * Starting Commands that adds items to the Choice and Combo box.
    */
   public void initialize() {
-    for (ItemType item: ItemType.values()) {
-      cboxItemType.getItems().add(item.name());
-    }
+
+    cboxItemType.getItems().setAll(ItemType.values());
 
     for (int i = 1; i <= 10; i++) {
       cboxQuantity.getItems().add("" + i);
     }
+
     cboxQuantity.setEditable(true);
     cboxQuantity.getSelectionModel().selectFirst();
 
@@ -75,7 +75,8 @@ public class Controller {
   @FXML
   void addProduct(ActionEvent event) {
 
-    Widget Device = new Widget(txtProductName.getText(),txtManufactureName.getText(), cboxItemType.getValue());
+    Product Device = new Widget(txtProductName.getText(),txtManufactureName.getText(),
+        cboxItemType.getValue());
 
     System.out.println();
     //Field check to make sure the database will not add bad entries
@@ -88,7 +89,6 @@ public class Controller {
       emptyFields = true;
       System.out.println("Fields are empty, Product Not Added");
     }
-
 
     createDb(0); //Adds Values to the Database
     createDb(1); //Displays all Stored Products from the Database
@@ -133,7 +133,7 @@ public class Controller {
         String sql = "INSERT INTO Product(type, manufacturer, name) VALUES ( ?, ?, ? );";
         preparedStatement = conn.prepareStatement(sql);
 
-        preparedStatement.setString(1, cboxItemType.getValue());
+        preparedStatement.setString(1, cboxItemType.getValue().getCode());
         preparedStatement.setString(2, txtManufactureName.getText());
         preparedStatement.setString(3, txtProductName.getText());
 

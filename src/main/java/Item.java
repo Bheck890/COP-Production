@@ -1,4 +1,4 @@
-public interface Item {
+public interface Item{
 
   /**
    * Accessor for the ID type.
