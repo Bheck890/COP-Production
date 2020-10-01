@@ -23,6 +23,12 @@ public class Controller {
   //Choice Box Array
   //String[] itemTypes = {"Audio", "Visual", "AudioMobile", "VisualMobile"};
 
+  /**
+   * A toggle to make sure that the Database will not add Empty fields when
+   * adding or changing things
+   */
+  private boolean emptyFields = true;
+
   //GUI Object Initialization
   //Product Line
   @FXML
@@ -68,9 +74,25 @@ public class Controller {
   //Button and Action Commands
   @FXML
   void addProduct(ActionEvent event) {
-    System.out.println("Product has been Added");
+
+    Widget Device = new Widget(txtProductName.getText(),txtManufactureName.getText(), cboxItemType.getValue());
+
+    System.out.println();
+    //Field check to make sure the database will not add bad entries
+    if(!(txtProductName.getText().equals("")) && !(txtManufactureName.getText().equals("")) &&
+        !(cboxItemType.getValue() == null)){
+      emptyFields = false;
+      System.out.println("Product has been Added");
+    }
+    else{
+      emptyFields = true;
+      System.out.println("Fields are empty, Product Not Added");
+    }
+
+
     createDb(0); //Adds Values to the Database
     createDb(1); //Displays all Stored Products from the Database
+    System.out.println();
   }
 
   @FXML
@@ -90,10 +112,10 @@ public class Controller {
     //  Database credentials
     final String user = "";
     final String pass = "";
-    Connection conn = null;
-    Statement stmt = null;
-    PreparedStatement preparedStatement = null;
-    ResultSet rs = null;
+    Connection conn;
+    Statement stmt;
+    PreparedStatement preparedStatement;
+    ResultSet rs;
 
     try {
       //1: Register JDBC driver
@@ -106,7 +128,7 @@ public class Controller {
       stmt = conn.createStatement();
 
       //Adding a Product to the Product Table
-      if ((procedure == 0) && !(cboxItemType.getValue() == null)) {
+      if ((procedure == 0) && !emptyFields) { //Only adds device if Fields are not Empty
         //SQL Command Using PreparedStatement
         String sql = "INSERT INTO Product(type, manufacturer, name) VALUES ( ?, ?, ? );";
         preparedStatement = conn.prepareStatement(sql);

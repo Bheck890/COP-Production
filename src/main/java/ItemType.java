@@ -10,5 +10,9 @@ public enum ItemType {
     this.code = code;
   }
 
-  private String getcode() { return code; }
+  /**
+   * Accessor for the Item Code type.
+   * @return The Item Code type.
+   */
+  private String getCode() { return code; }
 }
