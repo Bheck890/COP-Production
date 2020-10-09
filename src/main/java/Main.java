@@ -22,7 +22,7 @@ public class Main extends Application {
 
     Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
-    Scene scene = new Scene(root, 460, 460);
+    Scene scene = new Scene(root, 460, 467);
 
     primaryStage.setTitle("Production Line Tracker");
     primaryStage.setScene(scene);
@@ -40,7 +40,7 @@ public class Main extends Application {
     Screen newScreen = new Screen("720x480", 40, 22);
     MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
         MonitorType.LCD);
-    ArrayList<MultimediaControl> productList = new ArrayList<MultimediaControl>();
+    ArrayList<MultimediaControl> productList = new ArrayList<>();
     productList.add(newAudioProduct);
     productList.add(newMovieProduct);
     for (MultimediaControl p : productList) {
