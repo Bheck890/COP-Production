@@ -75,15 +75,15 @@ public class Controller {
   @FXML
   void addProduct(ActionEvent event) {
 
-    Product Device = new Widget(txtProductName.getText(),txtManufactureName.getText(),
-        cboxItemType.getValue());
-
     System.out.println();
     //Field check to make sure the database will not add bad entries
     if(!(txtProductName.getText().equals("")) && !(txtManufactureName.getText().equals("")) &&
         !(cboxItemType.getValue() == null)){
       emptyFields = false;
       System.out.println("Product has been Added");
+
+      Product Device = new Widget(txtProductName.getText(),txtManufactureName.getText(),
+          cboxItemType.getValue());
     }
     else{
       emptyFields = true;

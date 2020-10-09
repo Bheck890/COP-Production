@@ -8,7 +8,7 @@ public class Widget extends Product{
    * @param type item type of Widget.
    */
   public Widget(String name, String manufacturer, ItemType type) {
-    super(name, manufacturer, type.getCode());
+    super(name, manufacturer, type);
     identifyDevice();
   }
 

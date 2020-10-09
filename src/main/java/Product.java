@@ -8,16 +8,16 @@ public abstract class Product implements Item {
 
   /**
    * Abstract Product Constructor for Item Interface
-   * @param name Name of Widget
-   * @param manufacturer manu of Widget
-   * @param type item type of Widget
+   * @param name Name of device.
+   * @param manufacturer manufacturer of device.
+   * @param type item type of device.
    *
    */
-  public Product(String name, String manufacturer, String type)
+  public Product(String name, String manufacturer, ItemType type)
   {
     this.name = name;
     this.manufacturer = manufacturer;
-    this.type = type;
+    this.type = type.getCode();
   }
 
 
