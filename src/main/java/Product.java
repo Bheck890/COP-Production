@@ -1,4 +1,3 @@
-
 public abstract class Product implements Item {
 
   int id;
@@ -17,7 +16,7 @@ public abstract class Product implements Item {
   {
     this.name = name;
     this.manufacturer = manufacturer;
-    this.type = type.getCode();
+    this.type = type.name();
   }
 
 

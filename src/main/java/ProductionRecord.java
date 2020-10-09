@@ -30,35 +30,35 @@ public class ProductionRecord {
         " Date: " + dateProduced;
   }
 
-  public int getProductionNumber() {
+  public int getProductionNum() {
     return productionNumber;
   }
 
-  public void setProductionNumber(int productionNumber) {
+  public void setProductionNum(int productionNumber) {
     this.productionNumber = productionNumber;
   }
 
-  public Date getDateProduced() {
+  public Date getProdDate() {
     return dateProduced;
   }
 
-  public void setDateProduced(Date dateProduced) {
+  public void setProdDate(Date dateProduced) {
     this.dateProduced = dateProduced;
   }
 
-  public String getSerialNumber() {
+  public String getSerialNum() {
     return serialNumber;
   }
 
-  public void setSerialNumber(String serialNumber) {
+  public void setSerialNum(String serialNumber) {
     this.serialNumber = serialNumber;
   }
 
-  public int getProductionID() {
+  public int getProductID() {
     return productionID;
   }
 
-  public void setProductionID(int productionID) {
+  public void setProductID(int productionID) {
     this.productionID = productionID;
   }
 

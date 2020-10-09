@@ -27,9 +27,10 @@ public class Screen implements ScreenSpec{
   }
 
   public String toString() {
+    System.out.println("Screen:");
     System.out.println("Resolution: " + resolution);
-    System.out.println("Refresh Rate: " + refreshRate);
-    System.out.println("Response Time: " + responseTime);
+    System.out.println("Refresh rate: " + refreshRate);
+    System.out.println("Response time: " + responseTime);
     return "";
   }
 }
