@@ -84,6 +84,7 @@ public class Controller {
 
       Product Device = new Widget(txtProductName.getText(),txtManufactureName.getText(),
           cboxItemType.getValue());
+      tareaProductionLog.setText(Device.getName());
     }
     else{
       emptyFields = true;

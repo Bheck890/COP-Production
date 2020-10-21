@@ -16,7 +16,7 @@ public abstract class Product implements Item {
   {
     this.name = name;
     this.manufacturer = manufacturer;
-    this.type = type.name();
+    this.type = type.code;
   }
 
 
