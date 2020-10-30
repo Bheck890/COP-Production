@@ -1,7 +1,7 @@
 public abstract class Product implements Item {
 
   int id;
-  String type;
+  ItemType type;
   String manufacturer;
   String name;
 
@@ -16,9 +16,16 @@ public abstract class Product implements Item {
   {
     this.name = name;
     this.manufacturer = manufacturer;
-    this.type = type.code;
+    this.type = type;
   }
 
+  /**
+   * Get the Item Type for the Table Column.
+   * @return Type Name.
+   */
+  public String getType() {
+    return type.name();
+  }
 
   @Override
   public int getId() {
@@ -47,10 +54,8 @@ public abstract class Product implements Item {
 
   public String toString()
   {
-    System.out.println("Name: " + name);
-    System.out.println("Manufacturer: " + manufacturer);
-    System.out.println("Type: " + type);
-    return "";
+    return ("Name: " + name + "\nManufacturer: " + manufacturer +
+        "\nType: " + type);
   }
 
 

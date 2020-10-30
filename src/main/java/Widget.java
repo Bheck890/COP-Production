@@ -7,13 +7,14 @@ public class Widget extends Product{
    * @param manufacturer manufacturer of Widget.
    * @param type item type of Widget.
    */
-  public Widget(String name, String manufacturer, ItemType type) {
+  public Widget(String name, String manufacturer, ItemType type, int id) {
     super(name, manufacturer, type);
-    identifyDevice();
+    super.id = id;
+    //identifyDevice();
   }
 
   void identifyDevice(){
-    if (type.equals("AU")) {
+    if (type.equals("AUDIO")) {
       System.out.println("Audio Device Selected to be created");
       AudioPlayer player = new AudioPlayer(super.getName(), super.getManufacturer(),
           ".mp3", ".pList");
@@ -23,4 +24,6 @@ public class Widget extends Product{
       String s = super.toString();
     }
   }
+
+
 }

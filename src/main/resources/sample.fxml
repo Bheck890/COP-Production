@@ -43,7 +43,7 @@
                           <columns>
                             <TableColumn fx:id="tcolProductName" prefWidth="124.0" text="Name" />
                             <TableColumn fx:id="tcolManufacture" editable="false" prefWidth="117.0" text="Manufacturer" />
-                              <TableColumn fx:id="tcolItemType" prefWidth="124.0" text="Item Type" />
+                            <TableColumn fx:id="tcolItemType" prefWidth="124.0" text="Item Type" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
