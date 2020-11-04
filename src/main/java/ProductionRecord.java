@@ -8,10 +8,6 @@ public class ProductionRecord {
    */
   private String productionName = "null";
   /**
-   * To keep track of number of Items that are created before creation.
-   */
-  private int itemsCreated;
-  /**
    * Each item number when product was added to system.
    */
   private int productionNumber;
@@ -28,7 +24,6 @@ public class ProductionRecord {
    */
   private Date dateProduced;
 
-  Timestamp timeStamp;
   //Testing
   public ProductionRecord(int productionID) {
     this.productionID = productionID;
@@ -38,8 +33,6 @@ public class ProductionRecord {
   }
   //Creating a new Product
   public ProductionRecord(Product item, int itemsCreated) {
-    this.itemsCreated = itemsCreated;
-    productionNumber = itemsCreated + 1;
     productionID = item.getId();
     serialNumber = item.getManufacturer().substring(0,3) + item.type.getCode() + String.format("%05d", itemsCreated);
     dateProduced = new Date();

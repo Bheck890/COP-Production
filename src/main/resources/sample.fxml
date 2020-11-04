@@ -38,8 +38,8 @@
                            </children>
                         </GridPane>
                         <Button fx:id="btnProduct" layoutX="231.0" layoutY="190.0" mnemonicParsing="false" onAction="#addProduct" text="Add Product" />
-                        <Label layoutX="21.0" layoutY="222.0" text="Existing Products:" />
-                        <TableView fx:id="tviewExistingProducts" layoutX="31.0" layoutY="250.0" prefHeight="154.0" prefWidth="399.0">
+                        <Label layoutX="14.0" layoutY="222.0" text="Existing Products:" />
+                        <TableView fx:id="tviewExistingProducts" layoutX="13.0" layoutY="245.0" prefHeight="164.0" prefWidth="434.0">
                           <columns>
                             <TableColumn fx:id="tcolProductName" prefWidth="124.0" text="Name" />
                             <TableColumn fx:id="tcolManufacture" editable="false" prefWidth="117.0" text="Manufacturer" />
@@ -58,11 +58,11 @@
                <content>
                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="21.0" layoutY="25.0" styleClass="green" text="Choose Product" />
-                        <Button fx:id="btnReportProduction" layoutX="314.0" layoutY="264.0" mnemonicParsing="false" onAction="#reportProduction" text="Record Production" />
-                        <ListView fx:id="lviewProducts" layoutX="131.0" layoutY="25.0" prefHeight="200.0" prefWidth="309.0" />
-                        <ComboBox fx:id="cboxQuantity" layoutX="131.0" layoutY="239.0" prefWidth="150.0" />
-                        <Label layoutX="18.0" layoutY="234.0" text="Choose Quantity:" />
+                        <Label layoutX="15.0" layoutY="17.0" styleClass="green" text="Choose Product: " />
+                        <Button fx:id="btnReportProduction" layoutX="319.0" layoutY="75.0" mnemonicParsing="false" onAction="#reportProduction" text="Record Production" />
+                        <ListView fx:id="lviewProducts" layoutX="24.0" layoutY="39.0" prefHeight="341.0" prefWidth="175.0" />
+                        <ComboBox fx:id="cboxQuantity" layoutX="339.0" layoutY="35.0" prefHeight="25.0" prefWidth="75.0" />
+                        <Label layoutX="213.0" layoutY="39.0" text="Choose Quantity:" />
                      </children></AnchorPane>
 
                </content>
@@ -72,7 +72,7 @@
                 <content>
                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextArea fx:id="tareaProductionLog" layoutX="16.0" layoutY="44.0" prefHeight="331.0" prefWidth="430.0" />
+                        <TextArea fx:id="tareaProductionLog" layoutX="6.0" layoutY="25.0" prefHeight="384.0" prefWidth="450.0" />
                      </children></AnchorPane>
    
                  </content>

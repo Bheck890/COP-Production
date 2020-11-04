@@ -2,7 +2,7 @@ public enum ItemType{
   AUDIO           ("AU"),
   VISUAL          ("VI"),
   AUDIO_MOBILE    ("AM"),
-  VISUAL_Mobile   ("VM");
+  VISUAL_MOBILE   ("VM");
 
   public String code; // Item Code Base
 
@@ -25,7 +25,7 @@ public enum ItemType{
     else if(code.equals("AM"))
       return ItemType.AUDIO_MOBILE;
     else if(code.equals("VM"))
-      return ItemType.VISUAL_Mobile;
+      return ItemType.VISUAL_MOBILE;
 
     System.out.println("Could not Identify type:[ " + code + " ] from Database ");
     return ItemType.AUDIO;

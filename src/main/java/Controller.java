@@ -35,9 +35,13 @@ public class Controller {
   private boolean emptyFields = true;
 
   /**
-   *
+   * [0] All Total Devices.
+   * [1] Number of Audio Devices.
+   * [2] Number of Audio_Mobile Devices.
+   * [3] Number of Visual Devices.
+   * [4] Number of Visual_Mobile Devices.
    */
-  int createdProducts = 0;
+  int[] createdProducts = new int [5];
 
   /**
    * Observable List of all the products in the system
@@ -139,16 +143,15 @@ public class Controller {
    */
   @FXML
   void reportProduction(ActionEvent event) {
-    int Quantity = 0;
+    int Quantity = Integer.parseInt(cboxQuantity.getValue());
     try {
-      Quantity = Integer.parseInt(cboxQuantity.getValue());
       for (int created_Product = 0; created_Product < Quantity; created_Product++) {
-        productionRun.add(new ProductionRecord(lviewProducts.getSelectionModel().getSelectedItem()
-            ,createdProducts));
-        createdProducts++; //Updates Count of Items
+        Product item = lviewProducts.getSelectionModel().getSelectedItem();
+        productionRun.add(new ProductionRecord(item,updateTypeID(item.type)));
+        createdProducts[0]++; //Updates Count of Items
+        productionRun.get(productionRun.size()-1).setProductionNum(createdProducts[0]);
         createDb(1); //Adds Values to the Records Database
       }
-
       updateTextArea();
     }
     catch (Exception e) {
@@ -203,7 +206,6 @@ public class Controller {
             + "VALUES ( ?, ?, ?, ? );";
         preparedStatement = conn.prepareStatement(sql);
         ProductionRecord record = productionRun.get(productionRun.size()-1);
-        //Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 
         preparedStatement.setInt(1, record.getProductionNum());
         preparedStatement.setInt(2, record.getProductID());
@@ -229,8 +231,19 @@ public class Controller {
           LoadProductName(record.getProductID(), record);
           productionRun.add(record);
         }
-        createdProducts = productionRun.size();
+        createdProducts[0] = productionRun.size();
         rs.close();
+
+        for(ProductionRecord record : productionRun) {
+          if(record.getSerialNum().contains("AU"))
+            createdProducts[1]++;
+          else if(record.getSerialNum().contains("AM"))
+            createdProducts[2]++;
+          else if(record.getSerialNum().contains("VI"))
+            createdProducts[3]++;
+          else if(record.getSerialNum().contains("VM"))
+            createdProducts[4]++;
+        }
       }
 
       //4: Clean-up Database Connection
@@ -252,6 +265,37 @@ public class Controller {
       }
   }
 
+  /**
+   *
+   */
+  public int updateTypeID(ItemType type)
+  {
+    int id;
+    if(type == ItemType.AUDIO){
+      id = createdProducts[1];
+      createdProducts[1]++;
+      return id;
+    }
+    else if(type == ItemType.AUDIO_MOBILE){
+      id = createdProducts[2];
+      createdProducts[2]++;
+      return id;
+    }
+    else if(type == ItemType.VISUAL){
+      id = createdProducts[3];
+      createdProducts[3]++;
+      return id;
+    }
+    else if(type == ItemType.VISUAL_MOBILE){
+      id = createdProducts[4];
+      createdProducts[4]++;
+      return id;
+    }
+    else{
+      id = 0;
+      return id;
+    }
+  }
   /**
    * Adds Records to TextArea.
    */

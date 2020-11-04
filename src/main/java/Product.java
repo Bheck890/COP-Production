@@ -21,7 +21,8 @@ public abstract class Product implements Item {
 
   /**
    * Get the Item Type for the Table Column.
-   * @return Type Name.
+   * This is called by the FX Table not a method.
+   * @return returns the Type-Name.
    */
   public String getType() {
     return type.name();
