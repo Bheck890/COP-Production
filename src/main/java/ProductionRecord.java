@@ -32,9 +32,9 @@ public class ProductionRecord {
     dateProduced = new Date();
   }
   //Creating a new Product
-  public ProductionRecord(Product item, int itemsCreated) {
+  public ProductionRecord(Product item, int typeCount) {
     productionID = item.getId();
-    serialNumber = item.getManufacturer().substring(0,3) + item.type.getCode() + String.format("%05d", itemsCreated);
+    serialNumber = item.getManufacturer().substring(0,3) + item.type.getCode() + String.format("%05d", typeCount);
     dateProduced = new Date();
     productionName = item.getName();
   }

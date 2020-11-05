@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,8 +26,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @Date 10/30/20
 */
 public class Controller {
-  //Choice Box Array
-  //String[] itemTypes = {"Audio", "Visual", "AudioMobile", "VisualMobile"};
 
   /**
    * A toggle to make sure that the Database will not add Empty fields when
@@ -35,13 +34,14 @@ public class Controller {
   private boolean emptyFields = true;
 
   /**
+   * Inventory Numbers of Type of Devices
    * [0] All Total Devices.
    * [1] Number of Audio Devices.
    * [2] Number of Audio_Mobile Devices.
    * [3] Number of Visual Devices.
    * [4] Number of Visual_Mobile Devices.
    */
-  int[] createdProducts = new int [5];
+  int[] createdProductType = new int [5];
 
   /**
    * Observable List of all the products in the system
@@ -49,9 +49,9 @@ public class Controller {
   ObservableList<Product> productLine = FXCollections.observableArrayList();
 
   /**
-   * Observable List of the Product Records in the system
+   * Array List of the Product Records in the system
    */
-  ObservableList<ProductionRecord> productionRun = FXCollections.observableArrayList();
+  ArrayList<ProductionRecord> productionRun = new ArrayList<>();
 
   //Product Line
   @FXML
@@ -85,27 +85,13 @@ public class Controller {
    * Starting commands that sets up the whole interface.
    */
   public void initialize() {
-    //Assigns the Item Type to the CBoxItemType
-    cboxItemType.getItems().setAll(ItemType.values());
-
-    //Assigns the Item Type to the CBoxQuantity
-    for (int i = 1; i <= 10; i++) {
-      cboxQuantity.getItems().add("" + i);
-    }
-    cboxQuantity.setEditable(true);
-    cboxQuantity.getSelectionModel().selectFirst();
-
-    //TextArea Properties
-    tareaProductionLog.setEditable(false);
-
-    //Initiate the Table
-    createDb(2);
     setupProductLineTable();
-    updateTextArea();
+    connectToDB(2); //loadProductList();
+    showProduction();
   }
 
   /**
-   * Add Products to TableView & ListView.
+   * Add Products to TableView, ListView and Combo Boxes.
    */
   public void setupProductLineTable(){
     tcolProductName.setCellValueFactory(new PropertyValueFactory("name"));
@@ -113,6 +99,14 @@ public class Controller {
     tcolItemType.setCellValueFactory(new PropertyValueFactory("type"));
     tviewExistingProducts.setItems(productLine);
     lviewProducts.setItems(productLine);
+
+    //User Interface Setup
+    cboxItemType.getItems().setAll(ItemType.values()); //Assigns the Item Type to the CBoxItemType
+    for (int i = 1; i <= 10; i++) //Assigns the Item Type to the CBoxQuantity
+      cboxQuantity.getItems().add("" + i);
+    cboxQuantity.setEditable(true);
+    cboxQuantity.getSelectionModel().selectFirst();
+    tareaProductionLog.setEditable(false); //TextArea Properties
   }
 
   /**
@@ -133,8 +127,7 @@ public class Controller {
       emptyFields = true;
       System.out.println("[Error] Property fields are empty, Product Not Added");
     }
-
-    createDb(0); //Adds Product to the Database
+    connectToDB(0); //Adds Product to the Database
   }
 
   /**
@@ -143,16 +136,16 @@ public class Controller {
    */
   @FXML
   void reportProduction(ActionEvent event) {
-    int Quantity = Integer.parseInt(cboxQuantity.getValue());
     try {
-      for (int created_Product = 0; created_Product < Quantity; created_Product++) {
-        Product item = lviewProducts.getSelectionModel().getSelectedItem();
-        productionRun.add(new ProductionRecord(item,updateTypeID(item.type)));
-        createdProducts[0]++; //Updates Count of Items
-        productionRun.get(productionRun.size()-1).setProductionNum(createdProducts[0]);
-        createDb(1); //Adds Values to the Records Database
+      int quantity = Integer.parseInt(cboxQuantity.getValue()); //In-case user enters a non number
+      Product item = lviewProducts.getSelectionModel().getSelectedItem();
+      for (int product = 0; product < quantity; product++) {
+        productionRun.add(new ProductionRecord(item,updateTypeID(item.type)+1));
+        createdProductType[0]++; //Updates Count of Items
+        productionRun.get(productionRun.size()-1).setProductionNum(createdProductType[0]);
+        connectToDB(1); //Adds Values to the Records Database
       }
-      updateTextArea();
+      showProduction();
     }
     catch (Exception e) {
       System.out.println("[Error] Non Numeric Vale entered in Quantity Box");
@@ -166,7 +159,7 @@ public class Controller {
    *                  1 = Adding a Record to the ProductionRecord Table
    *                  2 = Loads Data from Product & ProductionRecord Table
    */
-  public void createDb(int procedure) {
+  public void connectToDB(int procedure) {
     final String Jdbc_Driver = "org.h2.Driver";
     final String Db_Url = "jdbc:h2:./res/Products";
 
@@ -231,18 +224,18 @@ public class Controller {
           LoadProductName(record.getProductID(), record);
           productionRun.add(record);
         }
-        createdProducts[0] = productionRun.size();
+        createdProductType[0] = productionRun.size();
         rs.close();
 
         for(ProductionRecord record : productionRun) {
           if(record.getSerialNum().contains("AU"))
-            createdProducts[1]++;
+            createdProductType[1]++;
           else if(record.getSerialNum().contains("AM"))
-            createdProducts[2]++;
+            createdProductType[2]++;
           else if(record.getSerialNum().contains("VI"))
-            createdProducts[3]++;
+            createdProductType[3]++;
           else if(record.getSerialNum().contains("VM"))
-            createdProducts[4]++;
+            createdProductType[4]++;
         }
       }
 
@@ -272,23 +265,23 @@ public class Controller {
   {
     int id;
     if(type == ItemType.AUDIO){
-      id = createdProducts[1];
-      createdProducts[1]++;
+      id = createdProductType[1];
+      createdProductType[1]++;
       return id;
     }
     else if(type == ItemType.AUDIO_MOBILE){
-      id = createdProducts[2];
-      createdProducts[2]++;
+      id = createdProductType[2];
+      createdProductType[2]++;
       return id;
     }
     else if(type == ItemType.VISUAL){
-      id = createdProducts[3];
-      createdProducts[3]++;
+      id = createdProductType[3];
+      createdProductType[3]++;
       return id;
     }
     else if(type == ItemType.VISUAL_MOBILE){
-      id = createdProducts[4];
-      createdProducts[4]++;
+      id = createdProductType[4];
+      createdProductType[4]++;
       return id;
     }
     else{
@@ -299,7 +292,7 @@ public class Controller {
   /**
    * Adds Records to TextArea.
    */
-  public void updateTextArea(){
+  public void showProduction(){
     tareaProductionLog.setText("");
     for(ProductionRecord Record: productionRun)
       tareaProductionLog.appendText(Record + "\n");
