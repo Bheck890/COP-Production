@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -32,6 +39,12 @@ public class Controller {
    * adding or changing things
    */
   private boolean emptyFields = true;
+
+  /**
+   * A toggle to make sure that a employee is logged into the production system
+   *  to audit the production.
+   */
+  private Employee employeeUser;
 
   /**
    * Inventory Numbers of Type of Devices
@@ -80,13 +93,23 @@ public class Controller {
   //Production Log
   @FXML
   private TextArea tareaProductionLog;
+  //Employee
+  @FXML
+  private TextField txtEmployName;
+  @FXML
+  private Button btnCreateEmployee;
+  @FXML
+  private Label lblUserID;
+  @FXML
+  private Label lblUserEmail;
+
 
   /**
    * Starting commands that sets up the whole interface.
    */
   public void initialize() {
     setupProductLineTable();
-    connectToDB(2); //loadProductList();
+    connectToDB(2); //Loads Products and Records from the databases.
     showProduction();
   }
 
@@ -151,6 +174,32 @@ public class Controller {
       System.out.println("[Error] Non Numeric Vale entered in Quantity Box");
       e.printStackTrace();
     }
+  }
+
+  @FXML
+  void createEmployData(ActionEvent event) {
+    String filePath = "C:/Production/ProgramSettings.txt";
+    String pass = " ";
+    ArrayList<String> file = new ArrayList<>();
+    try {
+      BufferedReader in = new BufferedReader(new FileReader(filePath));//overkill read
+      while(in.ready()){
+        file.add(in.readLine());
+      }
+    } catch (Exception e) {
+      System.out.println("Creating file, as it was not found in the system");
+      createNewTextFile(filePath);
+    }
+    if(!file.isEmpty()) {
+      System.out.println("\n" + file.get(0));
+      pass = file.get(0).substring(file.get(0).lastIndexOf("=")+2);
+      if(pass.isBlank()) {
+        System.out.println("Please Enter a Password in the Program Settings text document");
+      }
+      else
+        employeeUser = new Employee(txtEmployName.getText(),pass);
+    }
+    System.out.println(employeeUser);
   }
 
   /**
@@ -261,7 +310,7 @@ public class Controller {
   /**
    *
    */
-  public int updateTypeID(ItemType type)
+  int updateTypeID(ItemType type)
   {
     int id;
     if(type == ItemType.AUDIO){
@@ -292,10 +341,30 @@ public class Controller {
   /**
    * Adds Records to TextArea.
    */
-  public void showProduction(){
+  void showProduction(){
     tareaProductionLog.setText("");
     for(ProductionRecord Record: productionRun)
       tareaProductionLog.appendText(Record + "\n");
+  }
+
+  void createNewTextFile(String filePath){
+    try {
+      FileOutputStream fw1 = new FileOutputStream(filePath);
+      //Create the Connection to the file with Special attributes
+      PrintWriter fw = new PrintWriter(fw1); //Adds the ability to write in that connection stream
+      fw.println("Password = ");
+      fw.close();
+      System.out.println("Created a new File, Please insert password into file at "
+          + filePath);
+    } catch (FileNotFoundException e) {
+      System.out.println("Error 404: No Folder found");
+      System.out.println("Creating Folder;");
+      String folderPath = filePath.substring(0,filePath.lastIndexOf("/"));
+      System.out.println(folderPath);
+      File folder = new File(folderPath);
+      folder.mkdir();
+      createNewTextFile(filePath);
+    }
   }
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -77,6 +78,20 @@
    
                  </content>
               </Tab>
+            <Tab closable="false" text="Employee">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="20.0" layoutY="28.0" text="Name:" />
+                        <Button fx:id="btnCreateEmployee" layoutX="138.0" layoutY="57.0" mnemonicParsing="false" onAction="#createEmployData" text="Create User ID" />
+                        <Label layoutX="24.0" layoutY="102.0" text="User ID:" />
+                        <Label layoutX="24.0" layoutY="128.0" text="Email Adress:" />
+                        <Label fx:id="lblUserID" layoutX="217.0" layoutY="102.0" text="Empty" />
+                        <Label fx:id="lblUserEmail" layoutX="217.0" layoutY="128.0" text="Empty" />
+                        <TextField fx:id="txtEmployName" layoutX="82.0" layoutY="24.0" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
    
            </tabs>
          </TabPane>
