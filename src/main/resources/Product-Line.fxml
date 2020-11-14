@@ -8,7 +8,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="461.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="461.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainInterface.Controller">
    <children>
    
          <TabPane prefHeight="447.0" prefWidth="461.0" stylesheets="@Styles.css">
@@ -50,6 +50,9 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
+                        <Button fx:id="btnItemInfo" layoutX="326.0" layoutY="190.0" mnemonicParsing="false" onAction="#provideInformation" text="Apply Item Info" />
+                        <ToggleButton fx:id="validProductToAdd" layoutX="49.0" layoutY="190.0" mnemonicParsing="false" text="2" />
+                        <ToggleButton fx:id="addProduct" layoutX="16.0" layoutY="190.0" mnemonicParsing="false" text="1" />
                      </children>
                  </AnchorPane>
                </content>

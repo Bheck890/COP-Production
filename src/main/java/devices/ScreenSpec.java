@@ -1,3 +1,5 @@
+package devices;
+
 public interface ScreenSpec {
 
   /**

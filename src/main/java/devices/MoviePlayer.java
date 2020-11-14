@@ -1,4 +1,8 @@
-public class MoviePlayer extends Product implements MultimediaControl{
+package devices;
+
+import mainInterface.Product;
+
+public class MoviePlayer extends Product implements MultimediaControl {
 
   Screen screen;
   MonitorType monitorType;
@@ -38,11 +42,10 @@ public class MoviePlayer extends Product implements MultimediaControl{
   }
 
   @Override
-  public String toString()
-  {
-    String s = super.toString(); //To avoid the Git Error Checking
-    System.out.print(screen);
-    System.out.println("Monitor Type: " + monitorType.name());
-    return s;
+  public String toString() {
+    String out = super.toString(); //To avoid the Git Error Checking
+    out += screen.toString();
+    out += "\nMonitor Type: " + monitorType.name();
+    return out;
   }
 }

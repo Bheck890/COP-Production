@@ -1,4 +1,9 @@
-import Extra.WindowManager;
+package mainInterface;
+
+import additionInterface.WindowManager;
+import devices.AudioPlayer;
+import devices.ItemType;
+import devices.SpeakerType;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -48,7 +55,12 @@ public class Controller {
   private Employee employeeUser;
 
   /**
-   * Object of FX Stage Manager to call Stage methods.
+   * Product Draft object that is waiting to gather further information about the device
+   */
+  private Product productDraft;
+
+  /**
+   * Object of FX Stage Manager to call Error and info Stage's.
    */
   WindowManager WM = new WindowManager();
 
@@ -80,7 +92,15 @@ public class Controller {
   @FXML
   private ChoiceBox<ItemType> cboxItemType;
   @FXML
+  private Button btnItemInfo;
+  @FXML
   private Button btnProduct;
+  @FXML
+  private ToggleButton addProduct;
+  @FXML
+  private ToggleButton validProductToAdd;
+  BooleanBinding itemDetails;
+  BooleanBinding validProduct;
   @FXML
   private TableView<Product> tviewExistingProducts;
   @FXML
@@ -109,7 +129,6 @@ public class Controller {
   @FXML
   private Label lblUserEmail;
 
-
   /**
    * Starting commands that sets up the whole interface.
    */
@@ -136,6 +155,17 @@ public class Controller {
     cboxQuantity.setEditable(true);
     cboxQuantity.getSelectionModel().selectFirst();
     tareaProductionLog.setEditable(false); //TextArea Properties
+
+
+    itemDetails = validProductToAdd.selectedProperty().not();
+    validProduct = addProduct.selectedProperty().not();
+    validProductToAdd.setSelected(true);
+    addProduct.setSelected(false);
+    btnProduct.disableProperty().bind(validProduct);
+    btnItemInfo.disableProperty().bind(itemDetails);
+    validProductToAdd.setVisible(false);
+    addProduct.setVisible(false);
+
   }
 
   /**
@@ -149,10 +179,10 @@ public class Controller {
         !(cboxItemType.getValue() == null)){
       emptyFields = false;
 
-      productLine.add(new Widget(txtProductName.getText(),txtManufactureName.getText(),
-          cboxItemType.getValue(),(productLine.size()+1),true));
+      //productLine.add(productDraft);
+      System.out.println(productDraft);
 
-      connectToDB(0); //Adds Product to the Database
+      //connectToDB(0); //Adds Product to the Database
     }
     else{
       emptyFields = true;
@@ -210,6 +240,25 @@ public class Controller {
         employeeUser = new Employee(txtEmployName.getText(),pass);
         System.out.println(employeeUser);
       }
+    }
+  }
+
+  @FXML
+  void provideInformation(ActionEvent event) {
+    //toggleAddProduct();
+    if(!(txtProductName.getText().equals("")) && !(txtManufactureName.getText().equals("")) &&
+        !(cboxItemType.getValue() == null)) {
+      emptyFields = false;
+
+      productDraft = new Widget(txtProductName.getText(), txtManufactureName.getText(),
+          cboxItemType.getValue(), (productLine.size() + 1), true);
+
+    }
+    else{
+      emptyFields = true;
+      try{WM.displayError("Property fields are empty,\n Product Not Added");}
+      catch(Exception e){e.printStackTrace();}
+      //System.out.println("[Error] Property fields are empty, Product Not Added");
     }
   }
 
@@ -378,4 +427,16 @@ public class Controller {
     }
   }
 
+  public void toggleAddProduct(){
+    validProductToAdd.setSelected(false);
+    addProduct.setSelected(true);
+  }
+
+  public void setSpeaker(SpeakerType speakerType) {
+    //speakerDraft = speakerType;
+  }
+
+  public void setProduct(Product device) {
+    productDraft = device;
+  }
 }

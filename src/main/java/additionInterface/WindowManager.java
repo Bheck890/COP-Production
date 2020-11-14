@@ -1,9 +1,7 @@
-package Extra;
+package additionInterface;
 
+import devices.ItemType;
 import java.io.IOException;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -13,6 +11,7 @@ import javafx.stage.Stage;
 
 public class WindowManager {
 
+  public static ItemType type;
   public static Stage error = new Stage();
   public static Stage info = new Stage();
 
@@ -38,15 +37,14 @@ public class WindowManager {
     error.show();
   }
 
-  public void enterDetails(String type) throws IOException {
+  public void enterDetails(ItemType type) throws IOException {
     System.out.println("Displaying Fields for: " + type);
-
+    this.type = type;
     Parent root = FXMLLoader.load(getClass().getResource("/Popup-Information.fxml"));
-    //Audio Formats
-    //Playlist Formats
+
+    // Enable - Disable Selection boxes.
 
     //Group root2 = new Group(root, lblIssue);
-
     Scene scene = new Scene(root, 480, 360);
     info.setTitle("Product Details");
     info.setResizable(false);

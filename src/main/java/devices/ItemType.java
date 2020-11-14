@@ -1,3 +1,5 @@
+package devices;
+
 public enum ItemType{
   AUDIO           ("AU"),
   VISUAL          ("VI"),

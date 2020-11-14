@@ -1,4 +1,6 @@
-import Extra.WindowManager;
+package mainInterface;
+
+import additionInterface.WindowManager;
 import java.util.regex.Pattern;
 
 public class Employee {

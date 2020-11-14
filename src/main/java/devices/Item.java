@@ -1,4 +1,6 @@
-public interface Item{
+package devices;
+
+public interface Item {
 
   /**
    * Accessor for the ID type.

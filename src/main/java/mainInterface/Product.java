@@ -1,3 +1,8 @@
+package mainInterface;
+
+import devices.Item;
+import devices.ItemType;
+
 public abstract class Product implements Item {
 
   int id;
@@ -17,6 +22,13 @@ public abstract class Product implements Item {
     this.name = name;
     this.manufacturer = manufacturer;
     this.type = type;
+  }
+  public Product(String name, String manufacturer, ItemType type, int id)
+  {
+    this.name = name;
+    this.manufacturer = manufacturer;
+    this.type = type;
+    this.id = id;
   }
 
   /**

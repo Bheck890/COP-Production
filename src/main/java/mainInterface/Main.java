@@ -1,5 +1,6 @@
-import java.io.IOException;
-import java.util.ArrayList;
+package mainInterface;
+
+import devices.SpeakerType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,10 +19,15 @@ public class Main extends Application {
     launch(args);
   }
 
+  static FXMLLoader loader;
+  static Controller controller;
+
   @Override
   public void start(Stage primaryStage) throws Exception {
-
-    Parent root = FXMLLoader.load(getClass().getResource("Product-Line.fxml"));
+    loader = new FXMLLoader(getClass().getResource("/Product-Line.fxml"));
+    //Parent root = FXMLLoader.load(getClass().getResource("/Product-Line.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
     Scene scene = new Scene(root, 460, 467);
 
     primaryStage.setTitle("Production Line Tracker");
@@ -30,5 +36,14 @@ public class Main extends Application {
     primaryStage.show();
 
   }
+
+  public void Toggle() {
+    controller.toggleAddProduct();
+  }
+
+  public static void setProduct(Product device) {
+    controller.setProduct(device);
+  }
+
 
 }

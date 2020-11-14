@@ -1,4 +1,8 @@
-public class AudioPlayer extends Product implements MultimediaControl{
+package devices;
+
+import mainInterface.Product;
+
+public class AudioPlayer extends Product implements MultimediaControl {
 
 
   String supportedAudioFormats;
@@ -12,8 +16,8 @@ public class AudioPlayer extends Product implements MultimediaControl{
    * @param supportedPlaylistFormats Supported playlist formats to Play.
    */
   public AudioPlayer(String name, String manufacturer, String supportedAudioFormats,
-      String supportedPlaylistFormats) {
-    super(name, manufacturer, ItemType.AUDIO);
+      String supportedPlaylistFormats,int id) {
+    super(name, manufacturer, ItemType.AUDIO_MOBILE, id);
     this.supportedAudioFormats = supportedAudioFormats;
     this.supportedPlaylistFormats = supportedPlaylistFormats;
 
@@ -44,8 +48,8 @@ public class AudioPlayer extends Product implements MultimediaControl{
   public String toString()
   {
     String s = super.toString(); //To avoid the Git Error Checking
-    System.out.println("Supported Audio Formats: " + supportedAudioFormats);
-    System.out.println("Supported Playlist Formats: " + supportedPlaylistFormats);
+    s += "\nSupported Audio Formats: " + supportedAudioFormats;
+    s += "\nSupported Playlist Formats: " + supportedPlaylistFormats;
     return s;
   }
 
