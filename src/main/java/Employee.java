@@ -1,7 +1,9 @@
+import Extra.WindowManager;
 import java.util.regex.Pattern;
 
 public class Employee {
 
+  WindowManager WM = new WindowManager();
   StringBuilder name = new StringBuilder();
   String username;
   String password;
@@ -16,10 +18,15 @@ public class Employee {
       }
       else{
         password = "pw";
+        try{WM.displayError("Invalid Password");}
+        catch(Exception e){}
+        //System.out.println("Invalid Password");
       }
     }
     else{
-      System.out.println("Invalid Name Try again");
+      try{WM.displayError("Invalid Name Try again");}
+      catch(Exception e){}
+      //System.out.println("Invalid Name Try again");
     }
   }
 

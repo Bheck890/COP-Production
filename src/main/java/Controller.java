@@ -1,3 +1,4 @@
+import Extra.WindowManager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,6 +46,11 @@ public class Controller {
    *  to audit the production.
    */
   private Employee employeeUser;
+
+  /**
+   * Object of FX Stage Manager to call Stage methods.
+   */
+  WindowManager WM = new WindowManager();
 
   /**
    * Inventory Numbers of Type of Devices
@@ -144,13 +150,16 @@ public class Controller {
       emptyFields = false;
 
       productLine.add(new Widget(txtProductName.getText(),txtManufactureName.getText(),
-          cboxItemType.getValue(),(productLine.size()+1)));
+          cboxItemType.getValue(),(productLine.size()+1),true));
+
+      connectToDB(0); //Adds Product to the Database
     }
     else{
       emptyFields = true;
-      System.out.println("[Error] Property fields are empty, Product Not Added");
+      try{WM.displayError("Property fields are empty,\n Product Not Added");}
+      catch(Exception e){e.printStackTrace();}
+      //System.out.println("[Error] Property fields are empty, Product Not Added");
     }
-    connectToDB(0); //Adds Product to the Database
   }
 
   /**
@@ -171,6 +180,7 @@ public class Controller {
       showProduction();
     }
     catch (Exception e) {
+
       System.out.println("[Error] Non Numeric Vale entered in Quantity Box");
       e.printStackTrace();
     }
@@ -196,10 +206,11 @@ public class Controller {
       if(pass.isBlank()) {
         System.out.println("Please Enter a Password in the Program Settings text document");
       }
-      else
+      else{
         employeeUser = new Employee(txtEmployName.getText(),pass);
+        System.out.println(employeeUser);
+      }
     }
-    System.out.println(employeeUser);
   }
 
   /**
@@ -213,8 +224,8 @@ public class Controller {
     final String Db_Url = "jdbc:h2:./res/Products";
 
     //  Database credentials
-    final String user = "";
-    final String pass = "";
+    final String user = ""; // have a default Username to just get the data 
+    final String pass = ""; // to create a record they need to select their employee name in the tab
     Connection conn;
     Statement stmt;
     PreparedStatement preparedStatement;
@@ -262,7 +273,7 @@ public class Controller {
         rs = stmt.executeQuery(sql);
         while (rs.next()) {
           productLine.add(new Widget(rs.getString(2),rs.getString(4),
-              ItemType.setType(rs.getString(3)),productLine.size()+1));
+              ItemType.setType(rs.getString(3)),productLine.size()+1,false));
         }
 
         sql = "SELECT * FROM ProductionRecord";
