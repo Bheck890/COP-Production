@@ -19,13 +19,19 @@ public class Main extends Application {
     launch(args);
   }
 
+  /**
+   * The FXML Loader of the fxml File
+   */
   static FXMLLoader loader;
+
+  /**
+   * created as a attribute to pass information to the Controller from a separate Class
+   */
   static Controller controller;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
     loader = new FXMLLoader(getClass().getResource("/Product-Line.fxml"));
-    //Parent root = FXMLLoader.load(getClass().getResource("/Product-Line.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root, 460, 467);
@@ -34,16 +40,23 @@ public class Main extends Application {
     primaryStage.setResizable(false);
     primaryStage.setScene(scene);
     primaryStage.show();
-
   }
 
-  public void Toggle() {
-    controller.toggleAddProduct();
+  /**
+   * Turns On the Add Product Button for the Final Submit to the Database
+   */
+  public void turnOnAddProduct() {
+      controller.toggleAddProduct(false);
   }
 
+  /**
+   * Passes a Product Device to the Controller so that it is able to Retain the
+   * Provided information from the User when they added the type of product they Selected.
+   * @param device is-a Product class that extends Product and has further information
+   *               about the Product to add the the Product Database.
+   */
   public static void setProduct(Product device) {
     controller.setProduct(device);
   }
-
 
 }

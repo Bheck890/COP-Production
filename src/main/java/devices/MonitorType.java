@@ -1,5 +1,5 @@
 package devices;
 
 public enum MonitorType {
-  LCD, LED;
+  LCD, LED, IPS
 }

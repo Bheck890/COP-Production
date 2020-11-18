@@ -23,8 +23,9 @@ public class Widget extends Product {
 
   private static MonitorType monitor;
 
-  private static String[] details = new String[10];
-  private static int[] info = new int[10];
+  private static String[] details = new String[5];
+
+  private static int[] info = new int[2];
 
   /**
    * Constructor for Widgets in the System
@@ -35,85 +36,26 @@ public class Widget extends Product {
    * @param manufacturer manufacturer of Widget.
    * @param type item type of Widget.
    */
-  public Widget(String name, String manufacturer, ItemType type, int id, boolean newDevice) {
-    super(name, manufacturer, type, id);
+  public Widget(String name, String manufacturer, ItemType type, int identify, boolean newDevice) {
+    super(name, manufacturer, type, identify);
     details[0] = name;
     details[1] = manufacturer;
-    this.id = id;
+    id = identify;
 
-    if(newDevice){
-      identifyDevice();
+    if(newDevice) {
+      try {
+        WM.enterDetails(type); //Displays the Required New Additional Information
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
 
   }
 
   /**
-   * Sets the Product to be a certain type of Device.
+   * After the Information is Provided the Object is created with its Attributes
+   * and Sent to the Controller so that it may be recorded in the Database
    */
-  void identifyDevice(){
-    if (type.equals(type.VISUAL_MOBILE)){ //Phone (Main thing to get done!)
-      System.out.println("Visual Mobile Device Selected to be created");
-      String s = super.toString();
-      //Phone Device:  Need: (Speaker,Screen,Movie Player,Audio Player) Information
-
-      try{
-        WM.enterDetails(type); //7 Options
-      }
-      catch(Exception e){
-        e.printStackTrace();
-      }
-
-      /*
-      SpeakerType speakerType = speaker;
-      Screen screen = new Screen(super.getName(), super.getManufacturer(),"600x800",60,5, id);
-      AudioPlayer audioPlayer = new AudioPlayer(super.getName(), super.getManufacturer(),
-          ".mp3", ".pList", id);
-      MoviePlayer moviePlayer =
-          new MoviePlayer(super.getName(), super.getManufacturer(), screen, MonitorType.LCD);
-      MobileDevice mobileDevice =
-          new MobileDevice(details[0], details[1], speakerType, audioPlayer,moviePlayer, id);
-
-      System.out.println(mobileDevice);
-       */
-    }
-    else if (type.equals(type.VISUAL)){ //Screen
-      System.out.println("Visual Device Selected to be created");
-      //3 Options
-      try{
-        WM.enterDetails(type); //7 Options
-      }
-      catch(Exception e){
-        e.printStackTrace();
-      }
-      //Screen screen = new Screen(details[0], details[1], "600x800", 60, 5, id);
-      //System.out.println(screen);
-    }
-    else if (type.equals(type.AUDIO_MOBILE)){ //IPod
-      System.out.println("Audio Mobile Device Selected to be created");
-      //2 Options
-      try{
-        WM.enterDetails(type); //7 Options
-      }
-      catch(Exception e){
-        e.printStackTrace();
-      }
-      /*
-      AudioPlayer player = new AudioPlayer(details[0], details[1],
-          ".mp3", ".pLIst", id);
-      System.out.println(player);
-       */
-    }
-    else if(type.equals(type.AUDIO)){ //Speaker
-      //1 Options
-      try{
-        WM.enterDetails(type); //7 Options
-      }
-      catch(Exception e){
-        e.printStackTrace();
-      }
-    }
-  }
-
   public static void createDeviceObject(){
     if(WindowManager.type == ItemType.AUDIO) {
       AudioSpeaker speaker = new AudioSpeaker(details[0], details[1], getSpeaker(), id);
@@ -125,13 +67,13 @@ public class Widget extends Product {
     }
     else if(WindowManager.type == ItemType.VISUAL) {
       Screen screen = new Screen(details[0], details[1], details[2], info[0], info[1], id);
-      Main.setProduct(screen);
+      MoviePlayer moviePlayer = new MoviePlayer(details[0], details[1], screen, getMonitor());
+      Main.setProduct(moviePlayer);
     }
     else if(WindowManager.type == ItemType.VISUAL_MOBILE) {
-
       Screen screen = new Screen(details[0], details[1], details[2], info[0], info[1], id);
       AudioPlayer audioPlayer = new AudioPlayer(details[0], details[1],
-          details[2], details[3], id);
+          details[3], details[4], id);
       MoviePlayer moviePlayer =
           new MoviePlayer(details[0], details[1], screen, getMonitor());
 

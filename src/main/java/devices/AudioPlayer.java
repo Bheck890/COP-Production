@@ -20,7 +20,6 @@ public class AudioPlayer extends Product implements MultimediaControl {
     super(name, manufacturer, ItemType.AUDIO_MOBILE, id);
     this.supportedAudioFormats = supportedAudioFormats;
     this.supportedPlaylistFormats = supportedPlaylistFormats;
-
   }
 
   @Override

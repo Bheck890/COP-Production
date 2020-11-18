@@ -18,8 +18,9 @@ public class WindowManager {
   Label lblIssue;
 
   public void displayError(String issue) throws IOException {
-    System.out.println("Displaying issue: " + issue);
+    //System.out.println("Displaying issue: " + issue);
 
+    IssueController.error = true;
     Parent root = FXMLLoader.load(getClass().getResource("/Error.fxml"));
 
     //<Label fx:id="issue" layoutX="83.0" layoutY="69.0" prefHeight="35.0" prefWidth="154.0" text="Issue:" />
@@ -35,16 +36,13 @@ public class WindowManager {
     error.setResizable(false);
     error.setScene(scene);
     error.show();
+    IssueController.error = false;
   }
 
-  public void enterDetails(ItemType type) throws IOException {
-    System.out.println("Displaying Fields for: " + type);
-    this.type = type;
+  public void enterDetails(ItemType itemType) throws IOException {
+    type = itemType;
     Parent root = FXMLLoader.load(getClass().getResource("/Popup-Information.fxml"));
 
-    // Enable - Disable Selection boxes.
-
-    //Group root2 = new Group(root, lblIssue);
     Scene scene = new Scene(root, 480, 360);
     info.setTitle("Product Details");
     info.setResizable(false);

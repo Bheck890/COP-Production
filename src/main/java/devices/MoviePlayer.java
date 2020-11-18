@@ -45,7 +45,7 @@ public class MoviePlayer extends Product implements MultimediaControl {
   public String toString() {
     String out = super.toString(); //To avoid the Git Error Checking
     out += screen.toString();
-    out += "\nMonitor Type: " + monitorType.name();
+    out += "\nMonitor Type: " + monitorType;
     return out;
   }
 }

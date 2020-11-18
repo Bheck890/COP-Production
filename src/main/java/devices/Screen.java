@@ -14,7 +14,6 @@ public class Screen extends Product implements ScreenSpec {
     this.resolution = resolution;
     this.refreshRate = refreshRate;
     this.responseTime = responseTime;
-
   }
 
   @Override
@@ -32,12 +31,10 @@ public class Screen extends Product implements ScreenSpec {
     return responseTime;
   }
 
+  @Override
   public String toString() {
-    String out = "";
-    out += "\nScreen:";
-    out += "\nResolution: " + resolution;
-    out += "\nRefresh rate: " + refreshRate;
-    out += "\nResponse time: " + responseTime;
-    return out;
+    return "\nResolution: " + resolution +
+        "\nRefresh rate: " + refreshRate + "hz" +
+        "\nResponse time: " + responseTime + "mm";
   }
 }

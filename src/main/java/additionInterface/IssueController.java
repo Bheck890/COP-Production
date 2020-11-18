@@ -1,5 +1,7 @@
 package additionInterface;
 
+import devices.ItemType;
+import java.util.NoSuchElementException;
 import mainInterface.Main;
 import devices.MonitorType;
 import devices.SpeakerType;
@@ -13,6 +15,7 @@ import mainInterface.Widget;
 
 public class IssueController {
 
+  public static boolean error = false;
   /**
    * Object of Main to call Controller methods
    */
@@ -24,33 +27,45 @@ public class IssueController {
   WindowManager WM = new WindowManager();
 
   @FXML
-  private ChoiceBox<MonitorType> cboxMonitor;
+  private ChoiceBox<SpeakerType> cboxSpeaker;
   @FXML
   private TextField txtPlaylistFile;
   @FXML
-  private ComboBox<Integer> cboxResponceTime;
-  @FXML
-  private ComboBox<Integer> cboxRefreshRate;
-  @FXML
   private TextField txtAudioFile;
   @FXML
-  private TextField txtScreenResolution;
+  private ComboBox<String> cboxResolution1;
   @FXML
-  private ChoiceBox<SpeakerType> cboxSpeaker;
+  private ComboBox<String> cboxResolution2;
+  @FXML
+  private ComboBox<String> cboxResponceTime;
+  @FXML
+  private ComboBox<String> cboxRefreshRate;
+  @FXML
+  private ChoiceBox<MonitorType> cboxMonitor;
   @FXML
   private Button btnSubmitInfo;
+  private Object NoSuchElementException;
 
   /**
    * Starting commands that sets up the whole interface.
    */
   public void initialize() {
-    cboxSpeaker.getItems().setAll(SpeakerType.values()); //Assigns the Speaker Type to the CBox
-    cboxSpeaker.getSelectionModel().selectFirst();
+    String[] refreshRate = {"144","120","75","60","45","20"};
+    String[] responseTime = {"1","2","3","4","5"};
+    String[] resolutionOne = {"1600","1280","1152","1024","800"};
+    String[] resolutionTwo = {"1024","900","864","768","720","600"};
 
-    cboxMonitor.getItems().setAll(MonitorType.values()); //Assigns the Monitor Type to the CBox
-    cboxMonitor.getSelectionModel().selectFirst();
-
-
+    if(!error) {
+      cboxSpeaker.getItems().setAll(SpeakerType.values()); //Assigns the Speaker Type to the CBox
+      cboxSpeaker.getSelectionModel().selectFirst();
+      cboxMonitor.getItems().setAll(MonitorType.values()); //Assigns the Monitor Type to the CBox
+      cboxMonitor.getSelectionModel().selectFirst();
+      cboxResolution1.getItems().setAll(resolutionOne);
+      cboxResolution2.getItems().setAll(resolutionTwo);
+      cboxResponceTime.getItems().setAll(responseTime);
+      cboxRefreshRate.getItems().setAll(refreshRate);
+      setupOptions();
+    }
   }
 
   /**
@@ -65,13 +80,99 @@ public class IssueController {
   @FXML
   void returnDeviceDetails(ActionEvent event) {
     //Confirm all required fields are filled in
+    String[] details;
+    int[] info;
+    try {
+      if (WindowManager.type == ItemType.AUDIO) {
+        Widget.setSpeaker(cboxSpeaker.getValue());
+        Widget.createDeviceObject();
+      }
+      else if (WindowManager.type == ItemType.VISUAL) {
+        details = Widget.getDetails();
+        info = Widget.getInfo();
+        info[0] = Integer.parseInt(cboxRefreshRate.getValue());
+        info[1] = Integer.parseInt(cboxResponceTime.getValue());
+        details[2] =
+            Integer.parseInt(cboxResolution1.getValue()) +
+            "x" + Integer.parseInt(cboxResolution2.getValue());
+        Widget.setDetails(details);
+        Widget.setDetails(info);
+        Widget.setMonitor(cboxMonitor.getValue());
+        Widget.createDeviceObject();
+      }
+      else if (WindowManager.type == ItemType.AUDIO_MOBILE) {
+        if (txtAudioFile.getText().equals("") || txtPlaylistFile.getText().equals(""))
+          throw (Throwable) NoSuchElementException;
+        details = Widget.getDetails();
+        details[2] = txtAudioFile.getText();
+        details[3] = txtPlaylistFile.getText();
+        Widget.setDetails(details);
+        Widget.createDeviceObject();
+      }
+      else if (WindowManager.type.equals(ItemType.VISUAL_MOBILE)) {
+        if (txtAudioFile.getText().equals("") || txtPlaylistFile.getText().equals(""))
+          throw (Throwable) NoSuchElementException;
+        details = Widget.getDetails();
+        info = Widget.getInfo();
+        Widget.setSpeaker(cboxSpeaker.getValue());
+        Widget.setMonitor(cboxMonitor.getValue());
 
-    //Send Info Back to Controller
-    Widget.setSpeaker(cboxSpeaker.getValue());
-    Widget.createDeviceObject();
+        info[0] = Integer.parseInt(cboxRefreshRate.getValue());
+        info[1] = Integer.parseInt(cboxResponceTime.getValue());
 
-    main.Toggle();
-    WindowManager.info.close();
+        details[2] =
+            Integer.parseInt(cboxResolution1.getValue()) +
+                "x" + Integer.parseInt(cboxResolution2.getValue());
+
+        details[3] = txtAudioFile.getText();
+        details[4] = txtPlaylistFile.getText();
+
+        Widget.setDetails(info);
+        Widget.setDetails(details);
+        Widget.createDeviceObject();
+      }
+      main.turnOnAddProduct();
+      WindowManager.info.close();
+    }
+    catch(Exception e){
+      try{WM.displayError("Invalid Number");}
+      catch(Exception ex){ex.printStackTrace();}
+    } catch (Throwable throwable) {
+      try{WM.displayError("Fields left Blank");}
+      catch(Exception ex){ex.printStackTrace();}
+      throwable.printStackTrace();
+    }
+  }
+
+  /**
+   * Disables Fields in the option Menu to not use those fields
+   * so that only fields specific to the selected device will appear. 
+   * FYI: Visual Mobile Is a Device using all Product Elements.
+   */
+  void setupOptions() { // Could do a switch comparison here
+    ItemType item = WindowManager.type;
+    if(item.equals(ItemType.AUDIO)) {
+      txtPlaylistFile.setDisable(true);
+      txtAudioFile.setDisable(true);
+      cboxResolution1.setDisable(true);
+      cboxResolution2.setDisable(true);
+      cboxResponceTime.setDisable(true);
+      cboxRefreshRate.setDisable(true);
+      cboxMonitor.setDisable(true);
+    }
+    else if(item.equals(ItemType.VISUAL)) {
+      cboxSpeaker.setDisable(true);
+      txtPlaylistFile.setDisable(true);
+      txtAudioFile.setDisable(true);
+    }
+    else if(item.equals(ItemType.AUDIO_MOBILE)) {
+      cboxSpeaker.setDisable(true);
+      cboxResolution1.setDisable(true);
+      cboxResolution2.setDisable(true);
+      cboxResponceTime.setDisable(true);
+      cboxRefreshRate.setDisable(true);
+      cboxMonitor.setDisable(true);
+    }
   }
 
 }

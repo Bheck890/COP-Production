@@ -11,11 +11,12 @@ public abstract class Product implements Item {
   String name;
 
   /**
-   * Abstract Product Constructor for Item Interface
+   * Abstract Product Constructor for Item Interface.
+   * Used when the Item does not need an ID.
+   * Usually used when it is an Item inside of an Item.
    * @param name Name of device.
    * @param manufacturer manufacturer of device.
    * @param type item type of device.
-   *
    */
   public Product(String name, String manufacturer, ItemType type)
   {
@@ -23,6 +24,15 @@ public abstract class Product implements Item {
     this.manufacturer = manufacturer;
     this.type = type;
   }
+
+  /**
+   * This is used as the Product Use for the overall product that would be Identified.
+   * Abstract Product Constructor for Item Interface.
+   * @param name Name of device.
+   * @param manufacturer manufacturer of device.
+   * @param type item type of device.
+   * @param id Identification Number of the Item when in list of Products
+   */
   public Product(String name, String manufacturer, ItemType type, int id)
   {
     this.name = name;
@@ -65,9 +75,11 @@ public abstract class Product implements Item {
     return name;
   }
 
+  @Override
   public String toString()
   {
-    return ("Name: " + name + "\nManufacturer: " + manufacturer +
+    return ("Name: " + name +
+        "\nManufacturer: " + manufacturer +
         "\nType: " + type);
   }
 

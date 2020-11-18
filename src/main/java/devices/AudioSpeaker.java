@@ -4,7 +4,11 @@ import mainInterface.Product;
 
 public class AudioSpeaker extends Product {
 
+  /**
+   * Speaker Enum to use for this class information
+   */
   SpeakerType speakerType;
+
   /**
    * Abstract Product Constructor for Item Interface
    *

@@ -2,7 +2,11 @@ package mainInterface;
 
 import additionInterface.WindowManager;
 import devices.AudioPlayer;
+import devices.AudioSpeaker;
 import devices.ItemType;
+import devices.MobileDevice;
+import devices.MoviePlayer;
+import devices.Screen;
 import devices.SpeakerType;
 import java.io.BufferedReader;
 import java.io.File;
@@ -47,6 +51,11 @@ public class Controller {
    * adding or changing things
    */
   private boolean emptyFields = true;
+
+  /**
+   * Password to teh Database
+   */
+  private String password;
 
   /**
    * A toggle to make sure that a employee is logged into the production system
@@ -114,16 +123,12 @@ public class Controller {
   private ListView<Product> lviewProducts;
   @FXML
   private ComboBox<String> cboxQuantity;
-  @FXML
-  private Button btnReportProduction;
   //Production Log
   @FXML
   private TextArea tareaProductionLog;
   //Employee
   @FXML
   private TextField txtEmployName;
-  @FXML
-  private Button btnCreateEmployee;
   @FXML
   private Label lblUserID;
   @FXML
@@ -133,8 +138,10 @@ public class Controller {
    * Starting commands that sets up the whole interface.
    */
   public void initialize() {
-    setupProductLineTable();
+    password = retrievePassword();
+    System.out.println(password);
     connectToDB(2); //Loads Products and Records from the databases.
+    setupProductLineTable();
     showProduction();
   }
 
@@ -147,16 +154,14 @@ public class Controller {
     tcolItemType.setCellValueFactory(new PropertyValueFactory("type"));
     tviewExistingProducts.setItems(productLine);
     lviewProducts.setItems(productLine);
-
     //User Interface Setup
     cboxItemType.getItems().setAll(ItemType.values()); //Assigns the Item Type to the CBoxItemType
     for (int i = 1; i <= 10; i++) //Assigns the Item Type to the CBoxQuantity
       cboxQuantity.getItems().add("" + i);
     cboxQuantity.setEditable(true);
     cboxQuantity.getSelectionModel().selectFirst();
-    tareaProductionLog.setEditable(false); //TextArea Properties
-
-
+    tareaProductionLog.setEditable(false);//TextArea Properties
+    //Button Switches and Configuration
     itemDetails = validProductToAdd.selectedProperty().not();
     validProduct = addProduct.selectedProperty().not();
     validProductToAdd.setSelected(true);
@@ -178,17 +183,15 @@ public class Controller {
     if(!(txtProductName.getText().equals("")) && !(txtManufactureName.getText().equals("")) &&
         !(cboxItemType.getValue() == null)){
       emptyFields = false;
-
-      //productLine.add(productDraft);
-      System.out.println(productDraft);
-
-      //connectToDB(0); //Adds Product to the Database
+      //System.out.println(productDraft);
+      toggleAddProduct(true);
+      productLine.add(productDraft);
+      connectToDB(0); //Adds Product to the Database
     }
     else{
       emptyFields = true;
       try{WM.displayError("Property fields are empty,\n Product Not Added");}
       catch(Exception e){e.printStackTrace();}
-      //System.out.println("[Error] Property fields are empty, Product Not Added");
     }
   }
 
@@ -218,29 +221,8 @@ public class Controller {
 
   @FXML
   void createEmployData(ActionEvent event) {
-    String filePath = "C:/Production/ProgramSettings.txt";
-    String pass = " ";
-    ArrayList<String> file = new ArrayList<>();
-    try {
-      BufferedReader in = new BufferedReader(new FileReader(filePath));//overkill read
-      while(in.ready()){
-        file.add(in.readLine());
-      }
-    } catch (Exception e) {
-      System.out.println("Creating file, as it was not found in the system");
-      createNewTextFile(filePath);
-    }
-    if(!file.isEmpty()) {
-      System.out.println("\n" + file.get(0));
-      pass = file.get(0).substring(file.get(0).lastIndexOf("=")+2);
-      if(pass.isBlank()) {
-        System.out.println("Please Enter a Password in the Program Settings text document");
-      }
-      else{
-        employeeUser = new Employee(txtEmployName.getText(),pass);
-        System.out.println(employeeUser);
-      }
-    }
+    employeeUser = new Employee(txtEmployName.getText(),password);
+    System.out.println(employeeUser);
   }
 
   @FXML
@@ -252,13 +234,11 @@ public class Controller {
 
       productDraft = new Widget(txtProductName.getText(), txtManufactureName.getText(),
           cboxItemType.getValue(), (productLine.size() + 1), true);
-
     }
     else{
       emptyFields = true;
       try{WM.displayError("Property fields are empty,\n Product Not Added");}
       catch(Exception e){e.printStackTrace();}
-      //System.out.println("[Error] Property fields are empty, Product Not Added");
     }
   }
 
@@ -273,8 +253,8 @@ public class Controller {
     final String Db_Url = "jdbc:h2:./res/Products";
 
     //  Database credentials
-    final String user = ""; // have a default Username to just get the data 
-    final String pass = ""; // to create a record they need to select their employee name in the tab
+    final String user = "BHECK";
+    final String pass = password;
     Connection conn;
     Statement stmt;
     PreparedStatement preparedStatement;
@@ -295,9 +275,23 @@ public class Controller {
         sql = "INSERT INTO Product(type, manufacturer, name) VALUES ( ?, ?, ? );";
         preparedStatement = conn.prepareStatement(sql);
 
-        preparedStatement.setString(1, cboxItemType.getValue().getCode());
-        preparedStatement.setString(2, txtManufactureName.getText());
-        preparedStatement.setString(3, txtProductName.getText());
+        preparedStatement.setString(1, productDraft.getType());
+        preparedStatement.setString(2, productDraft.getManufacturer());
+        preparedStatement.setString(3, productDraft.getName());
+
+        //Further Development: Add Database to Record Further Product Details.
+        if (productDraft instanceof AudioSpeaker) {
+          System.out.println("Placed Speaker into Database");
+        }
+        else if (productDraft instanceof MoviePlayer) {
+          System.out.println("Placed Screen into Database");
+        }
+        else if (productDraft instanceof AudioPlayer) {
+          System.out.println("Placed Media Player into Database");
+        }
+        else if (productDraft instanceof MobileDevice) {
+          System.out.println("Placed Mobile Device into Database");
+        }
 
         preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -352,6 +346,12 @@ public class Controller {
       stmt.close();
       conn.close();
     } catch (ClassNotFoundException | SQLException e) {
+      try{
+        WM.displayError("Invalid Password,\n Please Change Password");
+      }
+      catch(Exception ex){
+        ex.printStackTrace();
+      }
       e.printStackTrace();
     }
   }
@@ -414,29 +414,56 @@ public class Controller {
       PrintWriter fw = new PrintWriter(fw1); //Adds the ability to write in that connection stream
       fw.println("Password = ");
       fw.close();
-      System.out.println("Created a new File, Please insert password into file at "
-          + filePath);
-    } catch (FileNotFoundException e) {
-      System.out.println("Error 404: No Folder found");
-      System.out.println("Creating Folder;");
+    } catch (FileNotFoundException e) { //No Folder found so it Creates Folder
       String folderPath = filePath.substring(0,filePath.lastIndexOf("/"));
-      System.out.println(folderPath);
       File folder = new File(folderPath);
       folder.mkdir();
       createNewTextFile(filePath);
     }
   }
 
-  public void toggleAddProduct(){
-    validProductToAdd.setSelected(false);
-    addProduct.setSelected(true);
-  }
-
-  public void setSpeaker(SpeakerType speakerType) {
-    //speakerDraft = speakerType;
+  /**
+   * @param toggle False = enable add product turn off validate
+   *             * True = disable add product turn on validate
+   */
+  public void toggleAddProduct(boolean toggle){
+    validProductToAdd.setSelected(toggle);
+    addProduct.setSelected(!toggle);
+    txtProductName.setDisable(!toggle);
+    txtManufactureName.setDisable(!toggle);
+    cboxItemType.setDisable(!toggle);
   }
 
   public void setProduct(Product device) {
     productDraft = device;
+  }
+
+  public String retrievePassword() {
+    String filePath = "C:/Production/ProgramSettings.txt";
+    String pass = " ";
+    ArrayList<String> file = new ArrayList<>();
+    try {
+      BufferedReader in = new BufferedReader(new FileReader(filePath));//overkill read
+      while (in.ready()) {
+        file.add(in.readLine());
+      }
+    } catch (Exception e) {
+      createNewTextFile(filePath); //Creating file, as it was not found in the system
+    }
+    if (!file.isEmpty()) {
+      System.out.println("\n" + file.get(0));
+      pass = file.get(0).substring(file.get(0).lastIndexOf("=") + 2);
+      if (pass.isBlank()) {
+        try {
+          WM.displayError("Please Enter a Password,\n in the Program Settings text document\n"
+              + "at " + filePath);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      } else {
+        return pass;
+      }
+    }
+    return "pw";
   }
 }
