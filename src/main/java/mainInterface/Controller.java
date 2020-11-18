@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -44,6 +45,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author Brandon Heck
  * @Date 10/30/20
 */
+@SuppressWarnings("unchecked")
 public class Controller {
 
   /**
@@ -139,7 +141,6 @@ public class Controller {
    */
   public void initialize() {
     password = retrievePassword();
-    System.out.println(password);
     connectToDB(2); //Loads Products and Records from the databases.
     setupProductLineTable();
     showProduction();
@@ -447,11 +448,11 @@ public class Controller {
       while (in.ready()) {
         file.add(in.readLine());
       }
+      in.close();
     } catch (Exception e) {
       createNewTextFile(filePath); //Creating file, as it was not found in the system
     }
     if (!file.isEmpty()) {
-      System.out.println("\n" + file.get(0));
       pass = file.get(0).substring(file.get(0).lastIndexOf("=") + 2);
       if (pass.isBlank()) {
         try {

@@ -22,13 +22,11 @@ public class Employee {
         password = "pw";
         try{WM.displayError("Invalid Password");}
         catch(Exception e){}
-        //System.out.println("Invalid Password");
       }
     }
     else{
       try{WM.displayError("Invalid Name Try again");}
       catch(Exception e){}
-      //System.out.println("Invalid Name Try again");
     }
   }
 
