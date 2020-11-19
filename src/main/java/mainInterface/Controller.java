@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -55,7 +56,12 @@ public class Controller {
   private boolean emptyFields = true;
 
   /**
-   * Password to teh Database
+   * A toggle to make sure that the password is a valid password
+   */
+  public boolean validPassword = false;
+
+  /**
+   * Password to the Database
    */
   private String password;
 
@@ -63,7 +69,7 @@ public class Controller {
    * A toggle to make sure that a employee is logged into the production system
    *  to audit the production.
    */
-  private Employee employeeUser;
+  Employee employeeUser;
 
   /**
    * Product Draft object that is waiting to gather further information about the device
@@ -74,6 +80,11 @@ public class Controller {
    * Object of FX Stage Manager to call Error and info Stage's.
    */
   WindowManager WM = new WindowManager();
+
+  /**
+   * Object of Main to call Controller methods
+   */
+  Main main = new Main();
 
   /**
    * Inventory Numbers of Type of Devices
@@ -103,15 +114,7 @@ public class Controller {
   @FXML
   private ChoiceBox<ItemType> cboxItemType;
   @FXML
-  private Button btnItemInfo;
-  @FXML
   private Button btnProduct;
-  @FXML
-  private ToggleButton addProduct;
-  @FXML
-  private ToggleButton validProductToAdd;
-  BooleanBinding itemDetails;
-  BooleanBinding validProduct;
   @FXML
   private TableView<Product> tviewExistingProducts;
   @FXML
@@ -162,16 +165,6 @@ public class Controller {
     cboxQuantity.setEditable(true);
     cboxQuantity.getSelectionModel().selectFirst();
     tareaProductionLog.setEditable(false);//TextArea Properties
-    //Button Switches and Configuration
-    itemDetails = validProductToAdd.selectedProperty().not();
-    validProduct = addProduct.selectedProperty().not();
-    validProductToAdd.setSelected(true);
-    addProduct.setSelected(false);
-    btnProduct.disableProperty().bind(validProduct);
-    btnItemInfo.disableProperty().bind(itemDetails);
-    validProductToAdd.setVisible(false);
-    addProduct.setVisible(false);
-
   }
 
   /**
@@ -180,14 +173,12 @@ public class Controller {
    */
   @FXML
   void addProduct(ActionEvent event) {
-    //Field check to make sure the database will not add bad entries
     if(!(txtProductName.getText().equals("")) && !(txtManufactureName.getText().equals("")) &&
-        !(cboxItemType.getValue() == null)){
+        !(cboxItemType.getValue() == null)) {
       emptyFields = false;
-      //System.out.println(productDraft);
-      toggleAddProduct(true);
-      productLine.add(productDraft);
-      connectToDB(0); //Adds Product to the Database
+
+      productDraft = new Widget(txtProductName.getText(), txtManufactureName.getText(),
+          cboxItemType.getValue(), (productLine.size() + 1), true);
     }
     else{
       emptyFields = true;
@@ -220,27 +211,16 @@ public class Controller {
     }
   }
 
+  /**
+   * Create Employee Data Given the Name of the person
+   * @param event JavaFX Button Event.
+   */
   @FXML
   void createEmployData(ActionEvent event) {
     employeeUser = new Employee(txtEmployName.getText(),password);
     System.out.println(employeeUser);
-  }
-
-  @FXML
-  void provideInformation(ActionEvent event) {
-    //toggleAddProduct();
-    if(!(txtProductName.getText().equals("")) && !(txtManufactureName.getText().equals("")) &&
-        !(cboxItemType.getValue() == null)) {
-      emptyFields = false;
-
-      productDraft = new Widget(txtProductName.getText(), txtManufactureName.getText(),
-          cboxItemType.getValue(), (productLine.size() + 1), true);
-    }
-    else{
-      emptyFields = true;
-      try{WM.displayError("Property fields are empty,\n Product Not Added");}
-      catch(Exception e){e.printStackTrace();}
-    }
+    lblUserID.setText(employeeUser.username);
+    lblUserEmail.setText(employeeUser.email);
   }
 
   /**
@@ -276,7 +256,7 @@ public class Controller {
         sql = "INSERT INTO Product(type, manufacturer, name) VALUES ( ?, ?, ? );";
         preparedStatement = conn.prepareStatement(sql);
 
-        preparedStatement.setString(1, productDraft.getType());
+        preparedStatement.setString(1, productDraft.getCode());
         preparedStatement.setString(2, productDraft.getManufacturer());
         preparedStatement.setString(3, productDraft.getName());
 
@@ -346,19 +326,28 @@ public class Controller {
       //4: Clean-up Database Connection
       stmt.close();
       conn.close();
+      //Extra: Valid Database connection Attributes
+      validPassword = true;
+      main.toggleStage(true);
+      showProduction();
     } catch (ClassNotFoundException | SQLException e) {
       try{
+        validPassword = false;
         WM.displayError("Invalid Password,\n Please Change Password");
+        main.toggleStage(false);
+        WM.enterPassword();
       }
       catch(Exception ex){
-        ex.printStackTrace();
+        validPassword = false;
+        System.out.println("Error2");
+        e.printStackTrace();
       }
       e.printStackTrace();
     }
   }
 
   /**
-   * Loads the Product Name from the Stored Product ID.
+   * Loads the Product Name from the Stored Product ID in the Record Database.
    * @param productID ID(int) Retrieved from Production Records.
    * @param record Record of Data to add name to.
    */
@@ -369,7 +358,9 @@ public class Controller {
   }
 
   /**
-   *
+   * As the records are retrieved it updates the number of that type of Item Type
+   * @param type The Item Type of the Device
+   * @return The Number of types from the of Item Type
    */
   int updateTypeID(ItemType type)
   {
@@ -399,6 +390,7 @@ public class Controller {
       return id;
     }
   }
+
   /**
    * Adds Records to TextArea.
    */
@@ -408,40 +400,47 @@ public class Controller {
       tareaProductionLog.appendText(Record + "\n");
   }
 
-  void createNewTextFile(String filePath){
-    try {
-      FileOutputStream fw1 = new FileOutputStream(filePath);
-      //Create the Connection to the file with Special attributes
+  /**
+   * Set the Product Object into the Product Draft Field.
+   * @param device Product Object to put into the Product ArrayList
+   */
+  public void setProduct(Product device) {
+    productDraft = device;
+    //System.out.println(productDraft);
+    productLine.add(productDraft);
+    connectToDB(0); //Adds Product to the Database
+    txtProductName.setText("");
+    txtManufactureName.setText("");
+    cboxItemType.getSelectionModel().clearSelection();
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+    System.out.println("Password Check1");
+    connectToDB(2); //Loads Products and Records from the databases.
+    System.out.println("Password Check2");
+    if(validPassword) {
+      //Write Password to File
+      String filePath = "C:/JavaProduction/ProgramSettings.txt";
+      FileOutputStream fw1 = null;
+      try {
+        fw1 = new FileOutputStream(filePath);
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
       PrintWriter fw = new PrintWriter(fw1); //Adds the ability to write in that connection stream
-      fw.println("Password = ");
+      fw.print("Password = " + reverseString(password));
       fw.close();
-    } catch (FileNotFoundException e) { //No Folder found so it Creates Folder
-      String folderPath = filePath.substring(0,filePath.lastIndexOf("/"));
-      File folder = new File(folderPath);
-      folder.mkdir();
-      createNewTextFile(filePath);
+      WM.closeError();
     }
   }
 
   /**
-   * @param toggle False = enable add product turn off validate
-   *             * True = disable add product turn on validate
+   * Retrieves or Creates the text file for the password.
    */
-  public void toggleAddProduct(boolean toggle){
-    validProductToAdd.setSelected(toggle);
-    addProduct.setSelected(!toggle);
-    txtProductName.setDisable(!toggle);
-    txtManufactureName.setDisable(!toggle);
-    cboxItemType.setDisable(!toggle);
-  }
-
-  public void setProduct(Product device) {
-    productDraft = device;
-  }
-
   public String retrievePassword() {
-    String filePath = "C:/Production/ProgramSettings.txt";
-    String pass = " ";
+    String filePath = "C:/JavaProduction/ProgramSettings.txt";
+    String pass;
     ArrayList<String> file = new ArrayList<>();
     try {
       BufferedReader in = new BufferedReader(new FileReader(filePath));//overkill read
@@ -451,6 +450,11 @@ public class Controller {
       in.close();
     } catch (Exception e) {
       createNewTextFile(filePath); //Creating file, as it was not found in the system
+      try {
+        WM.enterPassword();
+      } catch (IOException ioException) {
+        ioException.printStackTrace();
+      }
     }
     if (!file.isEmpty()) {
       pass = file.get(0).substring(file.get(0).lastIndexOf("=") + 2);
@@ -461,10 +465,43 @@ public class Controller {
         } catch (Exception e) {
           e.printStackTrace();
         }
-      } else {
-        return pass;
       }
+      else
+        return reverseString(pass);
     }
     return "pw";
   }
+
+  /**
+   * Creates the directory for the password file.
+   * @param filePath Path of the location of where the Password file is.
+   */
+  void createNewTextFile(String filePath){
+    try {
+      FileOutputStream fw1 = new FileOutputStream(filePath);
+      //Create the Connection to the file with Special attributes
+      PrintWriter fw = new PrintWriter(fw1); //Adds the ability to write in that connection stream
+      fw.println("Password = ");
+      fw.close();
+    } catch (FileNotFoundException e) { //No Folder found so it Creates Folder
+      String folderPath = filePath.substring(0,filePath.lastIndexOf("/"));
+      File folder = new File(folderPath);
+      //noinspection ResultOfMethodCallIgnored
+      folder.mkdir();
+      createNewTextFile(filePath);
+    }
+  }
+
+  /**
+   * Takes the String and uses Recursion to reverse the String Backwards
+   * @param pw String to Reverse.
+   * @return the String Provided flipped backward.
+   */
+  public String reverseString(String pw) {
+    if (pw.isEmpty()){
+      return pw;
+    }
+    return reverseString(pw.substring(1)) + pw.charAt(0);
+  }
+
 }

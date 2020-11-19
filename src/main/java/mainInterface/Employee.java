@@ -13,19 +13,26 @@ public class Employee {
 
   Employee(String nameFull, String pass){
     if(checkName(nameFull)){
-      setUsername();
-      setEmail();
-      if(isValidPassword(pass)) {
-        password = pass;
-      }
-      else{
-        password = "pw";
-        try{WM.displayError("Invalid Password");}
-        catch(Exception e){}
-      }
+      setUsername(nameFull);
+      setEmail(nameFull);
     }
     else{
-      try{WM.displayError("Invalid Name Try again");}
+      username = "default";
+      email = "user@oracleacademy.Test";
+      this.name.append("default");
+      try{
+        WM.displayError("Invalid Name Try again");
+      }
+      catch(Exception e){
+        e.printStackTrace();
+      }
+    }
+    if(isValidPassword(pass)) {
+      password = pass;
+    }
+    else{
+      password = "pw";
+      try{WM.displayError("Invalid Password");}
       catch(Exception e){}
     }
   }
@@ -33,8 +40,8 @@ public class Employee {
   private boolean checkName(String name){
     boolean validName = false;
     try{
-      String prior = name.substring(name.indexOf(" ")-1, name.indexOf(" "));
-      String after = name.substring(name.indexOf(" ")+1, name.indexOf(" ")+2);
+      String prior = name.substring(name.indexOf(" ")-1, name.indexOf(" ")); //Checks for double Space
+      String after = name.substring(name.indexOf(" ")+1, name.indexOf(" ")+2); //check for double space
       if((!prior.contentEquals(" ")) && (!after.contentEquals(" "))){
         prior = name.substring(0,1).toUpperCase();
         after = after.toUpperCase();
@@ -43,21 +50,23 @@ public class Employee {
         validName = true;
         this.name.append(Name);
       }
+      else
+        validName = false;
     }
     catch(Exception e) {
-      //Invalid Name with no space throws exception
+      validName = false;
     }
     return validName;
   }
 
-  private void setUsername(){
-    username = name.substring(0,1).toLowerCase() +
-        name.substring(name.indexOf(" ")+1,name.length()).toLowerCase();
+  private void setUsername(String fullName){
+    username = fullName.substring(0,1).toLowerCase() +
+        fullName.substring(fullName.indexOf(" ")+1).toLowerCase();
   }
 
-  private void setEmail(){
-    email = name.substring(0,name.indexOf(" ")).toLowerCase() + "." +
-        name.substring(name.indexOf(" ")+1,name.length()).toLowerCase() +
+  private void setEmail(String fullName){
+    email = fullName.substring(0,fullName.indexOf(" ")).toLowerCase() + "." +
+        fullName.substring(fullName.indexOf(" ")+1).toLowerCase() +
         "@oracleacademy.Test";
   }
 

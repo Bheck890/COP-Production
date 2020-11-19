@@ -17,6 +17,16 @@ public class WindowManager {
 
   Label lblIssue;
 
+  /**
+   * The FXML Loader of the fxml File
+   */
+  static FXMLLoader loader;
+
+  /**
+   * created as a attribute to pass information to the Controller from a separate Class
+   */
+  static IssueController controller;
+
   public void displayError(String issue) throws IOException {
     //System.out.println("Displaying issue: " + issue);
 
@@ -49,4 +59,24 @@ public class WindowManager {
     info.setScene(scene);
     info.show();
   }
+
+  public void enterPassword() throws IOException {
+    IssueController.error = true;
+    loader = new FXMLLoader(getClass().getResource("/Password-Enter.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+
+    Scene scene = new Scene(root, 300, 180);
+    error.setTitle("Database Password");
+    error.setResizable(false);
+    error.setScene(scene);
+    error.show();
+    error.toFront();
+    IssueController.error = false;
+  }
+
+  public void closeError(){
+    error.close();
+  }
+
 }

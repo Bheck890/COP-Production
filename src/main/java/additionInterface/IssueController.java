@@ -1,7 +1,7 @@
 package additionInterface;
 
 import devices.ItemType;
-import java.util.NoSuchElementException;
+import javafx.scene.control.PasswordField;
 import mainInterface.Main;
 import devices.MonitorType;
 import devices.SpeakerType;
@@ -45,6 +45,8 @@ public class IssueController {
   @FXML
   private Button btnSubmitInfo;
   private Object NoSuchElementException;
+  @FXML
+  private PasswordField passwordBox;
 
   /**
    * Starting commands that sets up the whole interface.
@@ -131,7 +133,6 @@ public class IssueController {
         Widget.setDetails(details);
         Widget.createDeviceObject();
       }
-      main.turnOnAddProduct();
       WindowManager.info.close();
     }
     catch(Exception e){
@@ -174,5 +175,11 @@ public class IssueController {
       cboxMonitor.setDisable(true);
     }
   }
+
+  @FXML
+  void submitPassword(ActionEvent event) {
+    main.validatePassword(passwordBox.getText());
+  }
+
 
 }

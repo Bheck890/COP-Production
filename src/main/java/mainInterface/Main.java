@@ -29,24 +29,23 @@ public class Main extends Application {
    */
   static Controller controller;
 
+  /**
+   * created as a attribute to pass information to the Controller from a separate Class
+   * Mainly used to turn the stage on if the Database loaded Correctly
+   */
+  static Stage firstStage;
+
   @Override
   public void start(Stage primaryStage) throws Exception {
+    firstStage = primaryStage;
     loader = new FXMLLoader(getClass().getResource("/Product-Line.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root, 460, 467);
 
-    primaryStage.setTitle("Production Line Tracker");
-    primaryStage.setResizable(false);
-    primaryStage.setScene(scene);
-    primaryStage.show();
-  }
-
-  /**
-   * Turns On the Add Product Button for the Final Submit to the Database
-   */
-  public void turnOnAddProduct() {
-      controller.toggleAddProduct(false);
+    firstStage.setTitle("Production Line Tracker");
+    firstStage.setResizable(false);
+    firstStage.setScene(scene);
   }
 
   /**
@@ -57,6 +56,25 @@ public class Main extends Application {
    */
   public static void setProduct(Product device) {
     controller.setProduct(device);
+  }
+
+  /**
+   * Sends the entered password to test if it is valid to the database
+   * @param pass Password to try to log into the database with.
+   */
+  public void validatePassword(String pass) {
+    controller.setPassword(pass);
+  }
+
+  /**
+   * Toggle Stage
+   * @param show true = show the stage | false = hide the stage
+   */
+  public void toggleStage(boolean show) {
+    if(show)
+      firstStage.show();
+    else
+      firstStage.hide();
   }
 
 }

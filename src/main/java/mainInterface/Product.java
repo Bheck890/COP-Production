@@ -50,6 +50,15 @@ public abstract class Product implements Item {
     return type.name();
   }
 
+  /**
+   * Get the Item Type for the Data Base Column.
+   * for the Product Table
+   * @return returns the Type-Code.
+   */
+  public String getCode() {
+    return type.getCode();
+  }
+
   @Override
   public int getId() {
     return id;

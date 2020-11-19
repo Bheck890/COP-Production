@@ -4,8 +4,8 @@ Object Programming Semester Project
 
 Project Description:
 - COP-3003 Project for Final
-- Project uses examples of Objects and Databases and Class reviews all asspects of building software.
-- Project is a Gui of a Production line of creating devices and Quality Chekcking them with a log of all actions performed in the Gui
+- Project uses examples of Objects and Databases and Class reviews all aspects of building software.
+- Project is a Gui of a Production line of creating devices and Quality Checking them with a log of all actions performed in the Gui
 
 Resources used to build Project:
 - Information Given from my COP 3003 Class

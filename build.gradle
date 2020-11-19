@@ -4,14 +4,10 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 
-sourceCompatibility = 11
-
 javafx {
     modules = [ 'javafx.controls' , 'javafx.fxml' ]
     version = '11.0.2'
 }
-
-mainClassName = 'Main'
 
 group 'io.github.Bheck890'
 version '1.0-SNAPSHOT'

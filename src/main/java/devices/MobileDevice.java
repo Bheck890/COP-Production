@@ -49,7 +49,7 @@ public class MobileDevice extends Product implements MultimediaControl {
   @Override
   public String toString()
   {
-    return "\nName: " + super.getName() +
+    return "Name: " + super.getName() +
         "\nManufacturer: " + super.getManufacturer() +
         "\nType: " + ItemType.VISUAL_MOBILE +
         "\nSpeaker Type: " + speakerType +
