@@ -1,22 +1,30 @@
 package devices;
 
 import mainInterface.Product;
+import mainInterface.Widget;
 
 public class MoviePlayer extends Product implements MultimediaControl {
 
-  Screen screen;
-  MonitorType monitorType;
+  /**
+   * Screen info
+   */
+  final Screen screen;
+
+  /**
+   * Monitor Type enum
+   */
+  final MonitorType monitorType;
 
   /**
    * Abstract Product Constructor for Item Interface
    *
-   * @param name         Name of device.
-   * @param manufacturer manufacturer of device.
+   * @param widget       Widget Information.
    * @param screen       Screen Type of device.
    * @param monitorType  Monitor Type of device.
    */
-  public MoviePlayer(String name, String manufacturer, Screen screen, MonitorType monitorType ) {
-    super(name, manufacturer, ItemType.VISUAL);
+  public MoviePlayer(Widget widget, Screen screen, MonitorType monitorType) {
+    super(widget.getName(), widget.getManufacturer(), widget.getItemType(),
+        widget.getId(), widget.getEmployee());
     this.screen = screen;
     this.monitorType = monitorType;
   }
@@ -41,11 +49,24 @@ public class MoviePlayer extends Product implements MultimediaControl {
     System.out.println("Next movie");
   }
 
+  /**
+   * Retrieve the Screen info
+   * @return Screen Object
+   */
+  public Screen getScreen(){
+    return screen;
+  }
+
+  /**
+   * Retrieve the Monitor Type
+   * @return Monitor type Object
+   */
+  public MonitorType getMonitorType(){
+    return monitorType;
+  }
+
   @Override
   public String toString() {
-    String out = super.toString(); //To avoid the Git Error Checking
-    out += screen.toString();
-    out += "\nMonitor Type: " + monitorType;
-    return out;
+    return screen.toString() + "\nMonitor Type: " + monitorType;
   }
 }

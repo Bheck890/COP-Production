@@ -5,10 +5,29 @@ import java.util.regex.Pattern;
 
 public class Employee {
 
-  WindowManager WM = new WindowManager();
-  StringBuilder name = new StringBuilder();
+  /**
+   * Object of FX Stage Manager to call Error and info Stage's.
+   */
+  final WindowManager WM = new WindowManager();
+
+  /**
+   * Name Of Employee
+   */
+  final StringBuilder name = new StringBuilder();
+
+  /**
+   * Username of Employee
+   */
   String username;
-  String password;
+
+  /**
+   * Password of employee
+   */
+  final String password;
+
+  /**
+   * Email of employee
+   */
   String email;
 
   Employee(String nameFull, String pass){

@@ -1,16 +1,35 @@
 package devices;
 
 import mainInterface.Product;
+import mainInterface.Widget;
 
 public class Screen extends Product implements ScreenSpec {
 
-  String resolution;
-  int refreshRate;
-  int responseTime;
+  /**
+   * Screen Resolution
+   */
+  final String resolution;
 
-  public Screen(String name, String manufacturer,
-      String resolution, int refreshRate, int responseTime, int id) {
-    super(name, manufacturer, ItemType.VISUAL, id);
+  /**
+   * Screen Refresh Rate
+   */
+  final int refreshRate;
+
+  /**
+   * Screen Responce Time
+   */
+  final int responseTime;
+
+  /**
+   * Constructor for a Speaker Object
+   * @param widget  Widget Information.
+   * @param resolution Resolution of the Screen
+   * @param refreshRate Refresh rate of the screen
+   * @param responseTime Responce time of the screen
+   */
+  public Screen(Widget widget, String resolution, int refreshRate, int responseTime) {
+    super(widget.getName(), widget.getManufacturer(), widget.getItemType(),
+        widget.getId(), widget.getEmployee());
     this.resolution = resolution;
     this.refreshRate = refreshRate;
     this.responseTime = responseTime;

@@ -1,29 +1,65 @@
 package devices;
 
+import mainInterface.Employee;
 import mainInterface.Product;
+import mainInterface.Widget;
 
 public class MobileDevice extends Product implements MultimediaControl {
 
-  SpeakerType speakerType;
-  AudioPlayer audioPlayer;
-  MoviePlayer moviePlayer;
+  /**
+   * The Speaker in the Device
+   */
+  final SpeakerType speakerType;
 
   /**
-   * Abstract Product Constructor for Item Interface
-   *
-   * @param name         Name of device.
-   * @param manufacturer manufacturer of device.
+   * The Audio Player System in the Device
+   */
+  final AudioPlayer audioPlayer;
+
+  /**
+   * The Movie Player System in the Device
+   */
+  final MoviePlayer moviePlayer;
+
+
+  /**
+   * A Mobile Device that Plays Audio, Plays Videos, and has a Speaker.
+   * @param widget Widget Information.
    * @param speakerType  The type of Speaker in the Device
    * @param audioPlayer  Audio Player Information
    * @param moviePlayer  Movie Player Screen Information
-   * @param id           Identification Number
    */
-  public MobileDevice(String name, String manufacturer,
-    SpeakerType speakerType, AudioPlayer audioPlayer, MoviePlayer moviePlayer, int id) {
-    super(name, manufacturer, ItemType.VISUAL_MOBILE, id);
+  public MobileDevice(Widget widget,
+    SpeakerType speakerType, AudioPlayer audioPlayer, MoviePlayer moviePlayer) {
+    super(widget.getName(), widget.getManufacturer(), widget.getItemType(),
+        widget.getId(), widget.getEmployee());
     this.speakerType = speakerType;
     this.audioPlayer = audioPlayer;
     this.moviePlayer = moviePlayer;
+  }
+
+  /**
+   * Retrieve the Speaker Type
+   * @return Speaker Type
+   */
+  public SpeakerType getSpeakerType(){
+    return speakerType;
+  }
+
+  /**
+   * Retrieve the Audio Player
+   * @return Audio Player Object
+   */
+  public AudioPlayer getAudioPlayer(){
+    return audioPlayer;
+  }
+
+  /**
+   * Retrieve the MoviePlayer info
+   * @return MoviePlayer Object
+   */
+  public MoviePlayer getMoviePlayer(){
+    return moviePlayer;
   }
 
   @Override
@@ -49,9 +85,7 @@ public class MobileDevice extends Product implements MultimediaControl {
   @Override
   public String toString()
   {
-    return "Name: " + super.getName() +
-        "\nManufacturer: " + super.getManufacturer() +
-        "\nType: " + ItemType.VISUAL_MOBILE +
+    return
         "\nSpeaker Type: " + speakerType +
         "\nSupported Audio Formats: " + audioPlayer.supportedAudioFormats +
         "\nSupported Playlist Formats: " + audioPlayer.supportedPlaylistFormats +

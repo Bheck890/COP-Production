@@ -1,30 +1,36 @@
 package devices;
 
 import mainInterface.Product;
+import mainInterface.Widget;
 
 public class AudioSpeaker extends Product {
 
   /**
    * Speaker Enum to use for this class information
    */
-  SpeakerType speakerType;
+  final SpeakerType speakerType;
 
   /**
-   * Abstract Product Constructor for Item Interface
-   *
-   * @param name         Name of device.
-   * @param manufacturer manufacturer of device.
+   * Constructor for a Speaker Object
+   * @param widget       Widget Information.
    * @param speakerType  item type of device.
    */
-  public AudioSpeaker(String name, String manufacturer, SpeakerType speakerType, int id) {
-    super(name, manufacturer, ItemType.AUDIO, id);
+  public AudioSpeaker(Widget widget, SpeakerType speakerType) {
+    super(widget.getName(), widget.getManufacturer(), widget.getItemType(),
+        widget.getId(), widget.getEmployee());
     this.speakerType = speakerType;
+  }
+
+  /**
+   * Retrieve the Speaker Type
+   * @return Speaker Type
+   */
+  public SpeakerType getSpeakerType(){
+    return speakerType;
   }
 
   @Override
   public String toString() {
-    String out = super.toString(); //To avoid the Git Error Checking
-    out += "\nSpeaker Type: " + speakerType.name();
-    return out;
+    return "\nSpeaker Type: " + speakerType.name();
   }
 }

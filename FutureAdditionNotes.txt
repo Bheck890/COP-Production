@@ -1,0 +1,15 @@
+Things to make the Program Awesome! (Ideas and full Implementation)
+- Final Product info
+ - Button for Showing Further information about the product.
+- Employee
+ - Have the Product Database Record all the Product type information.
+ - For every Employee Have their Information Added to a Database with their own Password
+   - To add an employee the Admin Password must be entered.
+   - An Employee Must select their name from the employee table and Log in to authorize the system
+     - When a Product is created an Employee MUST be Authenticated so each product would be created
+       with the authorization of an Employee
+     - When a Report of Production is created it must also have an employee Authorized,
+       and recorded when Product is Recorded.
+
+Things Left for Class Project
+ - Documentation JavaDocs

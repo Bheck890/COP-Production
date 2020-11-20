@@ -49,16 +49,6 @@ public class Main extends Application {
   }
 
   /**
-   * Passes a Product Device to the Controller so that it is able to Retain the
-   * Provided information from the User when they added the type of product they Selected.
-   * @param device is-a Product class that extends Product and has further information
-   *               about the Product to add the the Product Database.
-   */
-  public static void setProduct(Product device) {
-    controller.setProduct(device);
-  }
-
-  /**
    * Sends the entered password to test if it is valid to the database
    * @param pass Password to try to log into the database with.
    */
@@ -75,6 +65,16 @@ public class Main extends Application {
       firstStage.show();
     else
       firstStage.hide();
+  }
+
+  /**
+   * Passes a Product Device to the Controller so that it is able to Retain the
+   * Provided information from the User when they added the type of product they Selected.
+   * @param device is-a Product class that extends Product and has further information
+   *               about the Product to add the the Product Database.
+   */
+  public static void setProduct(Product device) {
+    controller.setProduct(device);
   }
 
 }

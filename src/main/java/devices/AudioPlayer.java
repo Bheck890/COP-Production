@@ -1,23 +1,25 @@
 package devices;
 
+import mainInterface.Employee;
 import mainInterface.Product;
+import mainInterface.Widget;
 
 public class AudioPlayer extends Product implements MultimediaControl {
 
 
-  String supportedAudioFormats;
-  String supportedPlaylistFormats;
+  final String supportedAudioFormats;
+  final String supportedPlaylistFormats;
 
   /**
    * Audio Player Initialization
-   * @param name Name of Audio Player Device.
-   * @param manufacturer Name of Audio Player Manufacturer.
+   * @param widget Widget Information.
    * @param supportedAudioFormats Supported formats to play music.
    * @param supportedPlaylistFormats Supported playlist formats to Play.
    */
-  public AudioPlayer(String name, String manufacturer, String supportedAudioFormats,
-      String supportedPlaylistFormats,int id) {
-    super(name, manufacturer, ItemType.AUDIO_MOBILE, id);
+  public AudioPlayer(Widget widget, String supportedAudioFormats,
+      String supportedPlaylistFormats) {
+    super(widget.getName(), widget.getManufacturer(), widget.getItemType(),
+        widget.getId(), widget.getEmployee());
     this.supportedAudioFormats = supportedAudioFormats;
     this.supportedPlaylistFormats = supportedPlaylistFormats;
   }
@@ -42,14 +44,27 @@ public class AudioPlayer extends Product implements MultimediaControl {
     System.out.println("Next");
   }
 
+  /**
+   * Retrieve String
+   * @return supported Audio Formats
+   */
+  public String getSupportedAudioFormats(){
+    return supportedAudioFormats;
+  }
+
+  /**
+   * Retrieve String
+   * @return supported Playlist Formats
+   */
+  public String getSupportedPlaylistFormats(){
+    return supportedPlaylistFormats;
+  }
 
   @Override
   public String toString()
   {
-    String s = super.toString(); //To avoid the Git Error Checking
-    s += "\nSupported Audio Formats: " + supportedAudioFormats;
-    s += "\nSupported Playlist Formats: " + supportedPlaylistFormats;
-    return s;
+    return "\nSupported Audio Formats: " + supportedAudioFormats +
+        "\nSupported Playlist Formats: " + supportedPlaylistFormats;
   }
 
 }

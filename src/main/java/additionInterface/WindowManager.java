@@ -12,9 +12,9 @@ import javafx.stage.Stage;
 public class WindowManager {
 
   public static ItemType type;
-  public static Stage info = new Stage();
-  public static Stage data = new Stage();
-
+  public static final Stage info = new Stage();
+  public static final Stage data = new Stage();
+  private String userOfPassword;
   Label lblIssue;
 
   /**
@@ -66,8 +66,18 @@ public class WindowManager {
     loader = new FXMLLoader(getClass().getResource("/Password-Enter.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
+    //controller.setUserOfPassword("Hello");
 
-    Scene scene = new Scene(root, 300, 180);
+
+    lblIssue = new Label(userOfPassword);
+    //<Label fx:id="lblUser" layoutX="106.0" layoutY="52.0" prefHeight="17.0" prefWidth="86.0" text="User" />
+    lblIssue.setLayoutX(106.0);
+    lblIssue.setLayoutY(52.0);
+    lblIssue.prefHeight(17.0);
+    lblIssue.prefWidth(86.0);
+    Group root2 = new Group(root, lblIssue);
+
+    Scene scene = new Scene(root2, 300, 180);
     info.setTitle("Database Password");
     info.setResizable(false);
     info.setScene(scene);
@@ -78,6 +88,14 @@ public class WindowManager {
 
   public void closeError(){
     info.close();
+  }
+
+  /**
+   * Set the UserOfPassword
+   * @param user String of username to appear on window
+   */
+  public void setUserOfPassword(String user){
+    userOfPassword = user;
   }
 
 }

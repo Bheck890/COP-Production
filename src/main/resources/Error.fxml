@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane id="ErrorColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="207.0" prefWidth="320.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="additionInterface.IssueController">
-   <children>
-         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="238.0" layoutX="-13.0" layoutY="-16.0" stroke="BLACK" strokeType="INSIDE" styleClass="rectangle" width="354.0" />
-         <Button layoutX="144.0" layoutY="125.0" mnemonicParsing="false" onAction="#closeWarning" text="Ok" />
-         <Label layoutX="122.0" layoutY="28.0" prefHeight="27.0" prefWidth="77.0" text="Warning:">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Label>
-   </children>
+<Pane id="ErrorColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+  minWidth="-Infinity" prefHeight="207.0" prefWidth="320.0" stylesheets="@Styles.css"
+  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="additionInterface.IssueController">
+  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="238.0" layoutX="-13.0"
+    layoutY="-16.0" stroke="BLACK" strokeType="INSIDE" width="354.0"/>
+  <Button layoutX="144.0" layoutY="125.0" mnemonicParsing="false" onAction="#closeWarning"
+    text="Ok"/>
+  <Label layoutX="122.0" layoutY="28.0" prefHeight="27.0" prefWidth="77.0" text="Warning:">
+    <font>
+      <Font size="18.0"/>
+    </font>
+  </Label>
 </Pane>

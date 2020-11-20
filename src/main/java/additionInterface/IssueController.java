@@ -1,13 +1,13 @@
 package additionInterface;
 
 import devices.ItemType;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import mainInterface.Main;
 import devices.MonitorType;
 import devices.SpeakerType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -15,16 +15,30 @@ import mainInterface.Widget;
 
 public class IssueController {
 
+  /**
+   * Boolean to set when the Information/Password Box appears
+   */
   public static boolean error = false;
+
   /**
    * Object of Main to call Controller methods
    */
-  Main main = new Main();
+  final Main main = new Main();
 
   /**
    * Object of Main to call Stage methods
    */
-  WindowManager WM = new WindowManager();
+  final WindowManager WinManager = new WindowManager();
+
+  /**
+   * Widget Object to assign Object info
+   */
+  public static Widget widget;
+
+  /**
+   * Object of Main to call Stage methods
+   */
+  public static String userOfPassword;
 
   @FXML
   private ChoiceBox<SpeakerType> cboxSpeaker;
@@ -43,10 +57,9 @@ public class IssueController {
   @FXML
   private ChoiceBox<MonitorType> cboxMonitor;
   @FXML
-  private Button btnSubmitInfo;
-  private Object NoSuchElementException;
-  @FXML
   private PasswordField passwordBox;
+  @FXML
+  private Label lblUser;
 
   /**
    * Starting commands that sets up the whole interface.
@@ -87,7 +100,7 @@ public class IssueController {
     try {
       if (WindowManager.type == ItemType.AUDIO) {
         Widget.setSpeaker(cboxSpeaker.getValue());
-        Widget.createDeviceObject();
+        widget.createDeviceObject();
       }
       else if (WindowManager.type == ItemType.VISUAL) {
         details = Widget.getDetails();
@@ -100,14 +113,14 @@ public class IssueController {
         Widget.setDetails(details);
         Widget.setDetails(info);
         Widget.setMonitor(cboxMonitor.getValue());
-        Widget.createDeviceObject();
+        widget.createDeviceObject();
       }
       else if (WindowManager.type == ItemType.AUDIO_MOBILE) {
         details = Widget.getDetails();
         details[2] = txtAudioFile.getText();
         details[3] = txtPlaylistFile.getText();
         Widget.setDetails(details);
-        Widget.createDeviceObject();
+        widget.createDeviceObject();
       }
       else if (WindowManager.type.equals(ItemType.VISUAL_MOBILE)) {
         details = Widget.getDetails();
@@ -127,12 +140,14 @@ public class IssueController {
 
         Widget.setDetails(info);
         Widget.setDetails(details);
-        Widget.createDeviceObject();
+        widget.createDeviceObject();
       }
       WindowManager.data.close();
     } catch(Exception e){ //NullPointerException but just catching them all
-      try{WM.displayOperation("Error ", 2, ": Invalid Input\nCheck the fields and try again");}
+      try{
+        WinManager.displayOperation("Error ", 2, ": Invalid Input\nCheck the fields and try again");}
       catch(Exception ex){ex.printStackTrace();}
+      //e.printStackTrace();
     }
   }
 
@@ -171,6 +186,7 @@ public class IssueController {
   void submitPassword(ActionEvent event) {
     main.validatePassword(passwordBox.getText());
   }
+
 
 
 }
