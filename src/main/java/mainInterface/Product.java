@@ -42,21 +42,11 @@ public abstract class Product implements Item {
   }
 
   /**
-   * Get the Item Type for the Table Column.
-   * This is called by the FX Table not a method.
+   * Get the Item Type Name.
    * @return returns the Type-Name.
    */
   public String getType() {
     return type.name();
-  }
-
-  /**
-   * Get the Item Type for the Data Base Column.
-   * for the Product Table
-   * @return returns the Type-Code.
-   */
-  public String getCode() {
-    return type.getCode();
   }
 
   @Override

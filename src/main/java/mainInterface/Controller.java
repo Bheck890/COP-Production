@@ -6,15 +6,12 @@ import devices.AudioSpeaker;
 import devices.ItemType;
 import devices.MobileDevice;
 import devices.MoviePlayer;
-import devices.Screen;
-import devices.SpeakerType;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,7 +21,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,7 +34,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -182,7 +177,7 @@ public class Controller {
     }
     else{
       emptyFields = true;
-      try{WM.displayError("Property fields are empty,\n Product Not Added");}
+      try{WM.displayOperation("Error ", 1, ": Property fields are empty");}
       catch(Exception e){e.printStackTrace();}
     }
   }
@@ -205,9 +200,9 @@ public class Controller {
       showProduction();
     }
     catch (Exception e) {
-
-      System.out.println("[Error] Non Numeric Vale entered in Quantity Box");
-      e.printStackTrace();
+      try{WM.displayOperation("Error ", 5, ": Invalid Quantity\n or no Item Selected");}
+      catch(Exception ex){ex.printStackTrace();}
+      System.out.println("[Error] ");
     }
   }
 
@@ -253,12 +248,13 @@ public class Controller {
 
       if ((procedure == 0) && !emptyFields) {
         //SQL Command Using PreparedStatement
-        sql = "INSERT INTO Product(type, manufacturer, name) VALUES ( ?, ?, ? );";
+        sql = "INSERT INTO Product(ID, type, manufacturer, name) VALUES ( ?, ?, ?, ?);";
         preparedStatement = conn.prepareStatement(sql);
 
-        preparedStatement.setString(1, productDraft.getCode());
-        preparedStatement.setString(2, productDraft.getManufacturer());
-        preparedStatement.setString(3, productDraft.getName());
+        preparedStatement.setInt(1, productDraft.getId());
+        preparedStatement.setString(2, productDraft.type.getCode());
+        preparedStatement.setString(3, productDraft.getManufacturer());
+        preparedStatement.setString(4, productDraft.getName());
 
         //Further Development: Add Database to Record Further Product Details.
         if (productDraft instanceof AudioSpeaker) {
@@ -276,6 +272,8 @@ public class Controller {
 
         preparedStatement.executeUpdate();
         preparedStatement.close();
+        try{WM.displayOperation("null", 0, "Product Added to Database");}
+        catch(Exception e){e.printStackTrace();}
       }
       else if (procedure == 1) {
         //SQL Command Using PreparedStatement
@@ -291,6 +289,10 @@ public class Controller {
 
         preparedStatement.executeUpdate();
         preparedStatement.close();
+        try{WM.displayOperation("Update: ",
+            Integer.parseInt(cboxQuantity.getValue()),
+            " Reports were\nAdded to the Database");}
+        catch(Exception e){e.printStackTrace();}
       }
       else if (procedure == 2) {
         sql = "SELECT * FROM Product";
@@ -333,28 +335,35 @@ public class Controller {
     } catch (ClassNotFoundException | SQLException e) {
       try{
         validPassword = false;
-        WM.displayError("Invalid Password,\n Please Change Password");
         main.toggleStage(false);
         WM.enterPassword();
       }
       catch(Exception ex){
         validPassword = false;
-        System.out.println("Error2");
+        System.out.println("[Internal Error] Error Needs Fixing");
         e.printStackTrace();
       }
-      e.printStackTrace();
+      System.out.println("[Internal Error] SQL Database Error");
     }
   }
 
   /**
    * Loads the Product Name from the Stored Product ID in the Record Database.
+   * And matches the available Product ID's in the product Table.
    * @param productID ID(int) Retrieved from Production Records.
    * @param record Record of Data to add name to.
    */
   public void LoadProductName(int productID, ProductionRecord record){
-      for(int checkID = 0; checkID != productID; checkID++) {
-        record.setProductionName(productLine.get(checkID).getName());
-      }
+    ArrayList<Integer> productIDs = new ArrayList<>();
+    for(Product product: productLine) //Sets all the products ID into a list of the ID's available
+      productIDs.add(product.getId());
+
+    int index = 0;
+    //Goes through the Product ID's so that if a product was deleted prior the name is not messed up
+    for(int checkID = productIDs.get(0); checkID-1 != productID; checkID = productIDs.get(index)){
+      record.setProductionName(productLine.get(checkID-1).getName());
+      index++;
+    }
   }
 
   /**
@@ -416,9 +425,8 @@ public class Controller {
 
   public void setPassword(String password) {
     this.password = password;
-    System.out.println("Password Check1");
+    System.out.println("Checking Password");
     connectToDB(2); //Loads Products and Records from the databases.
-    System.out.println("Password Check2");
     if(validPassword) {
       //Write Password to File
       String filePath = "C:/JavaProduction/ProgramSettings.txt";
@@ -437,6 +445,7 @@ public class Controller {
 
   /**
    * Retrieves or Creates the text file for the password.
+   * @return Returns the password from the file
    */
   public String retrievePassword() {
     String filePath = "C:/JavaProduction/ProgramSettings.txt";
@@ -458,15 +467,7 @@ public class Controller {
     }
     if (!file.isEmpty()) {
       pass = file.get(0).substring(file.get(0).lastIndexOf("=") + 2);
-      if (pass.isBlank()) {
-        try {
-          WM.displayError("Please Enter a Password,\n in the Program Settings text document\n"
-              + "at " + filePath);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-      else
+      if (!pass.isBlank())
         return reverseString(pass);
     }
     return "pw";
@@ -474,19 +475,18 @@ public class Controller {
 
   /**
    * Creates the directory for the password file.
+   * Bit of recursion
    * @param filePath Path of the location of where the Password file is.
    */
   void createNewTextFile(String filePath){
     try {
       FileOutputStream fw1 = new FileOutputStream(filePath);
-      //Create the Connection to the file with Special attributes
-      PrintWriter fw = new PrintWriter(fw1); //Adds the ability to write in that connection stream
+      PrintWriter fw = new PrintWriter(fw1);
       fw.println("Password = ");
       fw.close();
     } catch (FileNotFoundException e) { //No Folder found so it Creates Folder
       String folderPath = filePath.substring(0,filePath.lastIndexOf("/"));
       File folder = new File(folderPath);
-      //noinspection ResultOfMethodCallIgnored
       folder.mkdir();
       createNewTextFile(filePath);
     }

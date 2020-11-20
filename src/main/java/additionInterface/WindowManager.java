@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 public class WindowManager {
 
   public static ItemType type;
-  public static Stage error = new Stage();
   public static Stage info = new Stage();
+  public static Stage data = new Stage();
 
   Label lblIssue;
 
@@ -27,14 +27,15 @@ public class WindowManager {
    */
   static IssueController controller;
 
-  public void displayError(String issue) throws IOException {
-    //System.out.println("Displaying issue: " + issue);
-
+  public void displayOperation(String alert, int quantity, String message) throws IOException {
     IssueController.error = true;
     Parent root = FXMLLoader.load(getClass().getResource("/Error.fxml"));
 
-    //<Label fx:id="issue" layoutX="83.0" layoutY="69.0" prefHeight="35.0" prefWidth="154.0" text="Issue:" />
-    lblIssue = new Label(issue);
+    if(quantity == 0)
+      lblIssue = new Label(message);
+    else
+      lblIssue = new Label(alert + quantity + message);
+
     lblIssue.setLayoutX(83.0);
     lblIssue.setLayoutY(69.0);
     lblIssue.prefHeight(80.0);
@@ -42,10 +43,10 @@ public class WindowManager {
     Group root2 = new Group(root, lblIssue);
 
     Scene scene = new Scene(root2, 300, 180);
-    error.setTitle("Issue Occurred");
-    error.setResizable(false);
-    error.setScene(scene);
-    error.show();
+    info.setTitle("Operation Status");
+    info.setResizable(false);
+    info.setScene(scene);
+    info.show();
     IssueController.error = false;
   }
 
@@ -54,10 +55,10 @@ public class WindowManager {
     Parent root = FXMLLoader.load(getClass().getResource("/Popup-Information.fxml"));
 
     Scene scene = new Scene(root, 480, 360);
-    info.setTitle("Product Details");
-    info.setResizable(false);
-    info.setScene(scene);
-    info.show();
+    data.setTitle("Product Details");
+    data.setResizable(false);
+    data.setScene(scene);
+    data.show();
   }
 
   public void enterPassword() throws IOException {
@@ -67,16 +68,16 @@ public class WindowManager {
     controller = loader.getController();
 
     Scene scene = new Scene(root, 300, 180);
-    error.setTitle("Database Password");
-    error.setResizable(false);
-    error.setScene(scene);
-    error.show();
-    error.toFront();
+    info.setTitle("Database Password");
+    info.setResizable(false);
+    info.setScene(scene);
+    info.show();
+    info.toFront();
     IssueController.error = false;
   }
 
   public void closeError(){
-    error.close();
+    info.close();
   }
 
 }

@@ -76,7 +76,7 @@ public class IssueController {
    */
   @FXML
   void closeWarning(ActionEvent event) {
-    WindowManager.error.close();
+    WindowManager.info.close();
   }
 
   @FXML
@@ -103,8 +103,6 @@ public class IssueController {
         Widget.createDeviceObject();
       }
       else if (WindowManager.type == ItemType.AUDIO_MOBILE) {
-        if (txtAudioFile.getText().equals("") || txtPlaylistFile.getText().equals(""))
-          throw (Throwable) NoSuchElementException;
         details = Widget.getDetails();
         details[2] = txtAudioFile.getText();
         details[3] = txtPlaylistFile.getText();
@@ -112,8 +110,6 @@ public class IssueController {
         Widget.createDeviceObject();
       }
       else if (WindowManager.type.equals(ItemType.VISUAL_MOBILE)) {
-        if (txtAudioFile.getText().equals("") || txtPlaylistFile.getText().equals(""))
-          throw (Throwable) NoSuchElementException;
         details = Widget.getDetails();
         info = Widget.getInfo();
         Widget.setSpeaker(cboxSpeaker.getValue());
@@ -133,15 +129,10 @@ public class IssueController {
         Widget.setDetails(details);
         Widget.createDeviceObject();
       }
-      WindowManager.info.close();
-    }
-    catch(Exception e){
-      try{WM.displayError("Invalid Number");}
+      WindowManager.data.close();
+    } catch(Exception e){ //NullPointerException but just catching them all
+      try{WM.displayOperation("Error ", 2, ": Invalid Input\nCheck the fields and try again");}
       catch(Exception ex){ex.printStackTrace();}
-    } catch (Throwable throwable) {
-      try{WM.displayError("Fields left Blank");}
-      catch(Exception ex){ex.printStackTrace();}
-      throwable.printStackTrace();
     }
   }
 

@@ -53,11 +53,11 @@
          <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                    <Label layoutX="213.0" layoutY="39.0" text="Choose Quantity:" />
+                    <Label layoutX="273.0" layoutY="39.0" text="Choose Quantity:" />
                     <Label layoutX="15.0" layoutY="17.0" styleClass="green" text="Choose Product: " />
-                    <ListView fx:id="lviewProducts" layoutX="24.0" layoutY="39.0" prefHeight="341.0" prefWidth="175.0" />
-                    <ComboBox fx:id="cboxQuantity" layoutX="339.0" layoutY="35.0" prefHeight="25.0" prefWidth="75.0" />
-                    <Button layoutX="319.0" layoutY="75.0" mnemonicParsing="false" onAction="#reportProduction" text="Record Production" />
+                    <ListView fx:id="lviewProducts" layoutX="15.0" layoutY="39.0" prefHeight="359.0" prefWidth="250.0" />
+                    <ComboBox fx:id="cboxQuantity" layoutX="372.0" layoutY="35.0" prefHeight="25.0" prefWidth="75.0" />
+                    <Button layoutX="308.0" layoutY="78.0" mnemonicParsing="false" onAction="#reportProduction" text="Record Production" />
                   </children>
                </AnchorPane>
          </content>

@@ -21,18 +21,20 @@ public class Employee {
       email = "user@oracleacademy.Test";
       this.name.append("default");
       try{
-        WM.displayError("Invalid Name Try again");
+        WM.displayOperation("Error ", 4, ": Invalid Name Try again\nMust have a Space!");
       }
       catch(Exception e){
         e.printStackTrace();
       }
     }
-    if(isValidPassword(pass)) {
+    if(isValidPassword(pass))
       password = pass;
-    }
     else{
+      //Will Only Display if they Change the password in the file and Run the Employee Script
+      //And Restart the program So this would mainly be for Employee Database Table if it includes
+      //Passwords
       password = "pw";
-      try{WM.displayError("Invalid Password");}
+      try{WM.displayOperation("Error ", 3, ": Invalid Password, Restart the Program");}
       catch(Exception e){}
     }
   }
