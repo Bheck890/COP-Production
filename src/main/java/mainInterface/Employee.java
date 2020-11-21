@@ -54,12 +54,14 @@ public class Employee {
       //Passwords
       password = "pw";
       try{WM.displayOperation("Error ", 3, ": Invalid Password, Restart the Program");}
-      catch(Exception e){}
+      catch(Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 
   private boolean checkName(String name){
-    boolean validName = false;
+    boolean validName;
     try{
       String prior = name.substring(name.indexOf(" ")-1, name.indexOf(" ")); //Checks for double Space
       String after = name.substring(name.indexOf(" ")+1, name.indexOf(" ")+2); //check for double space

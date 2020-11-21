@@ -1,11 +1,7 @@
 package mainInterface;
 
-import devices.AudioPlayer;
-import devices.AudioSpeaker;
 import devices.Item;
 import devices.ItemType;
-import devices.MobileDevice;
-import devices.MoviePlayer;
 
 public abstract class Product implements Item {
 
@@ -109,11 +105,13 @@ public abstract class Product implements Item {
    * Output the Item information about the specific Item Type
    * @return String to the toString of all the Information.
    */
+  @SuppressWarnings("UnnecessaryLocalVariable")
   String getString(){
-    String output = "Name: " + name +
-        "\nManufacturer: " + manufacturer +
-        "\nType: " + type;
-        //"\nEmployee: " + employee.username;
+    String output = "Name: " + getName() +
+        "\nManufacturer: " + getManufacturer() +
+        "\nType: " + getType();
+        //"\nEmployee: " + getEmployee().username;
+
     /* // This makes list look weird but it does work
     Widget widget = (Widget)(this);
     ItemType type = widget.getProduct().getItemType();
@@ -136,7 +134,7 @@ public abstract class Product implements Item {
     else{
       output += "\nEmployee: " + employee.username;
     }
-     */
+    */
     return output;
   }
 

@@ -3,6 +3,7 @@ package devices;
 import mainInterface.Product;
 import mainInterface.Widget;
 
+@SuppressWarnings("RedundantSuppression")
 public class MoviePlayer extends Product implements MultimediaControl {
 
   /**
@@ -29,24 +30,28 @@ public class MoviePlayer extends Product implements MultimediaControl {
     this.monitorType = monitorType;
   }
 
+  @SuppressWarnings("unused")
   @Override
   public void play() {
-    System.out.println("Playing movie");
+    System.out.println("Playing");
   }
 
+  @SuppressWarnings("unused")
   @Override
   public void stop() {
-    System.out.println("Stopping movie");
+    System.out.println("Stopping");
   }
 
+  @SuppressWarnings("unused")
   @Override
   public void previous() {
-    System.out.println("Previous movie");
+    System.out.println("Previous");
   }
 
+  @SuppressWarnings("unused")
   @Override
   public void next() {
-    System.out.println("Next movie");
+    System.out.println("Next");
   }
 
   /**

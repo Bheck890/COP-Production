@@ -1,5 +1,6 @@
 package devices;
 
+@SuppressWarnings("ALL")
 public interface Item {
 
   /**

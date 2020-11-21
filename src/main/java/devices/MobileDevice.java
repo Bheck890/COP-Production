@@ -1,9 +1,9 @@
 package devices;
 
-import mainInterface.Employee;
 import mainInterface.Product;
 import mainInterface.Widget;
 
+@SuppressWarnings("RedundantSuppression")
 public class MobileDevice extends Product implements MultimediaControl {
 
   /**
@@ -62,21 +62,25 @@ public class MobileDevice extends Product implements MultimediaControl {
     return moviePlayer;
   }
 
+  @SuppressWarnings("unused")
   @Override
   public void play() {
     System.out.println("Playing");
   }
 
+  @SuppressWarnings("unused")
   @Override
   public void stop() {
     System.out.println("Stopping");
   }
 
+  @SuppressWarnings("unused")
   @Override
   public void previous() {
     System.out.println("Previous");
   }
 
+  @SuppressWarnings("unused")
   @Override
   public void next() {
     System.out.println("Next");

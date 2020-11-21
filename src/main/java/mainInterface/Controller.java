@@ -63,12 +63,6 @@ public class Controller {
   private String password;
 
   /**
-   * A toggle to make sure that a employee is logged into the production system
-   *  to audit the production.
-   */
-  private Employee employeeUser;
-
-  /**
    * Product Draft object that is waiting to gather further information about the device
    */
   private Product productDraft;
@@ -91,17 +85,17 @@ public class Controller {
    * [3] Number of Visual Devices.
    * [4] Number of Visual_Mobile Devices.
    */
-  private int[] createdProductType = new int [5];
+  private final int[] createdProductType = new int [5];
 
   /**
    * Observable List of all the products in the system
    */
-  private ObservableList<Product> productLine = FXCollections.observableArrayList();
+  private final ObservableList<Product> productLine = FXCollections.observableArrayList();
 
   /**
    * Array List of the Product Records in the system
    */
-  private ArrayList<ProductionRecord> productionRun = new ArrayList<>();
+  private final ArrayList<ProductionRecord> productionRun = new ArrayList<>();
 
   //Product Line
   @FXML
@@ -149,6 +143,7 @@ public class Controller {
   /**
    * Add Products to TableView, ListView and Combo Boxes.
    */
+  @SuppressWarnings("rawtypes")
   void setupProductLineTable(){
     tcolProductName.setCellValueFactory(new PropertyValueFactory("name"));
     tcolManufacture.setCellValueFactory(new PropertyValueFactory("manufacturer"));
@@ -204,7 +199,7 @@ public class Controller {
     catch (Exception e) {
       try{WM.displayOperation("Error ", 5, ": Invalid Quantity\n or no Item Selected");}
       catch(Exception ex){ex.printStackTrace();}
-      System.out.println("[Error] ");
+      System.out.println("[Error]: Issue Displaying Error Window");
     }
   }
 
@@ -214,7 +209,7 @@ public class Controller {
    */
   @FXML
   void createEmployData(ActionEvent event) {
-    employeeUser = new Employee(txtEmployName.getText(),password);
+    Employee employeeUser = new Employee(txtEmployName.getText(), password);
     System.out.println(employeeUser);
     lblUserID.setText(employeeUser.username);
     lblUserEmail.setText(employeeUser.email);
@@ -257,11 +252,7 @@ public class Controller {
           sql = "INSERT INTO Product(ID, type, manufacturer, name, speaker) "
               + "VALUES ( ?, ?, ?, ?, ?);";
 
-          preparedStatement = conn.prepareStatement(sql);
-          preparedStatement.setInt(1, productDraft.getId());
-          preparedStatement.setString(2, productDraft.type.getCode());
-          preparedStatement.setString(3, productDraft.getManufacturer());
-          preparedStatement.setString(4, productDraft.getName());
+          preparedStatement = getPreparedStatement(conn, sql);
           preparedStatement.setString(5, audioSpeaker.getSpeakerType().getCode());
         }
         else if (productDraft instanceof MoviePlayer) {
@@ -307,11 +298,7 @@ public class Controller {
               + "VALUES ( ?, ?, ?, ?, "
               + "?, ?, ?, ?, ?, ?, ?);";
 
-          preparedStatement = conn.prepareStatement(sql);
-          preparedStatement.setInt(1, productDraft.getId());
-          preparedStatement.setString(2, productDraft.type.getCode());
-          preparedStatement.setString(3, productDraft.getManufacturer());
-          preparedStatement.setString(4, productDraft.getName());
+          preparedStatement = getPreparedStatement(conn, sql);
           preparedStatement.setString(5, mobileDevice.getSpeakerType().getCode());
           preparedStatement.setString(6, mobileDevice.getMoviePlayer().getMonitorType().getCode());
           preparedStatement.setInt(7, mobileDevice.getMoviePlayer().getScreen().getResponseTime());
@@ -329,6 +316,7 @@ public class Controller {
           preparedStatement.setString(3, productDraft.getManufacturer());
           preparedStatement.setString(4, productDraft.getName());
         }
+
 
         preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -410,6 +398,23 @@ public class Controller {
       }
       System.out.println("[Internal Error] SQL Database Error");
     }
+  }
+
+  /**
+   * Code Condense method to use less on prepared statements all products have the same 4 fields
+   * @param conn connection system
+   * @param sql SQL Sting to push to the Data Base
+   * @return sets the prepared statement to start with the default values
+   * @throws SQLException values gathered do not match SQL operations.
+   */
+  private PreparedStatement getPreparedStatement(Connection conn, String sql) throws SQLException {
+    PreparedStatement preparedStatement;
+    preparedStatement = conn.prepareStatement(sql);
+    preparedStatement.setInt(1, productDraft.getId());
+    preparedStatement.setString(2, productDraft.type.getCode());
+    preparedStatement.setString(3, productDraft.getManufacturer());
+    preparedStatement.setString(4, productDraft.getName());
+    return preparedStatement;
   }
 
   /**
@@ -507,6 +512,7 @@ public class Controller {
       } catch (FileNotFoundException e) {
         e.printStackTrace();
       }
+      assert fw1 != null;
       PrintWriter fw = new PrintWriter(fw1); //Adds the ability to write in that connection stream
       fw.print("Password = " + reverseString(password));
       fw.close();
@@ -550,6 +556,7 @@ public class Controller {
    * Bit of recursion
    * @param filePath Path of the location of where the Password file is.
    */
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   void createNewTextFile(String filePath){
     try {
       FileOutputStream fw1 = new FileOutputStream(filePath);

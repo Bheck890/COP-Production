@@ -22,11 +22,6 @@ public class WindowManager {
    */
   static FXMLLoader loader;
 
-  /**
-   * created as a attribute to pass information to the Controller from a separate Class
-   */
-  static IssueController controller;
-
   public void displayOperation(String alert, int quantity, String message) throws IOException {
     IssueController.error = true;
     Parent root = FXMLLoader.load(getClass().getResource("/Error.fxml"));
@@ -65,8 +60,6 @@ public class WindowManager {
     IssueController.error = true;
     loader = new FXMLLoader(getClass().getResource("/Password-Enter.fxml"));
     Parent root = loader.load();
-    controller = loader.getController();
-    //controller.setUserOfPassword("Hello");
 
 
     lblIssue = new Label(userOfPassword);

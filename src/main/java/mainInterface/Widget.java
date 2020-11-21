@@ -151,6 +151,7 @@ public class Widget extends Product {
     this.product = product;
   }
 
+  @SuppressWarnings({"unused", "RedundantSuppression"})
   public Product getProduct(){
     return product;
   }

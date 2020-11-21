@@ -48,6 +48,6 @@
     <Label text="X" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
   </GridPane>
   <Label layoutX="168.0" layoutY="28.0" text="Device Required Details"/>
-  <Button fx:id="btnSubmitInfo" layoutX="204.0" layoutY="277.0" mnemonicParsing="false"
+  <Button layoutX="204.0" layoutY="277.0" mnemonicParsing="false"
     onAction="#returnDeviceDetails" text="Submit"/>
 </Pane>

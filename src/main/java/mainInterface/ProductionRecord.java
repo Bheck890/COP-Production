@@ -25,35 +25,29 @@ public class ProductionRecord {
    */
   private Date dateProduced;
 
-  //Testing
-  public ProductionRecord(int productionID) {
-    this.productionID = productionID;
-    productionNumber = 0;
-    serialNumber = "0";
-    dateProduced = new Date();
-  }
   //Creating a new Product
   public ProductionRecord(Product item, int typeCount) {
-    productionID = item.getId();
+    setProductID(productionID);
     serialNumber = item.getManufacturer().substring(0,3) + item.type.getCode() + String.format("%05d", typeCount);
-    dateProduced = new Date();
-    productionName = item.getName();
+    setProdDate(new Date());
+    setProductionName(item.getName());
   }
   //Input Into Array
   public ProductionRecord(int productionNumber, int productionID, String serialNumber,
       Date dateProduced) {
-    this.productionNumber = productionNumber;
-    this.productionID = productionID;
-    this.serialNumber = serialNumber;
-    this.dateProduced = new Date(dateProduced.getTime());
+    setProductionNum(productionNumber);
+    setProductID(productionID);
+    setSerialNum(serialNumber);
+    setProdDate(new Date(dateProduced.getTime()));
   }
 
+  @Override
   public String toString()
   {
-    return "Prod. Num: " + productionNumber +
-        " Product Name: " + productionName +
-        " Serial Num: " + serialNumber +
-        " Date: " + dateProduced;
+    return "Prod. Num: " + getProductionNum() +
+        " Product Name: " + getProductionName() +
+        " Serial Num: " + getSerialNum() +
+        " Date: " + getProdDate();
   }
 
   public int getProductionNum() {

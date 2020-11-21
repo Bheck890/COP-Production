@@ -1,7 +1,6 @@
 package additionInterface;
 
 import devices.ItemType;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import mainInterface.Main;
 import devices.MonitorType;
@@ -35,11 +34,6 @@ public class IssueController {
    */
   public static Widget widget;
 
-  /**
-   * Object of Main to call Stage methods
-   */
-  public static String userOfPassword;
-
   @FXML
   private ChoiceBox<SpeakerType> cboxSpeaker;
   @FXML
@@ -58,8 +52,6 @@ public class IssueController {
   private ChoiceBox<MonitorType> cboxMonitor;
   @FXML
   private PasswordField passwordBox;
-  @FXML
-  private Label lblUser;
 
   /**
    * Starting commands that sets up the whole interface.
@@ -186,7 +178,5 @@ public class IssueController {
   void submitPassword(ActionEvent event) {
     main.validatePassword(passwordBox.getText());
   }
-
-
 
 }

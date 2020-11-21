@@ -20,14 +20,16 @@ public enum ItemType{
 
   public static ItemType setType(String code)
   {
-    if(code.equals("AU"))
-      return ItemType.AUDIO;
-    else if(code.equals("VI"))
-      return ItemType.VISUAL;
-    else if(code.equals("AM"))
-      return ItemType.AUDIO_MOBILE;
-    else if(code.equals("VM"))
-      return ItemType.VISUAL_MOBILE;
+    switch (code) {
+      case "AU":
+        return ItemType.AUDIO;
+      case "VI":
+        return ItemType.VISUAL;
+      case "AM":
+        return ItemType.AUDIO_MOBILE;
+      case "VM":
+        return ItemType.VISUAL_MOBILE;
+    }
 
     System.out.println("Could not Identify type:[ " + code + " ] from Database ");
     return ItemType.AUDIO;
