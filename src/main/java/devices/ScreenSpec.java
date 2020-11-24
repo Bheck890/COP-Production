@@ -1,6 +1,9 @@
 package devices;
 
-@SuppressWarnings("ALL")
+/**
+ * Specifications on Screen requirements
+ * @author Brandon Heck
+ */
 public interface ScreenSpec {
 
   /**

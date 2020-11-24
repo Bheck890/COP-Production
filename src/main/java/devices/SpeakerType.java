@@ -1,5 +1,9 @@
 package devices;
 
+/**
+ * Enum of the types of speakers that can be created.
+ * @author Brandon Heck
+ */
 public enum SpeakerType {
   Subwoofer("sw"), Tweeter("tw"), Drivers("dr"), Loud_Speaker("ls"), Headphones("hp"),
   Micro_Speaker("ms");
@@ -12,7 +16,6 @@ public enum SpeakerType {
 
   /**
    * Identify Each Speaker with unique Code
-   *
    * @param code String of code
    */
   SpeakerType(String code) {
@@ -27,7 +30,6 @@ public enum SpeakerType {
 
   /**
    * Get the type of Speaker type from the Code in Database
-   *
    * @param code Code that was recorded
    * @return Speaker type enum
    */

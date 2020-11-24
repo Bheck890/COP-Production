@@ -3,6 +3,11 @@ package devices;
 import mainInterface.Product;
 import mainInterface.Widget;
 
+/**
+ * Device that ia able to play Movies mainly a screen,
+ * that is able to play movies and display a video input.
+ * @author Brandon Heck
+ */
 @SuppressWarnings("RedundantSuppression")
 public class MoviePlayer extends Product implements MultimediaControl {
 
@@ -70,8 +75,22 @@ public class MoviePlayer extends Product implements MultimediaControl {
     return monitorType;
   }
 
+  /**
+   * Additional product information when called by product.
+   * @return Speaker Details
+   */
+  @SuppressWarnings("unused")
+  public String getInfo() {
+    return screen.toString() +
+        "\nMonitor Type: " + monitorType;
+  }
+
   @Override
   public String toString() {
-    return screen.toString() + "\nMonitor Type: " + monitorType;
+    return "Name: " + getName() +
+        "\nManufacturer: " + getManufacturer() +
+        "\nType: " + getType();
+        //+ screen.toString() +
+        //"\nMonitor Type: " + monitorType;
   }
 }

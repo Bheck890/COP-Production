@@ -15,41 +15,76 @@ import mainInterface.Widget;
 public class IssueController {
 
   /**
-   * Boolean to set when the Information/Password Box appears
+   * Boolean to set when the Information/Password Box appears.
    */
   public static boolean error = false;
 
   /**
-   * Object of Main to call Controller methods
+   * Object of Main to call Controller methods.
    */
   final Main main = new Main();
 
   /**
-   * Object of Main to call Stage methods
+   * Object of Main to call Stage methods.
    */
   final WindowManager WinManager = new WindowManager();
 
   /**
-   * Widget Object to assign Object info
+   * Widget Object to assign Object info.
    */
   public static Widget widget;
 
+  /**
+   * Information Stage - Selection of Speaker types.
+   */
   @FXML
   private ChoiceBox<SpeakerType> cboxSpeaker;
+
+  /**
+   * Information Stage - Text field of Supported Playlist Formats.
+   */
   @FXML
   private TextField txtPlaylistFile;
+
+  /**
+   * Information Stage - Text field of Supported Audio Formats.
+   */
   @FXML
   private TextField txtAudioFile;
+
+  /**
+   * Information Stage - Height of Screen Resolution.
+   */
   @FXML
   private ComboBox<String> cboxResolution1;
+
+  /**
+   * Information Stage - Width of Screen Resolution.
+   */
   @FXML
   private ComboBox<String> cboxResolution2;
+
+  /**
+   * Information Stage - Select Screen Responce rate.
+   */
   @FXML
   private ComboBox<String> cboxResponceTime;
+
+  /**
+   * Information Stage - Select Screen Refresh rate.
+   */
   @FXML
   private ComboBox<String> cboxRefreshRate;
+
+  /**
+   * Information Stage - Selection of Monitor types.
+   */
   @FXML
   private ChoiceBox<MonitorType> cboxMonitor;
+
+  /**
+   * Password window - Field to enter the Requested password into.
+   */
   @FXML
   private PasswordField passwordBox;
 
@@ -76,7 +111,7 @@ public class IssueController {
   }
 
   /**
-   * Adds product to local array and sends update to product table
+   * Adds product to local array and sends update to product table.
    * @param event Action of FXML "Add Product" Button Pressed.
    */
   @FXML
@@ -84,6 +119,11 @@ public class IssueController {
     WindowManager.info.close();
   }
 
+  /**
+   * after provided details are entered, fields are passed back into the
+   * widget for information to be applied to the selected product.
+   * @param event JavaFX Button Event.
+   */
   @FXML
   void returnDeviceDetails(ActionEvent event) {
     //Confirm all required fields are filled in
@@ -144,7 +184,7 @@ public class IssueController {
   }
 
   /**
-   * Disables Fields in the option Menu to not use those fields
+   * Disables Fields in the option Menu to not use those fields.
    * so that only fields specific to the selected device will appear. 
    * FYI: Visual Mobile Is a Device using all Product Elements.
    */
@@ -174,6 +214,10 @@ public class IssueController {
     }
   }
 
+  /**
+   * Send the provided password to the main controller to validate the authentication.
+   * @param event JavaFX Button Event.
+   */
   @FXML
   void submitPassword(ActionEvent event) {
     main.validatePassword(passwordBox.getText());

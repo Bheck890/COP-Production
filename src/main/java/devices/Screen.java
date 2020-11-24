@@ -3,6 +3,10 @@ package devices;
 import mainInterface.Product;
 import mainInterface.Widget;
 
+/**
+ * Screen Information about the screens properties.
+ * @author Brandon Heck
+ */
 public class Screen extends Product implements ScreenSpec {
 
   /**

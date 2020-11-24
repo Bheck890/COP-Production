@@ -3,6 +3,10 @@ package mainInterface;
 import devices.Item;
 import devices.ItemType;
 
+/**
+ * Main Product Object of most of the products that are produced.
+ * @author Brandon Heck
+ */
 public abstract class Product implements Item {
 
   /**
@@ -13,7 +17,7 @@ public abstract class Product implements Item {
   /**
    * Type of Item the Product is
    */
-  final ItemType type;
+  ItemType type;
 
   /**
    * Manufacturer Name
@@ -28,7 +32,7 @@ public abstract class Product implements Item {
   /**
    * Employee Object
    */
-  final Employee employee;
+  Employee employee;
 
   /**
    * This is used as the Product Use for the overall product that would be Identified.
@@ -55,12 +59,14 @@ public abstract class Product implements Item {
     return type.name();
   }
 
-  /**
-   * Get the Item Type.
-   * @return returns the Item Type.
-   */
+  @Override
   public ItemType getItemType() {
     return type;
+  }
+
+  @Override
+  public void setItemType(ItemType itemType) {
+    type = itemType;
   }
 
   @Override
@@ -88,12 +94,14 @@ public abstract class Product implements Item {
     return name;
   }
 
-  /**
-   * Get the Employee who Authenticated the Product.
-   * @return returns the Employee.
-   */
+  @Override
   public Employee getEmployee() {
     return employee;
+  }
+
+  @Override
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
   }
 
   @Override
@@ -117,19 +125,19 @@ public abstract class Product implements Item {
     ItemType type = widget.getProduct().getItemType();
     if(type.equals(ItemType.AUDIO)) {
       AudioSpeaker audioSpeaker = (AudioSpeaker)(widget.getProduct());
-      output += audioSpeaker.toString();
+      output += audioSpeaker.getInfo();
     }
     else if(type.equals(ItemType.VISUAL)) {
-      MoviePlayer audioSpeaker = (MoviePlayer)(widget.getProduct());
-      output += audioSpeaker.toString();
+      MoviePlayer moviePlayer = (MoviePlayer)(widget.getProduct());
+      output += moviePlayer.getInfo();
     }
     else if(type.equals(ItemType.AUDIO_MOBILE)) {
-      AudioPlayer audioSpeaker = (AudioPlayer)(widget.getProduct());
-      output += audioSpeaker.toString();
+      AudioPlayer audioPlayer = (AudioPlayer)(widget.getProduct());
+      output += audioPlayer.getInfo();
     }
     else if(type.equals(ItemType.VISUAL_MOBILE)) {
-      MobileDevice audioSpeaker = (MobileDevice)(widget.getProduct());
-      output += audioSpeaker.toString();
+      MobileDevice mobileDevice = (MobileDevice)(widget.getProduct());
+      output += mobileDevice.toString();
     }
     else{
       output += "\nEmployee: " + employee.username;

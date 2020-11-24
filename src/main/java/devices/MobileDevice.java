@@ -3,6 +3,10 @@ package devices;
 import mainInterface.Product;
 import mainInterface.Widget;
 
+/**
+ * A Device that has All the features of a computer in one mobile device.
+ * @author Brandon Heck
+ */
 @SuppressWarnings("RedundantSuppression")
 public class MobileDevice extends Product implements MultimediaControl {
 
@@ -39,24 +43,24 @@ public class MobileDevice extends Product implements MultimediaControl {
   }
 
   /**
-   * Retrieve the Speaker Type
-   * @return Speaker Type
+   * Retrieve the Speaker Type information that was assigned.
+   * @return Speaker Type.
    */
   public SpeakerType getSpeakerType(){
     return speakerType;
   }
 
   /**
-   * Retrieve the Audio Player
-   * @return Audio Player Object
+   * Retrieve the Audio Player information that was assigned.
+   * @return Audio Player Object.
    */
   public AudioPlayer getAudioPlayer(){
     return audioPlayer;
   }
 
   /**
-   * Retrieve the MoviePlayer info
-   * @return MoviePlayer Object
+   * Retrieve the MoviePlayer information that was assigned.
+   * @return MoviePlayer Object.
    */
   public MoviePlayer getMoviePlayer(){
     return moviePlayer;
@@ -86,14 +90,28 @@ public class MobileDevice extends Product implements MultimediaControl {
     System.out.println("Next");
   }
 
-  @Override
-  public String toString()
-  {
-    return
-        "\nSpeaker Type: " + speakerType +
+  /**
+   * Additional product information when called by product.
+   * @return Mobile Device Details.
+   */
+  @SuppressWarnings("unused")
+  public String getInfo() {
+    return "\nSpeaker Type: " + speakerType +
         "\nSupported Audio Formats: " + audioPlayer.supportedAudioFormats +
         "\nSupported Playlist Formats: " + audioPlayer.supportedPlaylistFormats +
         moviePlayer.screen +
         "\nMonitor Type: " + moviePlayer.monitorType;
+  }
+
+  @Override
+  public String toString() {
+    return "Name: " + getName() +
+        "\nManufacturer: " + getManufacturer() +
+        "\nType: " + getType();
+        //+ "\nSpeaker Type: " + speakerType +
+        //"\nSupported Audio Formats: " + audioPlayer.supportedAudioFormats +
+        //"\nSupported Playlist Formats: " + audioPlayer.supportedPlaylistFormats +
+        //moviePlayer.screen +
+        //"\nMonitor Type: " + moviePlayer.monitorType;
   }
 }

@@ -1,17 +1,20 @@
 package devices;
 
+/**
+ * An enum of the Types of monitors can be Produced.
+ * @author Brandon Heck
+ */
 public enum MonitorType {
   LCD("LCD"), LED("LED"), IPS("IPS");
 
   /**
-   * Code of Each Speaker Type
+   * Code of Each Speaker Type.
    */
   public final String code; // Item Code Base
 
   /**
-   * Identify Each Speaker with unique Code
-   *
-   * @param code String of code
+   * Identify Each Speaker with unique Code.
+   * @param code String of code.
    */
   MonitorType(String code) {
     this.code = code;
@@ -24,10 +27,10 @@ public enum MonitorType {
   public String getCode() { return code; }
 
   /**
-   * Get the type of Speaker type from the Code in Database
+   * Get the type of Speaker type from the Code in Database.
    *
-   * @param code Code that was recorded
-   * @return Speaker type enum
+   * @param code Code that was recorded.
+   * @return Speaker type enum.
    */
   public static MonitorType setType(String code) {
     if (code == null)

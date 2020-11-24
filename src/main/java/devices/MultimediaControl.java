@@ -1,28 +1,32 @@
 package devices;
 
+/**
+ * Media COntrol Meathods that control how the media devices hadle media playback.
+ * @author Brandon Heck
+ */
 @SuppressWarnings("ALL")
 public interface MultimediaControl {
 
   /**
-   * Play the audio from the device.
+   * Play media from the device.
    */
   @SuppressWarnings("unused")
   void play();
 
   /**
-   * Stop the audio from the device.
+   * Stop media from the device.
    */
   @SuppressWarnings("unused")
   void stop();
 
   /**
-   * Play the previous audio from the device.
+   * Play the previous media from the device.
    */
   @SuppressWarnings("unused")
   void previous();
 
   /**
-   * Play the next audio from the device.
+   * Play the next media from the device.
    */
   @SuppressWarnings("unused")
   void next();

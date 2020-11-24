@@ -27,7 +27,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -47,38 +46,38 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class Controller {
 
   /**
-   * A toggle to make sure that the Database will not add Empty fields when
-   * adding or changing things
+   * A toggle to make sure that the Database will not add Empty fields when.
+   * adding or changing things.
    */
   private boolean emptyFields = true;
 
   /**
-   * A toggle to make sure that the password is a valid password
+   * A toggle to make sure that the password is a valid password.
    */
   public boolean validPassword = false;
 
   /**
-   * Password to the Database
+   * Password to the Database.
    */
   private String password;
 
   /**
-   * Product Draft object that is waiting to gather further information about the device
+   * Product Draft object that is waiting to gather further information about the device.
    */
   private Product productDraft;
 
   /**
    * Object of FX Stage Manager to call Error and info Stage's.
    */
-  final WindowManager WM = new WindowManager();
+  final WindowManager windowManager = new WindowManager();
 
   /**
-   * Object of Main to call Controller methods
+   * Object of Main to call Controller methods.
    */
   final Main main = new Main();
 
   /**
-   * Inventory Numbers of Type of Devices
+   * Inventory Numbers of Type of Devices.
    * [0] All Total Devices.
    * [1] Number of Audio Devices.
    * [2] Number of Audio_Mobile Devices.
@@ -88,45 +87,90 @@ public class Controller {
   private final int[] createdProductType = new int [5];
 
   /**
-   * Observable List of all the products in the system
+   * Observable List of all the products in the system.
    */
   private final ObservableList<Product> productLine = FXCollections.observableArrayList();
 
   /**
-   * Array List of the Product Records in the system
+   * Array List of the Product Records in the system.
    */
   private final ArrayList<ProductionRecord> productionRun = new ArrayList<>();
 
-  //Product Line
+  /**
+   * Product Line Tab - text area for the product name.
+   */
   @FXML
   private TextField txtProductName;
+
+  /**
+   * Product Line Tab - text area for the manufacture name.
+   */
   @FXML
   private TextField txtManufactureName;
+
+  /**
+   * Product Line Tab - text area for the ItemType Combobox.
+   */
   @FXML
   private ChoiceBox<ItemType> cboxItemType;
-  @FXML
-  private Button btnProduct;
+
+  /**
+   * Product Line Tab - Table View displaying Product information.
+   */
   @FXML
   private TableView<Product> tviewExistingProducts;
+
+  /**
+   * Product Line Tab - Table View column for product Name.
+   */
   @FXML
   private TableColumn<?, ?> tcolProductName;
+
+  /**
+   * Product Line Tab - Table View column for Manufacture Name.
+   */
   @FXML
   private TableColumn<?, ?> tcolManufacture;
+
+  /**
+   * Product Line Tab - Table View column for Item Type Name.
+   */
   @FXML
   private TableColumn<?, ?> tcolItemType;
-  //Produce
+
+  /**
+   * Produce Tab - List View of all Products that were created.
+   */
   @FXML
   private ListView<Product> lviewProducts;
+
+  /**
+   * Produce Tab - Combo box to select quantity of items to record of production.
+   */
   @FXML
   private ComboBox<String> cboxQuantity;
-  //Production Log
+
+  /**
+   * Production Log - Text Area where a record of log information is recorded for future reference.
+   */
   @FXML
   private TextArea tareaProductionLog;
-  //Employee
+
+  /**
+   * Employee - Text area where Employee inputs their name.
+   */
   @FXML
   private TextField txtEmployName;
+
+  /**
+   * Employee - label of the Employee username appears from user input.
+   */
   @FXML
   private Label lblUserID;
+
+  /**
+   * Employee - label of the Employee e-mail appears from user input.
+   */
   @FXML
   private Label lblUserEmail;
 
@@ -160,7 +204,7 @@ public class Controller {
   }
 
   /**
-   * Adds product to local array and sends update to product table
+   * Adds product to local array and sends update to product table.
    * @param event Action of FXML "Add Product" Button Pressed.
    */
   @FXML
@@ -174,7 +218,8 @@ public class Controller {
     }
     else{
       emptyFields = true;
-      try{WM.displayOperation("Error ", 1, ": Property fields are empty");}
+      try{
+        windowManager.displayOperation("Error ", 1, ": Property fields are empty");}
       catch(Exception e){e.printStackTrace();}
     }
   }
@@ -197,14 +242,15 @@ public class Controller {
       showProduction();
     }
     catch (Exception e) {
-      try{WM.displayOperation("Error ", 5, ": Invalid Quantity\n or no Item Selected");}
+      try{
+        windowManager.displayOperation("Error ", 5, ": Invalid Quantity\n or no Item Selected");}
       catch(Exception ex){ex.printStackTrace();}
       System.out.println("[Error]: Issue Displaying Error Window");
     }
   }
 
   /**
-   * Create Employee Data Given the Name of the person
+   * Create Employee Data Given the Name of the person.
    * @param event JavaFX Button Event.
    */
   @FXML
@@ -217,9 +263,9 @@ public class Controller {
 
   /**
    * Database Interface Connection.
-   * @param procedure 0 = Adding a Product to the Product Table
-   *                  1 = Adding a Record to the ProductionRecord Table
-   *                  2 = Loads Data from Product & ProductionRecord Table
+   * @param procedure 0 = Adding a Product to the Product Table.
+   *                  1 = Adding a Record to the ProductionRecord Table.
+   *                  2 = Loads Data from Product & ProductionRecord Table.
    */
   void connectToDB(int procedure) {
     final String Jdbc_Driver = "org.h2.Driver";
@@ -320,7 +366,8 @@ public class Controller {
 
         preparedStatement.executeUpdate();
         preparedStatement.close();
-        try{WM.displayOperation("null", 0, "Product Added to Database");}
+        try{
+          windowManager.displayOperation("null", 0, "Product Added to Database");}
         catch(Exception e){e.printStackTrace();}
       }
       else if (procedure == 1) {
@@ -337,7 +384,8 @@ public class Controller {
 
         preparedStatement.executeUpdate();
         preparedStatement.close();
-        try{WM.displayOperation("Update: ",
+        try{
+          windowManager.displayOperation("Update: ",
             Integer.parseInt(cboxQuantity.getValue()),
             " Reports were\nAdded to the Database");}
         catch(Exception e){e.printStackTrace();}
@@ -387,8 +435,8 @@ public class Controller {
       try{
         validPassword = false;
         main.toggleStage(false);
-        WM.setUserOfPassword("Admin");
-        WM.enterPassword();
+        windowManager.setUserOfPassword("Admin");
+        windowManager.enterPassword();
         //e.printStackTrace();
       }
       catch(Exception ex){
@@ -401,7 +449,7 @@ public class Controller {
   }
 
   /**
-   * Code Condense method to use less on prepared statements all products have the same 4 fields
+   * Code Condense method to use less on prepared statements all products have the same 4 fields.
    * @param conn connection system
    * @param sql SQL Sting to push to the Data Base
    * @return sets the prepared statement to start with the default values
@@ -430,18 +478,24 @@ public class Controller {
 
     int index = 0;
     //Goes through the Product ID's so that if a product was deleted prior the name is not messed up
-    record.setProductionName(productLine.get(0).getName());
-    for(int checkID = productIDs.get(0); checkID != productID; checkID = productIDs.get(index)){
-      record.setProductionName(productLine.get(checkID).getName());
-      index++;
+    try {
+      record.setProductionName(productLine.get(0).getName());
+      for (int checkID = productIDs.get(0); checkID != productID; checkID = productIDs.get(index)) {
+        record.setProductionName(productLine.get(checkID).getName());
+        index++;
+      }
+    } catch (Exception e){
+      try{
+        windowManager.displayOperation("Error ", 10, ": Bad Database Output \nContact Developer");}
+      catch(Exception ex){ex.printStackTrace();}
     }
 
   }
 
   /**
-   * As the records are retrieved it updates the number of that type of Item Type
-   * @param type The Item Type of the Device
-   * @return The Number of types from the of Item Type
+   * As the records are retrieved it updates the number of that type of Item Type.
+   * @param type The Item Type of the Device.
+   * @return The Number of types from the of Item Type.
    */
   int updateTypeID(ItemType type)
   {
@@ -483,7 +537,7 @@ public class Controller {
 
   /**
    * Set the Product Object into the Product Draft Field.
-   * @param device Product Object to put into the Product ArrayList
+   * @param device Product Object to put into the Product ArrayList.
    */
   void setProduct(Product device) {
     productDraft = device;
@@ -497,7 +551,7 @@ public class Controller {
 
   /**
    * Writes the Password to the file on the computer.
-   * @param password Password to check and write to text file
+   * @param password Password to check and write to text file.
    */
   void setPassword(String password) {
     this.password = password;
@@ -516,13 +570,13 @@ public class Controller {
       PrintWriter fw = new PrintWriter(fw1); //Adds the ability to write in that connection stream
       fw.print("Password = " + reverseString(password));
       fw.close();
-      WM.closeError();
+      windowManager.closeError();
     }
   }
 
   /**
    * Retrieves or Creates the text file for the password.
-   * @return Returns the password from the file
+   * @return Returns the password from the file.
    */
   String retrievePassword() {
     String filePath = "C:/JavaProduction/ProgramSettings.txt";
@@ -537,8 +591,8 @@ public class Controller {
     } catch (Exception e) {
       createNewTextFile(filePath); //Creating file, as it was not found in the system
       try {
-        WM.setUserOfPassword("Admin");
-        WM.enterPassword();
+        windowManager.setUserOfPassword("Admin");
+        windowManager.enterPassword();
       } catch (IOException ioException) {
         ioException.printStackTrace();
       }
@@ -553,7 +607,7 @@ public class Controller {
 
   /**
    * Creates the directory for the password file.
-   * Bit of recursion
+   * Bit of recursion.
    * @param filePath Path of the location of where the Password file is.
    */
   @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -572,7 +626,7 @@ public class Controller {
   }
 
   /**
-   * Takes the String and uses Recursion to reverse the String Backwards
+   * Takes the String and uses Recursion to reverse the String Backwards.
    * @param pw String to Reverse.
    * @return the String Provided flipped backward.
    */
