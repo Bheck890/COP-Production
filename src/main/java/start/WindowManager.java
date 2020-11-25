@@ -1,4 +1,4 @@
-package popups;
+package start;
 
 import devices.ItemType;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import start.IssueController;
 
 /**
  * Manager of fxml file formats to show on the screen.

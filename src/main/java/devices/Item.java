@@ -20,6 +20,8 @@ public interface Item {
 
   /**
    * Mutator to set the Name of the Item.
+   *
+   * @param name String to set the Item name to.
    */
   void setName(String name);
 
@@ -32,6 +34,8 @@ public interface Item {
 
   /**
    * Mutator to set the Manufacturer Name of the Item.
+   *
+   * @param name String to set the Item Manufacture name to.
    */
   void setManufacturer(String name);
 
@@ -44,6 +48,8 @@ public interface Item {
 
   /**
    * Mutator to set the Item Type of the Item.
+   *
+   * @param type Item Type object to declare the object as.
    */
   void setItemType(ItemType type);
 
@@ -56,6 +62,8 @@ public interface Item {
 
   /**
    * Mutator to set the Employee actor to the Item.
+   *
+   * @param employee The Employee object that authorized the Item.
    */
   void setEmployee(Employee employee);
 

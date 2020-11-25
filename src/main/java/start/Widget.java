@@ -9,8 +9,6 @@ import devices.MonitorType;
 import devices.MoviePlayer;
 import devices.Screen;
 import devices.SpeakerType;
-import popups.IssueController;
-import popups.WindowManager;
 
 /**
  * Creates Objects of Products and Assigns and create the specific type provided from the user.

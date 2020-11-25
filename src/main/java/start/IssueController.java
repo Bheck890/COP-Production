@@ -1,4 +1,4 @@
-package popups;
+package start;
 
 import devices.ItemType;
 import devices.MonitorType;
@@ -9,8 +9,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import start.Main;
-import start.Widget;
 
 public class IssueController {
 
@@ -131,6 +129,7 @@ public class IssueController {
     //Confirm all required fields are filled in
     String[] details;
     int[] info;
+
     try {
       if (WindowManager.type == ItemType.AUDIO) {
         Widget.setSpeaker(cboxSpeaker.getValue());
@@ -148,30 +147,50 @@ public class IssueController {
         Widget.setMonitor(cboxMonitor.getValue());
         widget.createDeviceObject();
       } else if (WindowManager.type == ItemType.AUDIO_MOBILE) {
-        details = Widget.getDetails();
-        details[2] = txtAudioFile.getText();
-        details[3] = txtPlaylistFile.getText();
-        Widget.setDetails(details);
-        widget.createDeviceObject();
+        if (!(txtAudioFile.getText().equals(""))
+            && !(txtPlaylistFile.getText().equals(""))) {
+          details = Widget.getDetails();
+          details[2] = txtAudioFile.getText();
+          details[3] = txtPlaylistFile.getText();
+          Widget.setDetails(details);
+          widget.createDeviceObject();
+        } else {
+          try {
+            windowManager
+                .displayOperation("Error ", 7, ": Fields not filled out");
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+        }
       } else if (WindowManager.type.equals(ItemType.VISUAL_MOBILE)) {
-        details = Widget.getDetails();
-        info = Widget.getInfo();
-        Widget.setSpeaker(cboxSpeaker.getValue());
-        Widget.setMonitor(cboxMonitor.getValue());
+        if (!(txtAudioFile.getText().equals(""))
+            && !(txtPlaylistFile.getText().equals(""))) {
+          details = Widget.getDetails();
+          info = Widget.getInfo();
+          Widget.setSpeaker(cboxSpeaker.getValue());
+          Widget.setMonitor(cboxMonitor.getValue());
 
-        info[0] = Integer.parseInt(cboxRefreshRate.getValue());
-        info[1] = Integer.parseInt(cboxResponceTime.getValue());
+          info[0] = Integer.parseInt(cboxRefreshRate.getValue());
+          info[1] = Integer.parseInt(cboxResponceTime.getValue());
 
-        details[2] =
-            Integer.parseInt(cboxResolution1.getValue())
-                + "x" + Integer.parseInt(cboxResolution2.getValue());
+          details[2] =
+              Integer.parseInt(cboxResolution1.getValue())
+                  + "x" + Integer.parseInt(cboxResolution2.getValue());
 
-        details[3] = txtAudioFile.getText();
-        details[4] = txtPlaylistFile.getText();
+          details[3] = txtAudioFile.getText();
+          details[4] = txtPlaylistFile.getText();
 
-        Widget.setDetails(info);
-        Widget.setDetails(details);
-        widget.createDeviceObject();
+          Widget.setDetails(info);
+          Widget.setDetails(details);
+          widget.createDeviceObject();
+        } else {
+          try {
+            windowManager
+                .displayOperation("Error ", 8, ": Fields not filled out\nPlease try again");
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+        }
       }
       WindowManager.data.close();
     } catch (Exception e) { //NullPointerException but just catching them all

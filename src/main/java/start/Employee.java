@@ -1,7 +1,6 @@
 package start;
 
 import java.util.regex.Pattern;
-import popups.WindowManager;
 
 /**
  * Employee information on each Employee entered into the system.

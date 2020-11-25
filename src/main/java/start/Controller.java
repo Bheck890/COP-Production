@@ -36,13 +36,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import popups.WindowManager;
 
 /**
  * Controller for the Production GUI.
  *
  * @author Brandon Heck
- * @Date 10/30/20
  */
 @SuppressWarnings("unchecked")
 public class Controller {
@@ -346,7 +344,7 @@ public class Controller {
           System.out.println("Placed Mobile Device into Database");
           MobileDevice mobileDevice = (MobileDevice) productDraft;
           sql = "INSERT INTO Product(ID, type, manufacturer, name, "
-              + "speaker, monitor, responce_time, refresh_rate, resolution, "
+              + "speaker, monitor, response_time, refresh_rate, resolution, "
               + "audio_format, playlist_format) "
               + "VALUES ( ?, ?, ?, ?, "
               + "?, ?, ?, ?, ?, ?, ?);";
@@ -453,6 +451,7 @@ public class Controller {
         e.printStackTrace();
       }
       System.out.println("[Internal Error] SQL Database Error");
+      e.printStackTrace();
     }
   }
 
