@@ -5,7 +5,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
   prefHeight="447.0" prefWidth="461.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/8"
-  xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainInterface.Controller">
+  xmlns:fx="http://javafx.com/fxml/1" fx:controller="start.Controller">
   <TabPane prefHeight="447.0" prefWidth="461.0" stylesheets="@Styles.css">
 
     <Tab closable="false" text="Product Line">
@@ -29,7 +29,7 @@
           <Label text="Manufacturer" GridPane.rowIndex="1"/>
           <Label text="Item Type" GridPane.rowIndex="2"/>
         </GridPane>
-        <Button fx:id="btnProduct" layoutX="349.0" layoutY="190.0" mnemonicParsing="false"
+        <Button layoutX="349.0" layoutY="190.0" mnemonicParsing="false"
           onAction="#addProduct" text="Add Product"/>
         <Label layoutX="14.0" layoutY="222.0" text="Existing Products:"/>
         <TableView fx:id="tviewExistingProducts" layoutX="13.0" layoutY="245.0"

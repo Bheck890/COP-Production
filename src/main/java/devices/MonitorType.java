@@ -2,6 +2,7 @@ package devices;
 
 /**
  * An enum of the Types of monitors can be Produced.
+ *
  * @author Brandon Heck
  */
 public enum MonitorType {
@@ -14,6 +15,7 @@ public enum MonitorType {
 
   /**
    * Identify Each Speaker with unique Code.
+   *
    * @param code String of code.
    */
   MonitorType(String code) {
@@ -22,9 +24,12 @@ public enum MonitorType {
 
   /**
    * Accessor for the Speaker Code type.
+   *
    * @return The Speaker Code type.
    */
-  public String getCode() { return code; }
+  public String getCode() {
+    return code;
+  }
 
   /**
    * Get the type of Speaker type from the Code in Database.
@@ -33,14 +38,15 @@ public enum MonitorType {
    * @return Speaker type enum.
    */
   public static MonitorType setType(String code) {
-    if (code == null)
+    if (code == null) {
       return MonitorType.LED;
-    else if (code.equalsIgnoreCase("LED"))
+    } else if (code.equalsIgnoreCase("LED")) {
       return MonitorType.LED;
-    else if (code.equalsIgnoreCase("lcd"))
+    } else if (code.equalsIgnoreCase("lcd")) {
       return MonitorType.LCD;
-    else if (code.equalsIgnoreCase("ips"))
+    } else if (code.equalsIgnoreCase("ips")) {
       return MonitorType.IPS;
+    }
 
     System.out.println("Could not Identify type:[ " + code + " ] from Database ");
     return MonitorType.LED;

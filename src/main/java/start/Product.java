@@ -1,47 +1,50 @@
-package mainInterface;
+package start;
 
 import devices.Item;
 import devices.ItemType;
 
 /**
  * Main Product Object of most of the products that are produced.
+ *
  * @author Brandon Heck
  */
+@SuppressWarnings("ALL")
 public abstract class Product implements Item {
 
   /**
-   * Identification Number
+   * Identification Number.
    */
   int id;
 
   /**
-   * Type of Item the Product is
+   * Type of Item the Product is.
    */
   ItemType type;
 
   /**
-   * Manufacturer Name
+   * Manufacturer Name.
    */
   String manufacturer;
 
   /**
-   * Name of Product
+   * Name of Product.
    */
   String name;
 
   /**
-   * Employee Object
+   * Employee Object.
    */
   Employee employee;
 
   /**
-   * This is used as the Product Use for the overall product that would be Identified.
-   * Abstract Product Constructor for Item Interface.
-   * @param name Name of device.
+   * This is used as the Product Use for the overall product that would be Identified. Abstract
+   * Product Constructor for Item Interface.
+   *
+   * @param name         Name of device.
    * @param manufacturer manufacturer of device.
-   * @param type item type of device.
-   * @param id Identification Number of the Item when in list of Products.
-   * @param employee Employee Who Authorized the Product.
+   * @param type         item type of device.
+   * @param id           Identification Number of the Item when in list of Products.
+   * @param employee     Employee Who Authorized the Product.
    */
   public Product(String name, String manufacturer, ItemType type, int id, Employee employee) {
     setName(name);
@@ -52,7 +55,8 @@ public abstract class Product implements Item {
   }
 
   /**
-   * Get the Item Type Name, for the Product Table
+   * Get the Item Type Name, for the Product Table.
+   *
    * @return returns the Type-Name.
    */
   public String getType() {
@@ -110,15 +114,16 @@ public abstract class Product implements Item {
   }
 
   /**
-   * Output the Item information about the specific Item Type
+   * Output the Item information about the specific Item Type.
+   *
    * @return String to the toString of all the Information.
    */
   @SuppressWarnings("UnnecessaryLocalVariable")
-  String getString(){
-    String output = "Name: " + getName() +
-        "\nManufacturer: " + getManufacturer() +
-        "\nType: " + getType();
-        //"\nEmployee: " + getEmployee().username;
+  String getString() {
+    String output = "Name: " + getName()
+        + "\nManufacturer: " + getManufacturer()
+        + "\nType: " + getType();
+    //"\nEmployee: " + getEmployee().username;
 
     /* // This makes list look weird but it does work
     Widget widget = (Widget)(this);

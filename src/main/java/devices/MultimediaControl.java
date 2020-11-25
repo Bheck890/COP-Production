@@ -2,6 +2,7 @@ package devices;
 
 /**
  * Media COntrol Meathods that control how the media devices hadle media playback.
+ *
  * @author Brandon Heck
  */
 @SuppressWarnings("ALL")

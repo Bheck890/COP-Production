@@ -1,13 +1,15 @@
 package devices;
 
-import mainInterface.Product;
-import mainInterface.Widget;
+import start.Product;
+import start.Widget;
 
 /**
- * Speaker Object that Retains information on the Speaker created.
- * Speaker objects like headphones, Mobile Speakers, Car speakers, etc.
+ * Speaker Object that Retains information on the Speaker created. Speaker objects like headphones,
+ * Mobile Speakers, Car speakers, etc.
+ *
  * @author Brandon Heck
  */
+@SuppressWarnings("ALL")
 public class AudioSpeaker extends Product {
 
   /**
@@ -17,8 +19,9 @@ public class AudioSpeaker extends Product {
 
   /**
    * Constructor for a Speaker Object.
-   * @param widget       Widget Information.
-   * @param speakerType  item type of device.
+   *
+   * @param widget      Widget Information.
+   * @param speakerType item type of device.
    */
   public AudioSpeaker(Widget widget, SpeakerType speakerType) {
     super(widget.getName(), widget.getManufacturer(), widget.getItemType(),
@@ -28,14 +31,16 @@ public class AudioSpeaker extends Product {
 
   /**
    * Retrieve the Speaker Type.
+   *
    * @return Speaker Type.
    */
-  public SpeakerType getSpeakerType(){
+  public SpeakerType getSpeakerType() {
     return speakerType;
   }
 
   /**
    * Additional product information when called by product.
+   *
    * @return Speaker Details.
    */
   public String getInfo() {
@@ -44,9 +49,9 @@ public class AudioSpeaker extends Product {
 
   @Override
   public String toString() {
-    return "Name: " + getName() +
-        "\nManufacturer: " + getManufacturer() +
-        "\nType: " + getType();
-        //+ "\nSpeaker Type: " + speakerType.name();
+    return "Name: " + getName()
+        + "\nManufacturer: " + getManufacturer()
+        + "\nType: " + getType();
+    //+ "\nSpeaker Type: " + speakerType.name();
   }
 }

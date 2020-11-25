@@ -1,4 +1,4 @@
-package additionInterface;
+package popups;
 
 import devices.ItemType;
 import java.io.IOException;
@@ -11,12 +11,13 @@ import javafx.stage.Stage;
 
 /**
  * Manager of fxml file formats to show on the screen.
+ *
  * @author Brandon Heck
  */
 public class WindowManager {
 
   /**
-   * Item Type to be known to the controller
+   * Item Type to be known to the controller.
    */
   public static ItemType type;
 
@@ -26,7 +27,7 @@ public class WindowManager {
   public static final Stage info = new Stage();
 
   /**
-   * Information gathering Stage
+   * Information gathering Stage.
    */
   public static final Stage data = new Stage();
 
@@ -41,30 +42,32 @@ public class WindowManager {
   Label lblIssue;
 
   /**
-   * The FXML Loader of the fxml File
+   * The FXML Loader of the fxml File.
    */
   static FXMLLoader loader;
 
   /**
    * Alert box to alert the user that an operation has occurred.
-   * @param alert Alert type to alert the user of.
+   *
+   * @param alert    Alert type to alert the user of.
    * @param quantity number specific codes or identifiable alert boxes.
-   * @param message Message to relay to the user about the operation that has occurred.
+   * @param message  Message to relay to the user about the operation that has occurred.
    * @throws IOException if the error fxml is missing or corrupted.
    */
   public void displayOperation(String alert, int quantity, String message) throws IOException {
     IssueController.error = true;
-    Parent root = FXMLLoader.load(getClass().getResource("/Error.fxml"));
-
-    if(quantity == 0)
+    if (quantity == 0) {
       lblIssue = new Label(message);
-    else
+    } else {
       lblIssue = new Label(alert + quantity + message);
+    }
 
     lblIssue.setLayoutX(83.0);
     lblIssue.setLayoutY(69.0);
     lblIssue.prefHeight(80.0);
     lblIssue.prefWidth(90.0);
+
+    Parent root = FXMLLoader.load(getClass().getResource("/Error.fxml"));
     Group root2 = new Group(root, lblIssue);
 
     Scene scene = new Scene(root2, 300, 180);
@@ -76,8 +79,9 @@ public class WindowManager {
   }
 
   /**
-   * After required information of a product is entered .
-   * prompt to enter further information about the type of object to be provided.
+   * After required information of a product is entered . prompt to enter further information about
+   * the type of object to be provided.
+   *
    * @param itemType Type of Item properties for the user to enter.
    * @throws IOException if the information fxml is missing or corrupted.
    */
@@ -93,20 +97,21 @@ public class WindowManager {
   }
 
   /**
-   * When a password is required prompt the password field .
-   * so that the user may enter the required password.
+   * When a password is required prompt the password field . so that the user may enter the required
+   * password.
+   *
    * @throws IOException if the password fxml is missing or corrupted.
    */
   public void enterPassword() throws IOException {
     IssueController.error = true;
     loader = new FXMLLoader(getClass().getResource("/Password-Enter.fxml"));
-    Parent root = loader.load();
 
     lblIssue = new Label(userOfPassword);
     lblIssue.setLayoutX(106.0);
     lblIssue.setLayoutY(52.0);
     lblIssue.prefHeight(17.0);
     lblIssue.prefWidth(86.0);
+    Parent root = loader.load();
     Group root2 = new Group(root, lblIssue);
 
     Scene scene = new Scene(root2, 300, 180);
@@ -119,17 +124,18 @@ public class WindowManager {
   }
 
   /**
-   * When the error Window is open close the window to go away!
+   * When the error Window is open close the window to go away.
    */
-  public void closeError(){
+  public void closeError() {
     info.close();
   }
 
   /**
    * Set the User Of Password for when password is required.
+   *
    * @param user String of username to appear on window.
    */
-  public void setUserOfPassword(String user){
+  public void setUserOfPassword(String user) {
     userOfPassword = user;
   }
 

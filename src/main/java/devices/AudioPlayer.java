@@ -1,12 +1,12 @@
 package devices;
 
-import mainInterface.Product;
-import mainInterface.Widget;
+import start.Product;
+import start.Widget;
 
 /**
- * Audio player that Plays music from supported files.
- * Players examples are audio devices that output audio to a 3.5 port
- * and have no screen with only buttons and loadable with a usb port.
+ * Audio player that Plays music from supported files. Players examples are audio devices that
+ * output audio to a 3.5 port and have no screen with only buttons and loadable with a usb port.
+ *
  * @author Brandon Heck
  */
 @SuppressWarnings("RedundantSuppression")
@@ -24,8 +24,9 @@ public class AudioPlayer extends Product implements MultimediaControl {
 
   /**
    * Audio Player Initialization.
-   * @param widget Widget Information.
-   * @param supportedAudioFormats Supported formats to play music.
+   *
+   * @param widget                   Widget Information.
+   * @param supportedAudioFormats    Supported formats to play music.
    * @param supportedPlaylistFormats Supported playlist formats to Play.
    */
   public AudioPlayer(Widget widget, String supportedAudioFormats,
@@ -62,37 +63,40 @@ public class AudioPlayer extends Product implements MultimediaControl {
 
   /**
    * Retrieve playable audio formats.
+   *
    * @return supported Audio Formats.
    */
-  public String getSupportedAudioFormats(){
+  public String getSupportedAudioFormats() {
     return supportedAudioFormats;
   }
 
   /**
    * Retrieve playable playlist formats.
+   *
    * @return supported Playlist Formats.
    */
-  public String getSupportedPlaylistFormats(){
+  public String getSupportedPlaylistFormats() {
     return supportedPlaylistFormats;
   }
 
   /**
    * Additional product information when called by product.
+   *
    * @return Speaker Details.
    */
   @SuppressWarnings("unused")
   public String getInfo() {
-    return "\nSupported Audio Formats: " + supportedAudioFormats +
-        "\nSupported Playlist Formats: " + supportedPlaylistFormats;
+    return "\nSupported Audio Formats: " + supportedAudioFormats
+        + "\nSupported Playlist Formats: " + supportedPlaylistFormats;
   }
 
   @Override
   public String toString() {
-    return "Name: " + getName() +
-        "\nManufacturer: " + getManufacturer() +
-        "\nType: " + getType();
-        //+ "\nSupported Audio Formats: " + supportedAudioFormats +
-        //"\nSupported Playlist Formats: " + supportedPlaylistFormats;
+    return "Name: " + getName()
+        + "\nManufacturer: " + getManufacturer()
+        + "\nType: " + getType();
+    //+ "\nSupported Audio Formats: " + supportedAudioFormats +
+    //"\nSupported Playlist Formats: " + supportedPlaylistFormats;
   }
 
 }

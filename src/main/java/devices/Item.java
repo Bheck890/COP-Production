@@ -1,16 +1,19 @@
 package devices;
 
-import mainInterface.Employee;
+import start.Employee;
 
 /**
  * Main Item Object of Items/Products that are produced.
+ *
  * @author Brandon Heck
  */
+@SuppressWarnings("ALL")
 public interface Item {
 
 
   /**
    * Accessor for the ID type.
+   *
    * @return The ID of the Item.
    */
   int getId();
@@ -22,6 +25,7 @@ public interface Item {
 
   /**
    * Accessor to get the Name of the Item.
+   *
    * @return The Name of the Item.
    */
   String getName();
@@ -33,6 +37,7 @@ public interface Item {
 
   /**
    * Accessor to get the Manufacturer Name of the Item.
+   *
    * @return The Manufacturer Name of the Item.
    */
   String getManufacturer();
@@ -44,6 +49,7 @@ public interface Item {
 
   /**
    * Accessor to get the Item Type of the Item.
+   *
    * @return The Item Type of the Item.
    */
   ItemType getItemType();
@@ -55,6 +61,7 @@ public interface Item {
 
   /**
    * Accessor to get the Employee Object to the Item.
+   *
    * @return The Employee Object of the Item.
    */
   Employee getEmployee();

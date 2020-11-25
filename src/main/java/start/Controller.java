@@ -1,6 +1,6 @@
-package mainInterface;
+package start;
 
-import additionInterface.WindowManager;
+
 import devices.AudioPlayer;
 import devices.AudioSpeaker;
 import devices.ItemType;
@@ -36,18 +36,20 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import popups.WindowManager;
 
 /**
  * Controller for the Production GUI.
+ *
  * @author Brandon Heck
  * @Date 10/30/20
-*/
+ */
 @SuppressWarnings("unchecked")
 public class Controller {
 
   /**
-   * A toggle to make sure that the Database will not add Empty fields when.
-   * adding or changing things.
+   * A toggle to make sure that the Database will not add Empty fields when. adding or changing
+   * things.
    */
   private boolean emptyFields = true;
 
@@ -77,14 +79,11 @@ public class Controller {
   final Main main = new Main();
 
   /**
-   * Inventory Numbers of Type of Devices.
-   * [0] All Total Devices.
-   * [1] Number of Audio Devices.
-   * [2] Number of Audio_Mobile Devices.
-   * [3] Number of Visual Devices.
-   * [4] Number of Visual_Mobile Devices.
+   * Inventory Numbers of Type of Devices. [0] All Total Devices. [1] Number of Audio Devices. [2]
+   * Number of Audio_Mobile Devices. [3] Number of Visual Devices. [4] Number of Visual_Mobile
+   * Devices.
    */
-  private final int[] createdProductType = new int [5];
+  private final int[] createdProductType = new int[5];
 
   /**
    * Observable List of all the products in the system.
@@ -188,7 +187,7 @@ public class Controller {
    * Add Products to TableView, ListView and Combo Boxes.
    */
   @SuppressWarnings("rawtypes")
-  void setupProductLineTable(){
+  void setupProductLineTable() {
     tcolProductName.setCellValueFactory(new PropertyValueFactory("name"));
     tcolManufacture.setCellValueFactory(new PropertyValueFactory("manufacturer"));
     tcolItemType.setCellValueFactory(new PropertyValueFactory("type"));
@@ -196,36 +195,42 @@ public class Controller {
     lviewProducts.setItems(productLine);
     //User Interface Setup
     cboxItemType.getItems().setAll(ItemType.values()); //Assigns the Item Type to the CBoxItemType
-    for (int i = 1; i <= 10; i++) //Assigns the Item Type to the CBoxQuantity
+    //Assigns the Item Type to the CBoxQuantity
+    for (int i = 1; i <= 10; i++) {
       cboxQuantity.getItems().add("" + i);
+    }
     cboxQuantity.setEditable(true);
     cboxQuantity.getSelectionModel().selectFirst();
-    tareaProductionLog.setEditable(false);//TextArea Properties
+    tareaProductionLog.setEditable(false);
   }
 
   /**
    * Adds product to local array and sends update to product table.
+   *
    * @param event Action of FXML "Add Product" Button Pressed.
    */
   @FXML
   void addProduct(ActionEvent event) {
-    if(!(txtProductName.getText().equals("")) && !(txtManufactureName.getText().equals("")) &&
-        !(cboxItemType.getValue() == null)) {
+    if (!(txtProductName.getText().equals(""))
+        && !(txtManufactureName.getText().equals(""))
+        && !(cboxItemType.getValue() == null)) {
       emptyFields = false;
 
       productDraft = new Widget(txtProductName.getText(), txtManufactureName.getText(),
           cboxItemType.getValue(), (productLine.size() + 1), true);
-    }
-    else{
+    } else {
       emptyFields = true;
-      try{
-        windowManager.displayOperation("Error ", 1, ": Property fields are empty");}
-      catch(Exception e){e.printStackTrace();}
+      try {
+        windowManager.displayOperation("Error ", 1, ": Property fields are empty");
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 
   /**
    * Adds record to local array and sends update to ProductionRecord table.
+   *
    * @param event Action of FXML "Record Production" button pressed.
    */
   @FXML
@@ -234,23 +239,25 @@ public class Controller {
       int quantity = Integer.parseInt(cboxQuantity.getValue()); //In-case user enters a non number
       Product item = lviewProducts.getSelectionModel().getSelectedItem();
       for (int product = 0; product < quantity; product++) {
-        productionRun.add(new ProductionRecord(item,updateTypeID(item.type)+1));
+        productionRun.add(new ProductionRecord(item, updateTypeID(item.type) + 1));
         createdProductType[0]++; //Updates Count of Items
-        productionRun.get(productionRun.size()-1).setProductionNum(createdProductType[0]);
+        productionRun.get(productionRun.size() - 1).setProductionNum(createdProductType[0]);
         connectToDB(1); //Adds Values to the Records Database
       }
       showProduction();
-    }
-    catch (Exception e) {
-      try{
-        windowManager.displayOperation("Error ", 5, ": Invalid Quantity\n or no Item Selected");}
-      catch(Exception ex){ex.printStackTrace();}
+    } catch (Exception e) {
+      try {
+        windowManager.displayOperation("Error ", 5, ": Invalid Quantity\n or no Item Selected");
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
       System.out.println("[Error]: Issue Displaying Error Window");
     }
   }
 
   /**
    * Create Employee Data Given the Name of the person.
+   *
    * @param event JavaFX Button Event.
    */
   @FXML
@@ -263,9 +270,9 @@ public class Controller {
 
   /**
    * Database Interface Connection.
-   * @param procedure 0 = Adding a Product to the Product Table.
-   *                  1 = Adding a Record to the ProductionRecord Table.
-   *                  2 = Loads Data from Product & ProductionRecord Table.
+   *
+   * @param procedure 0 = Adding a Product to the Product Table. 1 = Adding a Record to the
+   *                  ProductionRecord Table. 2 = Loads Data from Product & ProductionRecord Table.
    */
   void connectToDB(int procedure) {
     final String Jdbc_Driver = "org.h2.Driver";
@@ -294,16 +301,14 @@ public class Controller {
         //Further Development: Add Database to Record Further Product Details.
         if (productDraft instanceof AudioSpeaker) {
           System.out.println("Placed Speaker into Database");
-          AudioSpeaker audioSpeaker = (AudioSpeaker)productDraft;
+          AudioSpeaker audioSpeaker = (AudioSpeaker) productDraft;
           sql = "INSERT INTO Product(ID, type, manufacturer, name, speaker) "
               + "VALUES ( ?, ?, ?, ?, ?);";
 
           preparedStatement = getPreparedStatement(conn, sql);
           preparedStatement.setString(5, audioSpeaker.getSpeakerType().getCode());
-        }
-        else if (productDraft instanceof MoviePlayer) {
+        } else if (productDraft instanceof MoviePlayer) {
           System.out.println("Placed Screen into Database");
-          MoviePlayer moviePlayer = (MoviePlayer)productDraft;
           sql = "INSERT INTO Product(ID, type, manufacturer, name, "
               + "monitor, responce_time, refresh_rate, resolution) "
               + "VALUES ( ?, ?, ?, ?, "
@@ -314,14 +319,15 @@ public class Controller {
           preparedStatement.setString(2, productDraft.type.getCode());
           preparedStatement.setString(3, productDraft.getManufacturer());
           preparedStatement.setString(4, productDraft.getName());
+
+          MoviePlayer moviePlayer = (MoviePlayer) productDraft;
           preparedStatement.setString(5, moviePlayer.getMonitorType().getCode());
           preparedStatement.setInt(6, moviePlayer.getScreen().getResponseTime());
           preparedStatement.setInt(7, moviePlayer.getScreen().getRefreshRate());
           preparedStatement.setString(8, moviePlayer.getScreen().getResolution());
-        }
-        else if (productDraft instanceof AudioPlayer) {
+
+        } else if (productDraft instanceof AudioPlayer) {
           System.out.println("Placed Media Player into Database");
-          AudioPlayer audioPlayer = (AudioPlayer)productDraft;
           sql = "INSERT INTO Product(ID, type, manufacturer, name, "
               + "audio_format, playlist_format) "
               + "VALUES ( ?, ?, ?, ?, "
@@ -332,12 +338,13 @@ public class Controller {
           preparedStatement.setString(2, productDraft.type.getCode());
           preparedStatement.setString(3, productDraft.getManufacturer());
           preparedStatement.setString(4, productDraft.getName());
+
+          AudioPlayer audioPlayer = (AudioPlayer) productDraft;
           preparedStatement.setString(5, audioPlayer.getSupportedAudioFormats());
           preparedStatement.setString(6, audioPlayer.getSupportedPlaylistFormats());
-        }
-        else if (productDraft instanceof MobileDevice) {
+        } else if (productDraft instanceof MobileDevice) {
           System.out.println("Placed Mobile Device into Database");
-          MobileDevice mobileDevice = (MobileDevice)productDraft;
+          MobileDevice mobileDevice = (MobileDevice) productDraft;
           sql = "INSERT INTO Product(ID, type, manufacturer, name, "
               + "speaker, monitor, responce_time, refresh_rate, resolution, "
               + "audio_format, playlist_format) "
@@ -351,9 +358,9 @@ public class Controller {
           preparedStatement.setInt(8, mobileDevice.getMoviePlayer().getScreen().getRefreshRate());
           preparedStatement.setString(9, mobileDevice.getMoviePlayer().getScreen().getResolution());
           preparedStatement.setString(10, mobileDevice.getAudioPlayer().getSupportedAudioFormats());
-          preparedStatement.setString(11, mobileDevice.getAudioPlayer().getSupportedPlaylistFormats());
-        }
-        else{
+          preparedStatement
+              .setString(11, mobileDevice.getAudioPlayer().getSupportedPlaylistFormats());
+        } else {
           sql = "INSERT INTO Product(ID, type, manufacturer, name) VALUES ( ?, ?, ?, ?);";
           preparedStatement = conn.prepareStatement(sql);
 
@@ -363,19 +370,19 @@ public class Controller {
           preparedStatement.setString(4, productDraft.getName());
         }
 
-
         preparedStatement.executeUpdate();
         preparedStatement.close();
-        try{
-          windowManager.displayOperation("null", 0, "Product Added to Database");}
-        catch(Exception e){e.printStackTrace();}
-      }
-      else if (procedure == 1) {
+        try {
+          windowManager.displayOperation("null", 0, "Product Added to Database");
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      } else if (procedure == 1) {
         //SQL Command Using PreparedStatement
         sql = "INSERT INTO ProductionRecord(Production_NUM, Product_ID, Serial_NUM, Date_Produced) "
             + "VALUES ( ?, ?, ?, ? );";
         preparedStatement = conn.prepareStatement(sql);
-        ProductionRecord record = productionRun.get(productionRun.size()-1);
+        ProductionRecord record = productionRun.get(productionRun.size() - 1);
 
         preparedStatement.setInt(1, record.getProductionNum());
         preparedStatement.setInt(2, record.getProductID());
@@ -384,43 +391,45 @@ public class Controller {
 
         preparedStatement.executeUpdate();
         preparedStatement.close();
-        try{
+        try {
           windowManager.displayOperation("Update: ",
-            Integer.parseInt(cboxQuantity.getValue()),
-            " Reports were\nAdded to the Database");}
-        catch(Exception e){e.printStackTrace();}
-      }
-      else if (procedure == 2) {
+              Integer.parseInt(cboxQuantity.getValue()),
+              " Reports were\nAdded to the Database");
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      } else if (procedure == 2) {
         sql = "SELECT * FROM Product";
         rs = stmt.executeQuery(sql);
         while (rs.next()) {
           productLine.add(new Widget(
-              rs.getString(2),rs.getString(4),
-              ItemType.setType(rs.getString(3)),rs.getInt(1),
-              SpeakerType.setType(rs.getString(5)),rs.getString(6), rs.getString(7),
-              MonitorType.setType(rs.getString(8)),rs.getString(9),rs.getInt(10),rs.getInt(11)));
+              rs.getString(2), rs.getString(4),
+              ItemType.setType(rs.getString(3)), rs.getInt(1),
+              SpeakerType.setType(rs.getString(5)), rs.getString(6), rs.getString(7),
+              MonitorType.setType(rs.getString(8)), rs.getString(9), rs.getInt(10), rs.getInt(11)));
         }
 
         sql = "SELECT * FROM ProductionRecord";
         rs = stmt.executeQuery(sql);
         while (rs.next()) {
-          ProductionRecord record = new ProductionRecord(rs.getInt(1),rs.getInt(2),
-              rs.getString(3),rs.getTimestamp(4));
-          LoadProductName(record.getProductID(), record);
+          ProductionRecord record = new ProductionRecord(rs.getInt(1), rs.getInt(2),
+              rs.getString(3), rs.getTimestamp(4));
+          loadProductName(record.getProductID(), record);
           productionRun.add(record);
         }
         createdProductType[0] = productionRun.size();
         rs.close();
 
-        for(ProductionRecord record : productionRun) {
-          if(record.getSerialNum().contains("AU"))
+        for (ProductionRecord record : productionRun) {
+          if (record.getSerialNum().contains("AU")) {
             createdProductType[1]++;
-          else if(record.getSerialNum().contains("AM"))
+          } else if (record.getSerialNum().contains("AM")) {
             createdProductType[2]++;
-          else if(record.getSerialNum().contains("VI"))
+          } else if (record.getSerialNum().contains("VI")) {
             createdProductType[3]++;
-          else if(record.getSerialNum().contains("VM"))
+          } else if (record.getSerialNum().contains("VM")) {
             createdProductType[4]++;
+          }
         }
       }
 
@@ -432,14 +441,13 @@ public class Controller {
       main.toggleStage(true);
       showProduction();
     } catch (ClassNotFoundException | SQLException e) {
-      try{
+      try {
         validPassword = false;
         main.toggleStage(false);
         windowManager.setUserOfPassword("Admin");
         windowManager.enterPassword();
         //e.printStackTrace();
-      }
-      catch(Exception ex){
+      } catch (Exception ex) {
         validPassword = false;
         System.out.println("[Internal Error] Error Needs Fixing");
         e.printStackTrace();
@@ -450,8 +458,9 @@ public class Controller {
 
   /**
    * Code Condense method to use less on prepared statements all products have the same 4 fields.
+   *
    * @param conn connection system
-   * @param sql SQL Sting to push to the Data Base
+   * @param sql  SQL Sting to push to the Data Base
    * @return sets the prepared statement to start with the default values
    * @throws SQLException values gathered do not match SQL operations.
    */
@@ -466,15 +475,18 @@ public class Controller {
   }
 
   /**
-   * Loads the Product Name from the Stored Product ID in the Record Database.
-   * And matches the available Product ID's in the product Table.
+   * Loads the Product Name from the Stored Product ID in the Record Database. And matches the
+   * available Product ID's in the product Table.
+   *
    * @param productID ID(int) Retrieved from Production Records.
-   * @param record Record of Data to add name to.
+   * @param record    Record of Data to add name to.
    */
-  void LoadProductName(int productID, ProductionRecord record){
+  void loadProductName(int productID, ProductionRecord record) {
     ArrayList<Integer> productIDs = new ArrayList<>();
-    for(Product product: productLine) //Sets all the products ID into a list of the ID's available
+    //Sets all the products ID into a list of the ID's available
+    for (Product product : productLine) {
       productIDs.add(product.getId());
+    }
 
     int index = 0;
     //Goes through the Product ID's so that if a product was deleted prior the name is not messed up
@@ -484,43 +496,41 @@ public class Controller {
         record.setProductionName(productLine.get(checkID).getName());
         index++;
       }
-    } catch (Exception e){
-      try{
-        windowManager.displayOperation("Error ", 10, ": Bad Database Output \nContact Developer");}
-      catch(Exception ex){ex.printStackTrace();}
+    } catch (Exception e) {
+      try {
+        windowManager.displayOperation("Error ", 10, ": Bad Database Output \nContact Developer");
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
     }
 
   }
 
   /**
    * As the records are retrieved it updates the number of that type of Item Type.
+   *
    * @param type The Item Type of the Device.
    * @return The Number of types from the of Item Type.
    */
-  int updateTypeID(ItemType type)
-  {
+  int updateTypeID(ItemType type) {
     int id;
-    if(type == ItemType.AUDIO){
+    if (type == ItemType.AUDIO) {
       id = createdProductType[1];
       createdProductType[1]++;
       return id;
-    }
-    else if(type == ItemType.AUDIO_MOBILE){
+    } else if (type == ItemType.AUDIO_MOBILE) {
       id = createdProductType[2];
       createdProductType[2]++;
       return id;
-    }
-    else if(type == ItemType.VISUAL){
+    } else if (type == ItemType.VISUAL) {
       id = createdProductType[3];
       createdProductType[3]++;
       return id;
-    }
-    else if(type == ItemType.VISUAL_MOBILE){
+    } else if (type == ItemType.VISUAL_MOBILE) {
       id = createdProductType[4];
       createdProductType[4]++;
       return id;
-    }
-    else{
+    } else {
       id = 0;
       return id;
     }
@@ -529,14 +539,16 @@ public class Controller {
   /**
    * Adds Records to TextArea.
    */
-  void showProduction(){
+  void showProduction() {
     tareaProductionLog.setText("");
-    for(ProductionRecord Record: productionRun)
-      tareaProductionLog.appendText(Record + "\n");
+    for (ProductionRecord record : productionRun) {
+      tareaProductionLog.appendText(record + "\n");
+    }
   }
 
   /**
    * Set the Product Object into the Product Draft Field.
+   *
    * @param device Product Object to put into the Product ArrayList.
    */
   void setProduct(Product device) {
@@ -551,13 +563,14 @@ public class Controller {
 
   /**
    * Writes the Password to the file on the computer.
+   *
    * @param password Password to check and write to text file.
    */
   void setPassword(String password) {
     this.password = password;
     System.out.println("Checking Password");
     connectToDB(2); //Loads Products and Records from the databases.
-    if(validPassword) {
+    if (validPassword) {
       //Write Password to File
       String filePath = "C:/JavaProduction/ProgramSettings.txt";
       FileOutputStream fw1 = null;
@@ -576,14 +589,15 @@ public class Controller {
 
   /**
    * Retrieves or Creates the text file for the password.
+   *
    * @return Returns the password from the file.
    */
   String retrievePassword() {
     String filePath = "C:/JavaProduction/ProgramSettings.txt";
-    String pass;
+    String pass; //local Password for database
     ArrayList<String> file = new ArrayList<>();
     try {
-      BufferedReader in = new BufferedReader(new FileReader(filePath));//overkill read
+      BufferedReader in = new BufferedReader(new FileReader(filePath));
       while (in.ready()) {
         file.add(in.readLine());
       }
@@ -599,26 +613,27 @@ public class Controller {
     }
     if (!file.isEmpty()) {
       pass = file.get(0).substring(file.get(0).lastIndexOf("=") + 2);
-      if (!pass.isBlank())
+      if (!pass.isBlank()) {
         return reverseString(pass);
+      }
     }
     return "pw";
   }
 
   /**
-   * Creates the directory for the password file.
-   * Bit of recursion.
+   * Creates the directory for the password file. Bit of recursion.
+   *
    * @param filePath Path of the location of where the Password file is.
    */
   @SuppressWarnings("ResultOfMethodCallIgnored")
-  void createNewTextFile(String filePath){
+  void createNewTextFile(String filePath) {
     try {
       FileOutputStream fw1 = new FileOutputStream(filePath);
       PrintWriter fw = new PrintWriter(fw1);
       fw.println("Password = ");
       fw.close();
     } catch (FileNotFoundException e) { //No Folder found so it Creates Folder
-      String folderPath = filePath.substring(0,filePath.lastIndexOf("/"));
+      String folderPath = filePath.substring(0, filePath.lastIndexOf("/"));
       File folder = new File(folderPath);
       folder.mkdir();
       createNewTextFile(filePath);
@@ -627,11 +642,12 @@ public class Controller {
 
   /**
    * Takes the String and uses Recursion to reverse the String Backwards.
+   *
    * @param pw String to Reverse.
    * @return the String Provided flipped backward.
    */
   String reverseString(String pw) {
-    if (pw.isEmpty()){
+    if (pw.isEmpty()) {
       return pw;
     }
     return reverseString(pw.substring(1)) + pw.charAt(0);

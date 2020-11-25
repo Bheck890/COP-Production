@@ -1,40 +1,42 @@
 package devices;
 
-import mainInterface.Product;
-import mainInterface.Widget;
+import start.Product;
+import start.Widget;
 
 /**
  * A Device that has All the features of a computer in one mobile device.
+ *
  * @author Brandon Heck
  */
 @SuppressWarnings("RedundantSuppression")
 public class MobileDevice extends Product implements MultimediaControl {
 
   /**
-   * The Speaker in the Device
+   * The Speaker in the Device.
    */
   final SpeakerType speakerType;
 
   /**
-   * The Audio Player System in the Device
+   * The Audio Player System in the Device.
    */
   final AudioPlayer audioPlayer;
 
   /**
-   * The Movie Player System in the Device
+   * The Movie Player System in the Device.
    */
   final MoviePlayer moviePlayer;
 
 
   /**
    * A Mobile Device that Plays Audio, Plays Videos, and has a Speaker.
-   * @param widget Widget Information.
-   * @param speakerType  The type of Speaker in the Device
-   * @param audioPlayer  Audio Player Information
-   * @param moviePlayer  Movie Player Screen Information
+   *
+   * @param widget      Widget Information.
+   * @param speakerType The type of Speaker in the Device.
+   * @param audioPlayer Audio Player Information.
+   * @param moviePlayer Movie Player Screen Information.
    */
   public MobileDevice(Widget widget,
-    SpeakerType speakerType, AudioPlayer audioPlayer, MoviePlayer moviePlayer) {
+      SpeakerType speakerType, AudioPlayer audioPlayer, MoviePlayer moviePlayer) {
     super(widget.getName(), widget.getManufacturer(), widget.getItemType(),
         widget.getId(), widget.getEmployee());
     this.speakerType = speakerType;
@@ -44,25 +46,28 @@ public class MobileDevice extends Product implements MultimediaControl {
 
   /**
    * Retrieve the Speaker Type information that was assigned.
+   *
    * @return Speaker Type.
    */
-  public SpeakerType getSpeakerType(){
+  public SpeakerType getSpeakerType() {
     return speakerType;
   }
 
   /**
    * Retrieve the Audio Player information that was assigned.
+   *
    * @return Audio Player Object.
    */
-  public AudioPlayer getAudioPlayer(){
+  public AudioPlayer getAudioPlayer() {
     return audioPlayer;
   }
 
   /**
    * Retrieve the MoviePlayer information that was assigned.
+   *
    * @return MoviePlayer Object.
    */
-  public MoviePlayer getMoviePlayer(){
+  public MoviePlayer getMoviePlayer() {
     return moviePlayer;
   }
 
@@ -92,26 +97,27 @@ public class MobileDevice extends Product implements MultimediaControl {
 
   /**
    * Additional product information when called by product.
+   *
    * @return Mobile Device Details.
    */
   @SuppressWarnings("unused")
   public String getInfo() {
-    return "\nSpeaker Type: " + speakerType +
-        "\nSupported Audio Formats: " + audioPlayer.supportedAudioFormats +
-        "\nSupported Playlist Formats: " + audioPlayer.supportedPlaylistFormats +
-        moviePlayer.screen +
-        "\nMonitor Type: " + moviePlayer.monitorType;
+    return "\nSpeaker Type: " + speakerType
+        + "\nSupported Audio Formats: " + audioPlayer.supportedAudioFormats
+        + "\nSupported Playlist Formats: " + audioPlayer.supportedPlaylistFormats
+        + moviePlayer.screen
+        + "\nMonitor Type: " + moviePlayer.monitorType;
   }
 
   @Override
   public String toString() {
-    return "Name: " + getName() +
-        "\nManufacturer: " + getManufacturer() +
-        "\nType: " + getType();
-        //+ "\nSpeaker Type: " + speakerType +
-        //"\nSupported Audio Formats: " + audioPlayer.supportedAudioFormats +
-        //"\nSupported Playlist Formats: " + audioPlayer.supportedPlaylistFormats +
-        //moviePlayer.screen +
-        //"\nMonitor Type: " + moviePlayer.monitorType;
+    return "Name: " + getName()
+        + "\nManufacturer: " + getManufacturer()
+        + "\nType: " + getType();
+    //+ "\nSpeaker Type: " + speakerType +
+    //"\nSupported Audio Formats: " + audioPlayer.supportedAudioFormats +
+    //"\nSupported Playlist Formats: " + audioPlayer.supportedPlaylistFormats +
+    //moviePlayer.screen +
+    //"\nMonitor Type: " + moviePlayer.monitorType;
   }
 }
