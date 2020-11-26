@@ -12,8 +12,11 @@ I made this project In college at Florida Gulf Cost University, for my COP 3003 
 ![alt text](docs/Diagrams/ezgif.gif)
 
 ## Documentation
+https://bheck890.github.io/COP-3003/
 
 ## Diagrams
+![alt text](docs/Diagrams/devices Package - Class Diagram.png)
+![alt text](docs/Diagrams/start Package - Class Diagram.png)
 
 ## Getting Started
 Admin Password is: B@nAn@& to start the application
