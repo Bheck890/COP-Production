@@ -15,7 +15,7 @@ I made this project In college at Florida Gulf Cost University, for my COP 3003 
 https://bheck890.github.io/COP-3003/
 
 ## Diagrams
-![alt text](docs/Diagrams/devices Package - Class Diagram.png)
+![alt text](docs/Diagrams/start%20Package%20-%20Class%20Diagram.png)
 ![alt text](docs/Diagrams/start Package - Class Diagram.png)
 
 ## Getting Started
