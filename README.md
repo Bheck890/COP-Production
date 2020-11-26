@@ -9,7 +9,6 @@ I worked a lot on this project and shows my coding style which should e easy to 
 I made this project In college at Florida Gulf Cost University, for my COP 3003 class.
 
 ## Demonstration
-Gif
 ![alt text](docs/Diagrams/ezgif.gif)
 
 ## Documentation
