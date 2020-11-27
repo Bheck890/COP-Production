@@ -31,17 +31,20 @@ Check out the "FutureAdditionNotes.txt" file in the reposotory for further possi
 add to the project and add ideas of what to further add to this project.
 
 ## Author
-Project idea - Scott Vanselow
 Project Coded by - Brandon Heck
 
-## Acknowledgments
+## License
+This project is licensed under the MIT License.
 
+## Acknowledgments
+Project idea - Scott Vanselow
 
 ## History
-from the Initial idea instructions. additions like User errors and additions to information on the added item types.
+from the Initial idea instructions. I have added additions like User error Messeges,<br /> 
+and additions to insert information on the added item types.
 
 ## Key Programming Concepts Utilized
-
-
+I have utilized SQL coding Techniques as well as object polymorphism.<br />
+as well as Java FXML setup for further projets.
 
 
