@@ -16,20 +16,32 @@ https://bheck890.github.io/COP-3003/
 
 ## Diagrams
 ![alt text](docs/Diagrams/start%20Package%20-%20Class%20Diagram.png)
-![alt text](docs/Diagrams/start Package - Class Diagram.png)
+![alt text](docs/Diagrams/devices%20Package%20-%20Class%20Diagram.png)
 
 ## Getting Started
-Admin Password is: B@nAn@& to start the application
+Admin Password is: B@nAn@& upon first initialization
 
 ## Built With
+* IntelJ Ultimate  
+* FXML Scene Builder 
+* H2 SQL Database 
 
 ## Contributing
+Check out the "FutureAdditionNotes.txt" file in the reposotory for further possible ideas to 
+add to the project and add ideas of what to further add to this project.
 
 ## Author
+Project idea - Scott Vanselow
+Project Coded by - Brandon Heck
 
 ## Acknowledgments
 
-## History
 
+## History
+from the Initial idea instructions. additions like User errors and additions to information on the added item types.
 
 ## Key Programming Concepts Utilized
+
+
+
+
