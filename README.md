@@ -15,8 +15,11 @@ I made this project In college at Florida Gulf Cost University, for my COP 3003 
 https://bheck890.github.io/COP-3003/
 
 ## Diagrams
+Class Diagram
 ![alt text](docs/Diagrams/start%20Package%20-%20Class%20Diagram.png)
 ![alt text](docs/Diagrams/devices%20Package%20-%20Class%20Diagram.png)
+Database Diagram
+![alt text](docs/Diagrams/Database%20Diagram.png)
 
 ## Getting Started
 Admin Password is: B@nAn@& upon first initialization
