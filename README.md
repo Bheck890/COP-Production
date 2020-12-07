@@ -22,7 +22,7 @@ Database Diagram <br />
 ![alt text](docs/Diagrams/Database%20Diagram.png)
 
 ## Getting Started
-<b>Admin Password is: B@nAn@& upon first initialization</b>
+<b>Admin Password is: B@nAn@&</b>
 
 ## Built With
 * IntelJ Ultimate  
