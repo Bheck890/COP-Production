@@ -571,7 +571,7 @@ public class Controller {
     connectToDB(2); //Loads Products and Records from the databases.
     if (validPassword) {
       //Write Password to File
-      String filePath = "C:/JavaProduction/ProgramSettings.txt";
+      String filePath = "ProgramSettings.txt";
       FileOutputStream fw1 = null;
       try {
         fw1 = new FileOutputStream(filePath);
@@ -592,7 +592,7 @@ public class Controller {
    * @return Returns the password from the file.
    */
   String retrievePassword() {
-    String filePath = "C:/JavaProduction/ProgramSettings.txt";
+    String filePath = "ProgramSettings.txt";
     String pass; //local Password for database
     ArrayList<String> file = new ArrayList<>();
     try {
@@ -624,18 +624,15 @@ public class Controller {
    *
    * @param filePath Path of the location of where the Password file is.
    */
-  @SuppressWarnings("ResultOfMethodCallIgnored")
   void createNewTextFile(String filePath) {
     try {
       FileOutputStream fw1 = new FileOutputStream(filePath);
       PrintWriter fw = new PrintWriter(fw1);
       fw.println("Password = ");
       fw.close();
-    } catch (FileNotFoundException e) { //No Folder found so it Creates Folder
-      String folderPath = filePath.substring(0, filePath.lastIndexOf("/"));
-      File folder = new File(folderPath);
-      folder.mkdir();
-      createNewTextFile(filePath);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      System.out.println("[Internal Error] Error Loading text File");
     }
   }
 
